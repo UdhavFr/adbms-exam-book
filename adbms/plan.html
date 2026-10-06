@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revision plans — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Revision plans</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#revision-plan-md-time-boxed-study-plans">revision-plan.md — Time-Boxed Study Plans</a></li><li class="l2"><a href="#session-rules-apply-to-every-plan-below">Session rules (apply to every plan below)</a></li><li class="l2"><a href="#30-minute-emergency-plan-nothing-studied-yet">🚨 30-MINUTE EMERGENCY PLAN (nothing studied yet)</a></li><li class="l2"><a href="#1-hour-plan">⏱ 1-HOUR PLAN</a></li><li class="l2"><a href="#2-hour-plan">⏱ 2-HOUR PLAN</a></li><li class="l2"><a href="#4-hour-plan-real-preparation">⏱ 4-HOUR PLAN (real preparation)</a></li><li class="l2"><a href="#final-30-minutes-before-the-exam">🕒 FINAL 30 MINUTES BEFORE THE EXAM</a></li><li class="l2"><a href="#final-10-minutes-before-the-exam">🕙 FINAL 10 MINUTES BEFORE THE EXAM</a></li><li class="l2"><a href="#recommended-sequence-for-the-remaining-time-assuming-you-sta">Recommended sequence for the remaining time (assuming you start now)</a></li></ol></nav><div class="content"><h1 id="revision-plan-md-time-boxed-study-plans">revision-plan.md — Time-Boxed Study Plans</h1>
+<p>Every plan states <strong>what</strong> to open and <strong>in what order</strong>. High-yield first, always. File paths are relative to <code>exam/</code>.</p>
+<h2 id="session-rules-apply-to-every-plan-below">Session rules (apply to every plan below)</h2>
+<p>(tutor: say <code>quiz me</code> over the ✗ pile; solo: <a href="written.html"><code>question-bank.md</code></a> Section H/I misses). Missed items return later the same session after 3 other items. Correct in 2 separate sessions = SOLID.</p>
+<p>warm-up, gap-close (<a href="docs/tracker.html"><code>weakness-tracker.md</code></a> queue), or one timed mock.</p>
+<ul><li><strong>Warm-up first (10 min, never skipped):</strong> 3 questions from yesterday's Red topics + 2 older ones</li><li><strong>Missed block? Compress the middle, protect the edges:</strong> drop Green/Yellow depth first; never skip</li><li><strong>Floor first</strong> (<a href="test.html"><code>test-details.md</code></a> §4): 2-mark recall + 5-mark explains across all units before any 20-mark depth.</li><li>Say <strong>sure / unsure / guess</strong> before checking any answer (tutor asks automatically).</li></ul>
+<hr>
+<h2 id="30-minute-emergency-plan-nothing-studied-yet">🚨 30-MINUTE EMERGENCY PLAN (nothing studied yet)</h2>
+<div class="tscroll"><table><thead><tr><th>Min</th><th>Action</th><th>File</th></tr></thead><tbody>
+<tr><td>0–8</td><td>Read the whole cram sheet <strong>twice</strong> — definitions, rules, chains, traps</td><td><a href="cram.html"><code>notes/final-cram.md</code></a></td></tr>
+<tr><td>8–13</td><td>The five 20-mark spines: read section 8 and say each spine aloud from memory</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §8</td></tr>
+<tr><td>13–18</td><td>The 11 diagrams: cover and redraw (three-level, ER, ladder, B+ tree, states, 2PL, recovery, distributed, CAP, sharding, vector)</td><td><a href="docs/diagrams.html"><code>notes/diagrams-and-mental-models.md</code></a></td></tr>
+<tr><td>18–23</td><td>Comparisons tables: ACID/BASE, 3NF/BCNF, B+/hash, deferred/immediate, horizontal/vertical, traditional/vector index</td><td><a href="docs/comparisons.html"><code>notes/comparisons.md</code></a> C9, C10, C13, C23, C26, C36</td></tr>
+<tr><td>23–27</td><td>Trap list (18 items) — read aloud; they are free marks</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §5</td></tr>
+<tr><td>27–30</td><td>Answer checklist + the 6 answer moves</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §0, §9</td></tr>
+</tbody></table></div>
+<p><strong>If 30 minutes is really all you have:</strong> <a href="cram.html"><code>notes/final-cram.md</code></a> §1 (definitions), §2 (rules), §5 (traps), §8 (spines).</p>
+<hr>
+<h2 id="1-hour-plan">⏱ 1-HOUR PLAN</h2>
+<div class="tscroll"><table><thead><tr><th>Min</th><th>Action</th></tr></thead><tbody>
+<tr><td>0–10</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> end-to-end (definitions → rules → chains → traps → hooks)</td></tr>
+<tr><td>10–25</td><td><strong>P0 spines</strong> in order: ACID + 2PL + recovery (<a href="docs/unit-3.html"><code>chapter-notes/unit-3.md</code></a>), normalization (<code>unit-2.md</code>)</td></tr>
+<tr><td>25–35</td><td>CAP + 2PC + fragmentation + sharding (<code>unit-4.md</code>), indexing/Cassandra/vector (<code>unit-5.md</code>)</td></tr>
+<tr><td>35–45</td><td><a href="cram.html"><code>notes/ultra-short-notes.md</code></a> — read every line; flag anything unfamiliar</td></tr>
+<tr><td>45–52</td><td><a href="docs/answers.html"><code>notes/answer-bank.md</code></a>: memorise the <strong>2-mark list</strong> and skim the 5-mark answers</td></tr>
+<tr><td>52–60</td><td>Draw all 11 diagrams from memory; re-check only the ones you missed</td></tr>
+</tbody></table></div>
+<h2 id="2-hour-plan">⏱ 2-HOUR PLAN</h2>
+<div class="tscroll"><table><thead><tr><th>Min</th><th>Action</th></tr></thead><tbody>
+<tr><td>0–20</td><td><a href="docs/unit-1.html"><code>chapter-notes/unit-1.md</code></a> + <code>unit-2.md</code> (P0 chapters only) with <a href="docs/definitions.html"><code>notes/definitions.md</code></a> open for exact wording</td></tr>
+<tr><td>20–45</td><td><a href="docs/unit-3.html"><code>chapter-notes/unit-3.md</code></a> (every P0) + <a href="docs/processes.html"><code>notes/processes-and-algorithms.md</code></a> P8–P16</td></tr>
+<tr><td>45–65</td><td><a href="docs/unit-4.html"><code>chapter-notes/unit-4.md</code></a> + <code>unit-5.md</code> (P0 chapters)</td></tr>
+<tr><td>65–75</td><td><a href="docs/comparisons.html"><code>notes/comparisons.md</code></a> — all 🔴 tables (C9, C10, C13, C16, C17, C23, C30, C31, C35, C36)</td></tr>
+<tr><td>75–90</td><td><a href="written.html"><code>notes/question-bank.md</code></a> — answer the P0 questions aloud (Q19–Q33, Q40–Q54, Q60–Q69, Q73–Q80); mark ✗</td></tr>
+<tr><td>90–100</td><td>Speed drill: <a href="written.html"><code>question-bank.md</code></a> Section H+I MCQs (Q89–Q142) — 30 s each, no working; log every ✗ in <a href="docs/tracker.html"><code>weakness-tracker.md</code></a>, re-read only those topics</td></tr>
+<tr><td>100–112</td><td><a href="docs/cards.html"><code>notes/flashcards.md</code></a> decks A–E (speed round: skip ✓ cards)</td></tr>
+<tr><td>112–120</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §5 traps + §6 hooks + diagram redraw</td></tr>
+</tbody></table></div>
+<h2 id="4-hour-plan-real-preparation">⏱ 4-HOUR PLAN (real preparation)</h2>
+<div class="tscroll"><table><thead><tr><th>Min</th><th>Block</th></tr></thead><tbody>
+<tr><td>0–40</td><td><strong>Unit 1</strong>: read <a href="docs/unit-1.html"><code>chapter-notes/unit-1.md</code></a> fully; test with flashcards Deck A; write one ER diagram + one mapping answer from memory</td></tr>
+<tr><td>40–95</td><td><strong>Unit 2</strong>: <a href="docs/unit-2.html"><code>chapter-notes/unit-2.md</code></a> + <a href="docs/processes.html"><code>notes/processes-and-algorithms.md</code></a> P2–P7; solve a normalization problem from <a href="written.html"><code>question-bank.md</code></a> Q21/Q25/Q26/Q87 on paper</td></tr>
+<tr><td>95–150</td><td><strong>Unit 3</strong>: <a href="docs/unit-3.html"><code>chapter-notes/unit-3.md</code></a> + P8–P16; draw state/2PL/recovery diagrams; answer Q40–Q54</td></tr>
+<tr><td>150–195</td><td><strong>Unit 4</strong>: <a href="docs/unit-4.html"><code>chapter-notes/unit-4.md</code></a>; write the CAP answer verbatim twice; 2PC diagram; Mongo commands from <a href="docs/examples.html"><code>examples.md</code></a> E-28/E-29</td></tr>
+<tr><td>195–235</td><td><strong>Unit 5</strong>: <a href="docs/unit-5.html"><code>chapter-notes/unit-5.md</code></a>; Cassandra partition/clustering example; index comparison table</td></tr>
+<tr><td>235–260</td><td><strong>Cross-unit</strong>: <a href="docs/comparisons.html"><code>notes/comparisons.md</code></a> (all tables) + <a href="docs/mistakes.html"><code>notes/common-mistakes.md</code></a> sections A–C</td></tr>
+<tr><td>260–285</td><td><strong>Mock 1, timed, closed book</strong> → <a href="mock1.html"><code>mock-exam-1.md</code></a></td></tr>
+<tr><td>285–300</td><td><strong>Mark</strong> with <a href="mock1.html"><code>mock-exam-1-key.md</code></a>; log every miss in <a href="docs/tracker.html"><code>weakness-tracker.md</code></a></td></tr>
+<tr><td>300–330</td><td><strong>Fix phase</strong>: re-study only the missed topics (<code>chapter-notes</code>, <a href="docs/definitions.html"><code>definitions.md</code></a>), then re-answer the same questions</td></tr>
+<tr><td>330–345</td><td><a href="docs/likely.html"><code>notes/likely-questions.md</code></a> HIGH tier — say each skeleton aloud</td></tr>
+<tr><td>345–360</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> + diagram redraw</td></tr>
+</tbody></table></div>
+<p><em>(If you have 4 hours and Mock 1 is already done, swap 260–345 for <a href="mock2.html"><code>mock-exam-2.md</code></a> + marking + fix.)</em></p>
+<hr>
+<h2 id="final-30-minutes-before-the-exam">🕒 FINAL 30 MINUTES BEFORE THE EXAM</h2>
+<div class="tscroll"><table><thead><tr><th>Order</th><th>Content</th><th>File</th></tr></thead><tbody>
+<tr><td>1 (6 min)</td><td>Five 20-mark spines said aloud, in order</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §8</td></tr>
+<tr><td>2 (5 min)</td><td>All exact definitions table (read twice)</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §1</td></tr>
+<tr><td>3 (4 min)</td><td>Formulas/rules (closure, NF criteria, lossless, WAL, 2PC, CAP, partition/clustering)</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §2</td></tr>
+<tr><td>4 (5 min)</td><td>Comparisons table (the one-page version)</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §4</td></tr>
+<tr><td>5 (4 min)</td><td>Process chains 1–12</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §3</td></tr>
+<tr><td>6 (4 min)</td><td>Memory hooks blast</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §6</td></tr>
+<tr><td>7 (2 min)</td><td>Traps + keywords + pre-answer checklist</td><td><a href="cram.html"><code>notes/final-cram.md</code></a> §5, §7, §9</td></tr>
+</tbody></table></div>
+<h2 id="final-10-minutes-before-the-exam">🕙 FINAL 10 MINUTES BEFORE THE EXAM</h2>
+<ol><li><strong>(3 min)</strong> Say the four subject chains: DESIGN · RELIABILITY · DISTRIBUTION · NoSQL.</li><li><strong>(2 min)</strong> Normalization one-liner: <em>1=Atomic, 2=Partial, 3=Transitive, BC=Determinant, 4=MVD, 5=Join</em> + "3NF = OR, BCNF = ONLY".</li><li><strong>(1 min)</strong> ACID one line each with the bank story.</li><li><strong>(1 min)</strong> 2PL: <em>growing → lock point → shrinking</em>; locks: <em>S shares, X excludes</em>; recovery: <em>committed=REDO, uncommitted=UNDO; LOG BEFORE DATA</em>.</li><li><strong>(1 min)</strong> CAP exact sentence (partition wording!) + 2PC <em>ask → vote → decide</em>.</li><li><strong>(1 min)</strong> Cassandra <em>partition = place, clustering = order</em> · vector <em>query → embedding → index → top-k · HNSW=graph, IVF=clusters</em>.</li><li><strong>(1 min)</strong> Remind yourself of the 4 structural rules: definition first · diagram · headings · example · conclusion; and never write the CAP slogan.</li></ol>
+<hr>
+<h2 id="recommended-sequence-for-the-remaining-time-assuming-you-sta">Recommended sequence for the remaining time (assuming you start now)</h2>
+<ol><li><a href="cram.html"><code>notes/final-cram.md</code></a> (twice) — 15 min</li><li>P0 chapter-notes units 3 → 2 → 4 → 5 → 1 — 90 min</li><li><a href="mock1.html"><code>mock-exam-1.md</code></a> timed + mark + fix — 60 min</li><li><a href="docs/tracker.html"><code>weakness-tracker.md</code></a> re-test loop — 30 min</li><li><a href="docs/likely.html"><code>notes/likely-questions.md</code></a> HIGH skeletons aloud — 20 min</li><li><a href="mock2.html"><code>mock-exam-2.md</code></a> if time remains — 90 min</li><li>Final-30 plan, then final-10 plan, then sleep.</li></ol></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ Recovery: logs undo death — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 3 · ▶ Narrated</div>
+<h2 class="ptitle">▶ Recovery: where logs undo death</h2>
+<p class="psub">Narrated + animated · ~10 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch09.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch22/index.html">◀ 2PL lesson</a>
+</div>
+<p class="foot">Narrated lesson. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC5 = { id: 'QAC5', topic: 'U3-10', unit: 'U3', pri: 'P0',
+  text: 'A crash finds uncommitted changes on disk. Which update scheme was running?',
+  opts: ['Deferred update', 'Immediate update'], ans: 1,
+  why: 'Deferred update never lets uncommitted changes reach the disk — only immediate update writes early.',
+  whyNot: 'Deferred means the database is untouched until commit, so on-disk uncommitted data rules it out.',
+  hint: 'Keys: which scheme ever writes before commit?' };
+const QAC6 = { id: 'QAC6', topic: 'U3-11', unit: 'U3', pri: 'P1',
+  text: 'Shadow paging recovers from a pre-commit crash by…',
+  opts: ['Replaying the log', 'Switching the root pointer', 'Scanning for a checkpoint'], ans: 1,
+  why: 'The stable shadow mapping is still valid — recovery just keeps using it instead of the uncommitted current table.',
+  whyNot: 'No log replay or checkpoint scan is needed; the old pages were never touched.',
+  hint: 'Keys: what stayed stable the whole time?' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty-three. [[sub]]Recovery: where logs undo death itself.',
+  svg: `<g>${T(800, 400, 'Recovery', 96, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'where logs undo death itself', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'undo the half-done · redo the unsaved', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Two questions', short: '0',
+  say: 'Recall the transfer: subtract from Ravi, add to Meena, power dies between. [[q1]]The half-done half: who undoes it? [[q2]]The committed half that never reached disk: who redoes it? [[w]]Write this: every crash asks undo-what and redo-what.',
+  svg: `<g>${T(700, 330, '−500 Ravi … ⚡ … +500 Meena ?', 48, C.quiz, 'middle', 'q1')}
+    ${T(800, 470, 'half-done → UNDO ?', 52, C.bad, 'middle', 'q1')}
+    ${T(800, 580, 'committed-unsaved → REDO ?', 52, C.good, 'middle', 'q2')}
+    ${EXAM('every crash asks undo-what + redo-what')}</g>` },
+
+{ id: 'deferred', title: 'Delay the data', short: 'D',
+  say: 'First scheme: delay the data. [[flow]]Write log records, keep executing, touch no database page. Commit, then redo the updates into the database. [[crash]]Power dies. Committed work may need redo. Uncommitted work needs no undo: it never reached the disk. [[w]]Write this: deferred equals delay; redo only, never undo.',
+  svg: `<g>${T(800, 220, 'LOG → EXECUTE (no DB write) → COMMIT → REDO → DB', 40, C.quiz, 'middle', 'flow')}
+    <path d="M250 320 H1350" stroke="${C.dim}" stroke-width="5" pathLength="1" data-step="flow" class="pre"/>
+    ${T(450, 430, 'crash: committed → REDO?', 44, C.good, 'middle', 'crash')}
+    ${T(1150, 430, 'uncommitted → nothing to UNDO', 40, C.good, 'middle', 'crash')}
+    ${T(800, 560, 'Deferred = Delay → REDO only', 52, C.task, 'middle', 'w')}
+    ${EXAM('deferred = delay; redo only, never undo')}</g>` },
+
+{ id: 'immediate', title: 'Write early', short: 'I',
+  say: 'Second scheme: write early. [[flow]]Log old and new values, then the data page may reach disk before commit. [[fork]]Commit yes: redo if needed. Commit no: undo the early writing. [[w]]Write this: early writing forces undo plus redo; the log makes both possible.',
+  svg: `<g>${T(800, 220, 'LOG(old/new) → DB may write EARLY', 44, C.quiz, 'middle', 'flow')}
+    ${T(500, 400, 'COMMIT = YES → REDO?', 46, C.good, 'middle', 'fork')}
+    ${T(1100, 400, 'COMMIT = NO → UNDO!', 46, C.bad, 'middle', 'fork')}
+    ${T(800, 560, 'Immediate = I need both: UNDO + REDO', 48, C.task, 'middle', 'w')}
+    ${EXAM('early writing → UNDO + REDO')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q111'],
+  say: 'Quick check. [[q]]Which recovery scheme never needs undo?',
+  svg: `<g>${T(800, 430, 'Never needs UNDO.', 56, C.quiz)}${T(800, 520, 'Which scheme?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'shadow', title: 'Keep the old map', short: 'S',
+  say: 'Third scheme: keep the old map. [[two]]A stable shadow table, plus a changing current table. New pages go to new places. [[flip]]At commit, the root pointer flips to current. Crash before commit: the shadow mapping still rules. [[trap]]The shadow table never changes during execution; only the current one does. [[w]]Write this: flip the root, not the data.',
+  svg: `<g><rect x="250" y="220" width="500" height="180" rx="16" fill="none" stroke="${C.good}" stroke-width="4" data-step="two" class="pre"/>
+    ${T(500, 290, 'SHADOW table', 44, C.good, 'middle', 'two')}${T(500, 345, 'stable, never changes', 32, C.dim, 'middle', 'two')}
+    <rect x="850" y="220" width="500" height="180" rx="16" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="two" class="pre"/>
+    ${T(1100, 290, 'CURRENT table', 44, C.quiz, 'middle', 'two')}${T(1100, 345, 'changes as you work', 32, C.dim, 'middle', 'two')}
+    ${T(800, 480, 'COMMIT → root flips to CURRENT', 46, C.task, 'middle', 'flip')}
+    ${T(800, 570, 'crash before commit → shadow still rules', 40, C.good, 'middle', 'flip')}
+    ${T(800, 660, 'shadow never changes during execution', 36, C.bad, 'middle', 'trap')}
+    ${EXAM('flip the root, not the data')}</g>` },
+
+{ id: 'wal', title: 'Log before data', short: 'W',
+  say: 'One rule above all schemes. [[rule]]The log record must reach stable storage before its data page. Log before data, always. [[why]]No log first, no undo or redo later: recovery would lack the old and new values. A log record names who, what, was, will-be: T1, A, 100, 50. [[w]]Write this: log before data, with one record example.',
+  svg: `<g>${T(800, 330, 'LOG BEFORE DATA', 84, C.task, 'middle', 'rule', 'font-weight="600"')}
+    ${T(800, 440, '⟨ T1, A, 100, 50 ⟩  =  who · what · was · will-be', 40, C.quiz, 'middle', 'why')}
+    ${T(800, 540, 'no log first → no undo, no redo', 44, C.bad, 'middle', 'why')}
+    ${EXAM('log before data + one record')}</g>` },
+
+{ id: 'checkpoint', title: 'Bookmark', short: 'C',
+  say: 'Logs grow forever, so plant bookmarks. [[mark]]A checkpoint forces recent history to disk and marks the spot. [[start]]Recovery starts at the bookmark, not at page one. Everything before is already safe. [[w]]Write this: checkpoint bounds where recovery starts.',
+  svg: `<g><path d="M200 400 H1400" stroke="${C.dim}" stroke-width="8" pathLength="1" data-step="mark" class="pre"/>
+    ${T(450, 340, 'page one (ancient, safe)', 34, C.dim, 'middle', 'mark')}
+    ${T(1000, 330, '🔖 CHECKPOINT', 44, C.task, 'middle', 'mark')}
+    ${T(1000, 470, 'recovery starts HERE', 44, C.good, 'middle', 'start')}
+    ${T(450, 470, '← already safe, skip', 36, C.dim, 'middle', 'start')}
+    ${EXAM('checkpoint bounds recovery start')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q112'],
+  say: 'Quick check. [[q]]WAL means what, exactly?',
+  svg: `<g>${T(800, 430, 'W · A · L', 72, C.task)}${T(800, 520, 'Means what, exactly?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]Deferred delays: redo only. Immediate writes early: undo plus redo. Shadow flips the root. [[w2]]Log before data, checkpoint to bound the work. [[w3]]The single rule: committed gets redo as needed; uncommitted gets undo as needed.',
+  svg: `<g>${[['1', 'Deferred: redo only · Immediate: undo+redo · Shadow: flip root.', 'w1', 300], ['2', 'Log before data; checkpoint bounds the work.', 'w2', 470], ['3', 'Committed = REDO · Uncommitted = UNDO.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="230" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="230" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="300" y="${y}" font-size="36" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q133'],
+  say: 'Chapter practice. [[q]]WAL requires which order?',
+  svg: `<g>${T(800, 430, 'Log? Data? Which first?', 56, C.quiz)}${T(800, 520, 'WAL requires…?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['QAC5'],
+  say: 'Chapter practice. [[q]]Crash finds uncommitted changes on disk. Which scheme was running?',
+  svg: `<g>${T(800, 430, 'Uncommitted… on disk?!', 56, C.quiz)}${T(800, 520, 'Which scheme?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['QAC6'],
+  say: 'Chapter practice. [[q]]Shadow paging recovers by doing what?',
+  svg: `<g>${T(800, 430, 'Crash before commit.', 56, C.quiz)}${T(800, 520, 'Recover how?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Death undone, work redone. Next stop: B-plus trees, where sorted leaves fly.',
+  svg: `<g>${T(800, 380, '★ Undone &amp; redone ★', 72, C.good)}${T(800, 480, 'delay → early → flip → log-first → bookmark', 40, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+for (const q of [QAC5, QAC6]) if (!window.MCQ_BY_ID[q.id]) window.MCQ_BY_ID[q.id] = q;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 23;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write · Memorize · Skip (Tier-S top 10) — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Write · Memorize · Skip (Tier-S top 10)</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#write-memorize-skip-md-tier-s-top-10-per-topic-boxes">write-memorize-skip.md — Tier-S Top 10, per-Topic Boxes</a></li><li class="l2"><a href="#1-acid-u3-3">1. ACID (U3-3)</a></li><li class="l2"><a href="#2-normalization-ladder-1nf-5nf-u2-1-11">2. Normalization ladder 1NF→5NF (U2-1→11)</a></li><li class="l2"><a href="#3-cap-theorem-u4-7">3. CAP theorem (U4-7)</a></li><li class="l2"><a href="#4-2pl-locks-deadlock-u3-6">4. 2PL + locks + deadlock (U3-6)</a></li><li class="l2"><a href="#5-recovery-chain-u3-9-12">5. Recovery chain (U3-9→12)</a></li><li class="l2"><a href="#6-conflict-serializability-u3-5">6. Conflict serializability (U3-5)</a></li><li class="l2"><a href="#7-b-tree-indexing-u2-13">7. B+ tree indexing (U2-13)</a></li><li class="l2"><a href="#8-er-relational-mapping-u1-4-5">8. ER → relational mapping (U1-4/5)</a></li><li class="l2"><a href="#9-fragmentation-2pc-sharding-u4-2-4-9">9. Fragmentation + 2PC + sharding (U4-2/4/9)</a></li><li class="l2"><a href="#10-cross-system-indexing-u5-8-14">10. Cross-system indexing (U5-8→14)</a></li></ol></nav><div class="content"><h1 id="write-memorize-skip-md-tier-s-top-10-per-topic-boxes">write-memorize-skip.md — Tier-S Top 10, per-Topic Boxes</h1>
+<p><em>Format stolen from both previous builds: every Red topic gets three boxes. <strong>WRITE</strong> = the minimal scoring skeleton + suggested chunking. <strong>MEMORIZE</strong> = the exact words/labels/anchors. <strong>SKIP</strong> = what earns zero — never spend budget there. Voices, verbs and budgets live in <a href="voices.html"><code>answer-voices.md</code></a>; hooks in <a href="mem.html"><code>memory-hooks.md</code></a>.</em></p>
+<hr>
+<h2 id="1-acid-u3-3">1. ACID (U3-3)</h2>
+<ul><li><strong>WRITE:</strong> opener "A transaction is one logical unit of work (e.g. bank transfer: debit A + credit B succeed or fail together)." → A/C/I/D each under own heading with one transfer example → isolation-level ladder → closer tying recovery (A,D) vs concurrency control (I). Chunk (20): 2+8+4+3+3.</li><li><strong>MEMORIZE:</strong> "All-or-nothing, correct state, isolated, durable after commit." States: Active → Partially Committed → Committed; Failed → Aborted. "Recovery guards A and D; concurrency control guards I."</li><li><strong>SKIP:</strong> histories of who invented ACID; engine internals beyond lock/log one-liners.</li></ul>
+<h2 id="2-normalization-ladder-1nf-5nf-u2-1-11">2. Normalization ladder 1NF→5NF (U2-1→11)</h2>
+<ul><li><strong>WRITE:</strong> opener with X→Y + closure one-liner → ladder as numbered tests (atomic → whole-key → no-transitive → determinant-superkey → no-bad-MVD → no-JD) → one worked relation per violated level → lossless/preservation check → anomalies-cured closer. Chunk (20): 2+3+8+4+3.</li><li><strong>MEMORIZE:</strong> "The key (1NF), the WHOLE key (2NF), nothing but the key (3NF), so help me Codd (BCNF)." 3NF = super-key-OR-prime; BCNF = super-key-ONLY. Lossless test: intersection is a super key of one part. Minimal cover: split RHS → shrink LHS → shed redundant.</li><li><strong>SKIP:</strong> proving Armstrong axioms; 4NF/5NF beyond one line each (sample never passed BCNF in depth).</li></ul>
+<h2 id="3-cap-theorem-u4-7">3. CAP theorem (U4-7)</h2>
+<ul><li><strong>WRITE:</strong> opener with the EXACT condition ("during a network partition, at most two of three") → C/A/P each with the notes' guarantee (C: every read gets the latest write <strong>or an error</strong>) → CP-vs-AP with one scenario each → BASE bridge → closer. Chunk (20): 2+3+8+4+3.</li><li><strong>MEMORIZE:</strong> "P is not optional, so choose C or A." Never write "any two at all times" — the #1 wrong answer in the subject.</li><li><strong>SKIP:</strong> formal impossibility proof; PACELC extensions.</li></ul>
+<h2 id="4-2pl-locks-deadlock-u3-6">4. 2PL + locks + deadlock (U3-6)</h2>
+<ul><li><strong>WRITE:</strong> S vs X lock table (X conflicts with everything) → growing/shrinking diagram → "guarantees serializability, may deadlock" → wait-for-graph detection + victim-abort cure → closer. Chunk (10): 1+4+3+1+1.</li><li><strong>MEMORIZE:</strong> "Grow = grab, shrink = surrender, never regrow." Cycle in wait-for graph = deadlock. <strong>2PL ≠ 2PC.</strong></li><li><strong>SKIP:</strong> strict/rigorous 2PL variants beyond naming; timestamp-rule internals (one contrast line only).</li></ul>
+<h2 id="5-recovery-chain-u3-9-12">5. Recovery chain (U3-9→12)</h2>
+<ul><li><strong>WRITE:</strong> failure types (transaction / system / disk+communication) → deferred vs immediate vs shadow table → WAL rule + checkpoint bounding → UNDO/REDO decision per scheme → closer. Chunk (20): 2+8+4+4+2.</li><li><strong>MEMORIZE:</strong> "Deferred = Delay → REDO only. Immediate = I need both → UNDO + REDO." WAL = log record reaches stable storage BEFORE the data page. Checkpoint = recovery starts here, not at time zero.</li><li><strong>SKIP:</strong> ARIES internals; fuzzy-checkpoint algorithms.</li></ul>
+<h2 id="6-conflict-serializability-u3-5">6. Conflict serializability (U3-5)</h2>
+<ul><li><strong>WRITE:</strong> conflicting-pair definition → build-the-graph steps on the given schedule → cycle verdict → equivalent serial order if acyclic → closer. Chunk (10): 1+4+3+1+1.</li><li><strong>MEMORIZE:</strong> "Cycle = not conflict serializable." Conflicts only on same item with at least one write.</li><li><strong>SKIP:</strong> view serializability beyond one contrast line; precedence of predicate locks.</li></ul>
+<h2 id="7-b-tree-indexing-u2-13">7. B+ tree indexing (U2-13)</h2>
+<ul><li><strong>WRITE:</strong> structure (sorted, data in linked leaves) → search/insert walk-through → why ranges fly → B+ vs hash table → index-cost closer. Chunk (10): 1+4+3+1+1.</li><li><strong>MEMORIZE:</strong> "B for Between (ranges); H for Has-exactly (equality)." Order/fanout one-liner. Indexes speed reads, slow writes.</li><li><strong>SKIP:</strong> B-tree vs B+ split algorithms in code-level detail; bulkload math.</li></ul>
+<h2 id="8-er-relational-mapping-u1-4-5">8. ER → relational mapping (U1-4/5)</h2>
+<ul><li><strong>WRITE:</strong> scenario → ER diagram (entities/attributes/keys/cardinality) → the 7 mapping rules applied one by one → final schema with PK/FK marked → closer. Chunk (10): 1+4+3+1+1.</li><li><strong>MEMORIZE:</strong> "Many gets the key (FK on the N side). M:N needs a middleman table." Cardinality = how many; participation = mandatory-or-optional.</li><li><strong>SKIP:</strong> EER (subclass/specialization) beyond recognition; min-max notation variants.</li></ul>
+<h2 id="9-fragmentation-2pc-sharding-u4-2-4-9">9. Fragmentation + 2PC + sharding (U4-2/4/9)</h2>
+<ul><li><strong>WRITE:</strong> horizontal (σ rows) vs vertical (π columns, key kept) + rebuild (UNION / JOIN-on-key) → replication motive/cost → 2PC prepare→vote→decision with NO-means-abort → sharding strategies → blocking-drawback closer. Chunk (20): 2+3+8+4+3.</li><li><strong>MEMORIZE:</strong> "Hand out Rows; Vertical slices of Columns. 2PC = Prepare, then Commit." Any NO vote → global abort.</li><li><strong>SKIP:</strong> 3PC; replica-consistency protocols beyond naming.</li></ul>
+<h2 id="10-cross-system-indexing-u5-8-14">10. Cross-system indexing (U5-8→14)</h2>
+<ul><li><strong>WRITE:</strong> "index = auxiliary access path" opener → per-system mechanism (MongoDB compound, Cassandra partition+clustering, Neo4j property, vector HNSW/IVF) → benefits+costs → query-driven closer. Chunk (10): 1+4+3+1+1. (The source explicitly warns: never describe only one database.)</li><li><strong>MEMORIZE:</strong> "Partition = place, clustering = order. HNSW = graph, IVF = clusters. Cosine = angle." <code>$match</code> first.</li><li><strong>SKIP:</strong> CouchDB beyond one line (P2); HNSW layer math.</li></ul></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Common mistakes — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Common mistakes</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#common-mistakes-md-what-costs-marks">common-mistakes.md — What Costs Marks</a></li><li class="l2"><a href="#a-definition-traps-exact-wording-marks">A. Definition traps (exact-wording marks)</a></li><li class="l2"><a href="#b-concept-confusion-don-t-confuse-x-with-y">B. Concept confusion — "don't confuse X with Y"</a></li><li class="l2"><a href="#c-process-order-mistakes">C. Process-order mistakes</a></li><li class="l2"><a href="#d-diagram-mistakes">D. Diagram mistakes</a></li><li class="l2"><a href="#e-answer-structure-mistakes-this-is-where-20-mark-answers-di">E. Answer-structure mistakes (this is where 20-mark answers die)</a></li><li class="l2"><a href="#f-calculation-technical-slips">F. Calculation/technical slips</a></li><li class="l2"><a href="#g-traps-built-into-true-false-and-mcq-style-questions">G. Traps built into true/false and MCQ-style questions</a></li></ol></nav><div class="content"><h1 id="common-mistakes-md-what-costs-marks">common-mistakes.md — What Costs Marks</h1>
+<p>Grouped by type. Each item: <strong>the trap → the fix</strong>. Items marked ⚠ come straight from the source's own warnings.</p>
+<hr>
+<h2 id="a-definition-traps-exact-wording-marks">A. Definition traps (exact-wording marks)</h2>
+<p><strong>Fix:</strong> "During a network partition, a system cannot guarantee both strong consistency <strong>and</strong> availability for every request under the formal CAP definitions."</p>
+<p><strong>Fix:</strong> 3NF = <strong>X is a super key OR A is prime</strong>; BCNF = <strong>only</strong> super key.</p>
+<ol><li><strong>CAP</strong> — ⚠ never write <em>"you can pick any two at all times."</em></li><li><strong>3NF vs BCNF</strong> — writing "3NF: X must be a super key".</li><li><strong>BCNF slogan</strong> — forgetting the phrase <em>"every determinant must be a super key."</em></li><li><strong>Durability</strong> — "data can never be lost". <strong>Fix:</strong> "committed effects survive subsequent system failure, <em>subject to the DBMS's durability guarantees</em>."</li><li><strong>Isolation</strong> — "transactions don't see each other". <strong>Fix:</strong> "intermediate effects are controlled so execution is equivalent to an acceptable serial behaviour."</li><li><strong>Index</strong> — "index makes everything faster". <strong>Fix:</strong> name the cost — storage + write/maintenance overhead.</li><li><strong>Embedding/vector search</strong> — describing vectors as "meaning". <strong>Fix:</strong> the vector has no human-readable meaning; usefulness depends on the embedding model and application.</li><li><strong>BASE</strong> — "BASE means data is permanently wrong". <strong>Fix:</strong> temporary inconsistency accepted; eventual convergence expected.</li><li><strong>NoSQL</strong> — "schemaless". <strong>Fix:</strong> flexible-schema family; <strong>Cassandra still has an explicit table schema</strong> (ALTER TABLE, cluster-wide metadata).</li></ol>
+<hr>
+<h2 id="b-concept-confusion-don-t-confuse-x-with-y">B. Concept confusion — "don't confuse X with Y"</h2>
+<div class="tscroll"><table><thead><tr><th>X</th><th>Y</th><th>Difference you must state</th></tr></thead><tbody>
+<tr><td>Schema</td><td>Instance</td><td>blueprint vs current contents</td></tr>
+<tr><td>Physical independence</td><td>Logical independence</td><td>storage changes vs conceptual-schema changes</td></tr>
+<tr><td>Degree</td><td>Cardinality</td><td>#attributes vs #tuples (⚠ <em>cardinality also = 1:1/1:N/M:N in ER</em> — errata E1)</td></tr>
+<tr><td>Super key</td><td>Candidate key</td><td>any unique set vs <strong>minimal</strong> unique set</td></tr>
+<tr><td>Primary key</td><td>Foreign key</td><td>identifies this row vs references another relation's key</td></tr>
+<tr><td>Selection σ</td><td>Projection π</td><td><strong>rows</strong> vs <strong>columns</strong></td></tr>
+<tr><td>Partial dependency</td><td>Transitive dependency</td><td>depends on <em>part of a composite key</em> vs depends on <em>another non-key attribute</em></td></tr>
+<tr><td>3NF</td><td>BCNF</td><td>OR rule vs ONLY rule</td></tr>
+<tr><td>4NF</td><td>5NF</td><td>independent <strong>multivalued</strong> facts vs <strong>join</strong> dependency</td></tr>
+<tr><td>Lossless join</td><td>Dependency preservation</td><td>reconstruct exactly vs enforce without joins</td></tr>
+<tr><td>B+ tree</td><td>Hash index</td><td>ordered, range-capable vs equality-only</td></tr>
+<tr><td>Serial</td><td>Serializable</td><td>no interleaving vs interleaved but equivalent</td></tr>
+<tr><td>Lost update</td><td>Dirty read</td><td>write overwritten vs uncommitted data read</td></tr>
+<tr><td>Non-repeatable read</td><td>Phantom</td><td>same <strong>row</strong> changed vs different <strong>row set</strong> returned</td></tr>
+<tr><td>Deadlock</td><td>Starvation</td><td>cycle of waiting vs endless postponement (source covers cycle + timeout)</td></tr>
+<tr><td>Strict 2PL</td><td>Rigorous 2PL</td><td>hold <strong>X</strong> locks till commit vs hold <strong>S and X</strong> till completion</td></tr>
+<tr><td>Deferred update</td><td>Immediate update</td><td>write only after commit vs may write before commit</td></tr>
+<tr><td>UNDO</td><td>REDO</td><td>reverse uncommitted work vs re-apply committed work</td></tr>
+<tr><td>2PL (locking)</td><td>2PC (commit)</td><td>concurrency control within a DBMS vs atomic commit across sites (comparisons C28)</td></tr>
+<tr><td>Fragmentation</td><td>Replication</td><td>split into parts vs copies of parts</td></tr>
+<tr><td>Horizontal</td><td>Vertical fragmentation</td><td>rows vs columns</td></tr>
+<tr><td>Sharding</td><td>Replication</td><td>partitioning the dataset across nodes vs duplicating data across nodes</td></tr>
+<tr><td>Partition tolerance</td><td>High availability</td><td>surviving network failure vs answering every request</td></tr>
+<tr><td>Cassandra partition key</td><td>Clustering column</td><td><strong>where</strong> data lives vs <strong>order</strong> within partition</td></tr>
+<tr><td>Traditional index</td><td>Vector index</td><td>exact/range on scalar keys vs similarity/nearest-neighbour on vectors</td></tr>
+<tr><td>Cosine</td><td>Euclidean</td><td>angle vs straight-line distance</td></tr>
+<tr><td>HNSW</td><td>IVF</td><td>navigable graph vs clusters</td></tr>
+<tr><td>MongoDB <code>$match</code></td><td><code>$project</code></td><td>filter documents vs shape/compute fields</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c-process-order-mistakes">C. Process-order mistakes</h2>
+<ol><li><strong>Normalization ladder out of order</strong> (e.g. 3NF before 2NF). Fix: UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF, with the <em>reason</em> for each step.</li><li><strong>Minimal cover order</strong> (removing redundant FDs first). Fix: <strong>Split RHS → remove extraneous LHS → remove redundant FDs</strong> (S-E-R).</li><li><strong>Attribute closure run only once.</strong> Fix: loop until no new attribute appears.</li><li><strong>2PL described as "lock at start, unlock at end".</strong> Fix: the rule is the <em>phase boundary</em> — no releases while still acquiring.</li><li><strong>Conflict graph edges drawn for read–read pairs.</strong> Fix: conflict requires same item <strong>and at least one write</strong>.</li><li><strong>2PC described as "coordinator locks everything".</strong> Fix: PREPARE → vote → COMMIT/ABORT.</li><li><strong>WAL reversed</strong> ("data first, then log"). Fix: <strong>log record reaches stable storage BEFORE the data page is written</strong>.</li><li><strong>Recovery start point</strong>: scanning the whole log. Fix: start from the <strong>checkpoint</strong>.</li><li><strong>SQL clause order</strong>: claiming SQL is <em>written</em> FROM-first. Fix: FROM-first is <strong>processing order</strong> (errata E2).</li><li><strong>Aggregation pipeline out of order.</strong> Fix: $match → $group → $project → $sort → $limit.</li><li><strong>ER→relational for 1:N</strong>: putting the FK on the 1-side. Fix: FK goes on the <strong>N</strong>-side.</li><li><strong>Lossless test direction</strong>: testing R1 → (R1∩R2) instead of <strong>(R1∩R2) → R1 or → R2</strong>.</li></ol>
+<hr>
+<h2 id="d-diagram-mistakes">D. Diagram mistakes</h2>
+<ol><li>Drawing boxes with <strong>no labels</strong> — label every node/arrow and add a one-line caption.</li><li>Three-level architecture without the <strong>independence arrows</strong>.</li><li>B+ tree drawn <strong>without linked leaves</strong> (loses the range-query point).</li><li>CAP drawn as a plain triangle with <strong>no "during a partition" caption</strong>.</li><li>Transaction state diagram missing <strong>PARTIALLY COMMITTED</strong>, or missing the ROLLBACK path.</li><li>2PL diagram missing the <strong>LOCK POINT</strong>.</li><li>Recovery diagram missing <strong>WAL</strong> or <strong>checkpoint</strong>.</li></ol>
+<hr>
+<h2 id="e-answer-structure-mistakes-this-is-where-20-mark-answers-di">E. Answer-structure mistakes (this is where 20-mark answers die)</h2>
+<ol><li>Starting with background fluff instead of a <strong>definition</strong>.</li><li>One giant paragraph instead of <strong>headings per component</strong>.</li><li>No <strong>diagram</strong> on a topic that has an architecture/process/hierarchy.</li><li>No <strong>example</strong> (relation, transaction, query, scenario).</li><li>Listing <strong>advantages only</strong> — the source repeatedly asks for advantages <strong>and</strong> limitations.</li><li>Stopping after 2–3 pages of substance for a 20-mark question (the source explicitly warns against this).</li><li>No <strong>conclusion</strong> linking to correctness / performance / scalability / reliability.</li><li>For MongoDB/Cassandra/Redis/Neo4j: writing prose but <strong>no commands</strong>.</li><li>For indexing: quoting benefits but not <strong>maintenance cost</strong>.</li><li>For normalization: stating the NF without showing <strong>FDs → key → violation → decomposition</strong>.</li></ol>
+<hr>
+<h2 id="f-calculation-technical-slips">F. Calculation/technical slips</h2>
+<ol><li>Calling a foreign key "prime" when it is not part of any candidate key of <em>this</em> relation.</li><li>Forgetting that a <strong>candidate key must be minimal</strong> (removing any attribute breaks uniqueness).</li><li>Assuming a decomposition is lossless because "it looks natural" — you must test the intersection rule.</li><li>Assuming dependency preservation comes free with losslessness (they are independent).</li><li>Using a <strong>hash index</strong> for <code>BETWEEN</code>/<code>ORDER BY</code> questions.</li><li>Suggesting an index for a write-heavy workload without mentioning write overhead.</li><li>Embedding a query with a different model than the stored vectors (similarity space must match) — practical point, [EXTERNAL].</li><li>Saying HBase is "Cassandra on Hadoop": HBase has a <strong>strong Hadoop ecosystem relationship</strong>; Cassandra is an <strong>independent</strong> wide-column system.</li></ol>
+<hr>
+<h2 id="g-traps-built-into-true-false-and-mcq-style-questions">G. Traps built into true/false and MCQ-style questions</h2>
+<div class="tscroll"><table><thead><tr><th>Statement</th><th>Verdict</th><th>Why</th></tr></thead><tbody>
+<tr><td>"A relation in 2NF may still have transitive dependencies"</td><td><strong>TRUE</strong></td><td>that's what 3NF removes</td></tr>
+<tr><td>"BCNF is less restrictive than 3NF"</td><td><strong>FALSE</strong></td><td>BCNF is stricter</td></tr>
+<tr><td>"Every 3NF relation is in BCNF"</td><td><strong>FALSE</strong></td><td>reverse: BCNF ⇒ 3NF</td></tr>
+<tr><td>"A lossless decomposition is always dependency preserving"</td><td><strong>FALSE</strong></td><td>independent properties</td></tr>
+<tr><td>"Serializable means transactions never interleave"</td><td><strong>FALSE</strong></td><td>that's <em>serial</em></td></tr>
+<tr><td>"Read Committed prevents dirty reads"</td><td><strong>TRUE</strong></td><td></td></tr>
+<tr><td>"Serializable prevents phantoms"</td><td><strong>TRUE</strong> (standard)</td><td>RR's phantom behaviour is DBMS-dependent (E3/E4)</td></tr>
+<tr><td>"Timestamp ordering can deadlock on locks"</td><td><strong>FALSE</strong></td><td>no lock waits ⇒ no lock deadlock</td></tr>
+<tr><td>"Deferred update may need UNDO for uncommitted data changes"</td><td><strong>FALSE</strong></td><td>changes weren't written</td></tr>
+<tr><td>"CAP says choose 2 of 3 always"</td><td><strong>FALSE</strong></td><td>only meaningful during a partition</td></tr>
+<tr><td>"Cassandra tables must be modelled around entities like SQL"</td><td><strong>FALSE</strong></td><td>model around <strong>query patterns</strong>; duplication is normal</td></tr>
+<tr><td>"Hash indexes support efficient range queries"</td><td><strong>FALSE</strong></td><td>unordered</td></tr>
+<tr><td>"In a compound index, field order does not matter"</td><td><strong>FALSE</strong></td><td>order decides supported query/sort patterns</td></tr>
+<tr><td>"2PC prevents all blocking"</td><td><strong>FALSE</strong></td><td>prepared participants can block</td></tr>
+<tr><td>"Total participation means every entity must participate"</td><td><strong>TRUE</strong></td><td></td></tr>
+</tbody></table></div></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

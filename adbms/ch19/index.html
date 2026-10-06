@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ Normalization Ladder — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 2 · ▶ Narrated</div>
+<h2 class="ptitle">▶ The Normalization Ladder (1NF→BCNF)</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Assumes zero knowledge: every new word is unwound to plain English once, then used in exam form.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch04.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+</div>
+<p class="foot">Pilot lesson. Audio is synthesized in your browser (no files downloaded). Word-sync is exact in Chrome/Edge, estimated elsewhere. Faster speeds keep the animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+const rung = (n, d, c, y, step) =>
+  `<rect x="450" y="${y - 52}" width="700" height="96" rx="20" fill="none" stroke="${c}" stroke-width="5" data-step="${step}" class="pre"/>
+   <text x="800" y="${y}" font-size="46" fill="${c}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="${step}" class="pre">${n} — ${d}</text>`;
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter nineteen. [[sub]]From one messy table to clean tables: the normalization ladder.',
+  svg: `<g>${T(800, 400, 'The Normalization Ladder', 96, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'From one messy table to clean tables', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'zero knowledge needed — plain English first, exam form second', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Why normalize', short: '0',
+  say: 'A pizza shop keeps one messy order sheet. [[mess]]Cheese comma olives crammed in one cell. The same customer address repeated on every row. [[bad]]Delete one customer, and you lose the pizza price too. That is three exam words: insert, update, delete anomalies. [[fix]]Normalization cleans the sheet so each fact lives in exactly one place. [[w]]Write this: anomalies are the disease, normal forms are the cure.',
+  svg: `<g>${T(800, 120, 'One messy order sheet', 52, C.chalk)}
+    <rect x="380" y="180" width="840" height="300" rx="14" fill="none" stroke="${C.dim}" stroke-width="3" data-step="mess" class="pre"/>
+    ${T(800, 250, 'Order 7:  Cheese, Olives  |  Ravi, MG Road', 38, C.chalk, 'middle', 'mess')}
+    ${T(800, 320, 'Order 9:  Capsicum       |  Ravi, MG Road', 38, C.chalk, 'middle', 'mess')}
+    <rect x="400" y="205" width="330" height="60" rx="10" fill="none" stroke="${C.bad}" stroke-width="5" data-step="bad" class="pre"/>
+    ${T(800, 420, 'one cell, two facts ✗      same address twice ✗', 36, C.bad, 'middle', 'bad')}
+    ${T(800, 560, 'insert ✗   update ✗   delete ✗  anomalies', 44, C.bad, 'middle', 'bad')}
+    ${T(800, 670, 'each fact lives in exactly one place', 46, C.good, 'middle', 'fix')}
+    ${EXAM('anomalies are the disease, normal forms are the cure')}</g>` },
+
+{ id: 'fd', title: 'FDs in plain English', short: 'D',
+  say: 'A functional dependency is ordinary language first. [[ex]]Student I D 101 always means Ravi. Knowing the I D fixes the name. [[rule]]Write it I D arrow Name. X arrow Y means: knowing X fixes Y. [[w]]Write this: X arrow Y, knowing X fixes Y, one example.',
+  svg: `<g>${T(800, 250, 'ID 101  →  Ravi, always Ravi', 56, C.quiz, 'middle', 'ex')}
+    ${T(800, 380, 'knowing the ID fixes the name', 44, C.dim, 'middle', 'ex')}
+    ${T(800, 540, 'X → Y', 120, C.chalk, 'middle', 'rule', 'font-weight="600"')}
+    ${T(800, 640, 'knowing X fixes Y', 46, C.task, 'middle', 'rule')}
+    ${EXAM('X arrow Y, knowing X fixes Y, one example')}</g>` },
+
+{ id: 'closure', title: 'Closure walk', short: '+',
+  say: 'Closure asks: starting from X, what can you reach? [[start]]A relation with A, B, C, D. A gives B, and B gives C. [[walk]]Start with A. A gives B, so add B. B gives C, so add C. Nothing gives D. [[key]]So A plus is A, B, C. Not everything, so A alone is not a key. [[why]]Closure finds keys, and keys decide normal forms. [[w]]Write this: show every step, box the closure set.',
+  svg: `<g>${T(800, 140, 'R(A, B, C, D)    A→B    B→C', 44, C.quiz, 'middle', 'start')}
+    <path d="M350 400 H1250" stroke="${C.dim}" stroke-width="4" pathLength="1" data-step="walk" class="pre"/>
+    ${T(430, 380, 'A', 64, C.good, 'middle', 'walk')}${T(650, 380, 'B', 64, C.good, 'middle', 'walk')}
+    ${T(880, 380, 'C', 64, C.good, 'middle', 'walk')}${T(1120, 380, 'D', 64, C.bad, 'middle', 'walk')}
+    ${T(1120, 450, '✗ unreachable', 34, C.bad, 'middle', 'walk')}
+    ${T(800, 590, 'A⁺ = { A, B, C }   ≠   all attributes   →   A is NOT a key', 46, C.task, 'middle', 'key')}
+    ${T(800, 690, 'Closure finds keys — keys decide normal forms', 44, C.chalk, 'middle', 'why')}
+    ${EXAM('show every step, box the closure set')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q91'],
+  say: 'Quick check. [[q]]R with A, B, C. The key is A B, and B gives C. Which normal form fails first?',
+  svg: `<g>${T(800, 400, 'Key = AB, and B → C.', 56, C.quiz)}
+    ${T(800, 500, 'Which normal form fails first?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'lad12', title: 'Rungs 1–2', short: '12',
+  say: 'Climb the first two rungs. [[one]]First normal form: atomic cells, no repeating groups. No cheese comma olives in one cell. [[two]]Second: no partial dependency. Every non-key fact must depend on the whole key, not part of it. A B is the key, B gives C: C leans on half the key, so second normal form fails. [[w]]Write this: name the dependency, partial or transitive, before naming the form.',
+  svg: `<g>${rung('1NF', 'atomic cells', C.good, 300, 'one')}
+    ${T(800, 372, 'no “Cheese, Olives” in one cell', 34, C.dim, 'middle', 'one')}
+    ${rung('2NF', 'the WHOLE key', C.quiz, 540, 'two')}
+    ${T(800, 612, 'key AB, B→C: C leans on half the key ✗', 34, C.bad, 'middle', 'two')}
+    ${EXAM('name the dependency (partial/transitive) before the form')}</g>` },
+
+{ id: 'lad34', title: 'Rungs 3–BCNF', short: '34',
+  say: 'Two rungs left. [[three]]Third: no transitive dependency. A non-key fact must not determine another non-key fact. I D gives department, department gives head: the head arrives second-hand. [[four]]B C N F: every determinant is a super key. [[hook]]The key, the whole key, nothing but the key, so help me Codd. [[test]]The test for third normal form says: X gives A only if X is a super key, or A is prime. B C N F says: only if X is a super key. No or. That or is the whole difference. [[w]]Write this: 3NF is OR, BCNF is ONLY.',
+  svg: `<g>${rung('3NF', 'nothing second-hand', C.task, 240, 'three')}
+    ${T(800, 312, 'ID → Dept → Head: head arrives second-hand ✗', 34, C.bad, 'middle', 'three')}
+    ${rung('BCNF', 'determinant = super key', C.pink, 470, 'four')}
+    ${T(800, 610, 'The key, the WHOLE key, nothing but the key…', 40, C.chalk, 'middle', 'hook')}
+    ${T(800, 680, '3NF = super-key OR prime  ·  BCNF = super-key ONLY', 40, C.task, 'middle', 'test')}
+    ${EXAM('3NF is OR, BCNF is ONLY')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q93'],
+  say: 'Quick check. [[q]]Every B C N F relation is also in third normal form. True or false?',
+  svg: `<g>${T(800, 400, 'BCNF  ⇒  3NF ?', 72, C.task)}${T(800, 500, 'True or false?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]Anomalies are the disease, normal forms the cure. [[w2]]Closure finds keys: keep applying dependencies until nothing new. The ladder tests atomicity, whole-key dependence, no transitive dependence, then determinant super key. [[w3]]Third normal form has an or. B C N F has no or. That or is worth marks.',
+  svg: `<g>${[['1', 'Anomalies = disease, normal forms = cure.', 'w1', 280], ['2', 'Closure finds keys; ladder: atomic → whole → second-hand → key.', 'w2', 450], ['3', '3NF has an OR. BCNF has no OR.', 'w3', 620]].map(([n, s, st, y]) =>
+    `<circle cx="250" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="250" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="320" y="${y}" font-size="38" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q92'],
+  say: 'Chapter practice. [[q]]Name the broken rule.',
+  svg: `<g>${T(800, 400, 'Student(ID, Dept, DeptHead)', 52, C.quiz)}${T(800, 490, 'ID → Dept → DeptHead. Name the broken rule.', 46, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['Q128'],
+  say: 'Chapter practice. [[q]]Test the determinant.',
+  svg: `<g>${T(800, 400, 'D → B,  D is not a super key.', 52, C.quiz)}${T(800, 490, 'Which rule does it break?', 46, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['Q95'],
+  say: 'Chapter practice. [[q]]Rebuild without loss.',
+  svg: `<g>${T(800, 400, 'Split R into R1 and R2.', 52, C.quiz)}${T(800, 490, 'When is the split lossless?', 46, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. The ladder is climbed. Next stop: A C I D, the highest-value topic in unit three.',
+  svg: `<g>${T(800, 380, '★ Ladder climbed ★', 72, C.good)}${T(800, 480, 'disease → closure → ladder → the OR', 44, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.init(BEATS, 'stage');
+// apply saved prefs to the controls
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

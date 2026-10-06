@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer voices, verbs &amp; time budgets — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Answer voices, verbs &amp; time budgets</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#answer-voices-md-voice-verbs-amp-time-per-mark-level">answer-voices.md — Voice, Verbs &amp;amp; Time per Mark Level</a></li><li class="l2"><a href="#0-timing-doctrine-assumed-no-past-paper-found-in-this-folder">0. Timing doctrine (ASSUMED — no past paper found in this folder)</a></li><li class="l2"><a href="#1-voice-by-mark-level">1. Voice by mark level</a></li><li class="l2"><a href="#2-verb-engines-obey-the-question-s-verb-not-the-topic-s-habi">2. Verb engines (obey the question's verb, not the topic's habit)</a></li><li class="l2"><a href="#3-mark-chunking-suggested-splits-for-task-questions">3. Mark chunking (suggested splits for task questions)</a></li><li class="l2"><a href="#4-how-marks-are-lost-each-failed-in-previous-exams">4. How marks are lost (each failed in previous exams)</a></li></ol></nav><div class="content"><h1 id="answer-voices-md-voice-verbs-amp-time-per-mark-level">answer-voices.md — Voice, Verbs &amp; Time per Mark Level</h1>
+<p><em>Doctrines stolen from two previous exam builds (EDT mid-sem, Blockchain end-sem) and adapted to ADBMS. Rule zero from both: <strong>wrong voice loses marks even with correct facts</strong>.</em></p>
+<hr>
+<h2 id="0-timing-doctrine-assumed-no-past-paper-found-in-this-folder">0. Timing doctrine (ASSUMED — no past paper found in this folder)</h2>
+<p>Assume the standard end-sem shape <strong>100 marks / 3 h ≈ 1.8 min per mark</strong> until told otherwise. Mock exams in this folder deliberately run at compressed drill pace; the table below is for the real paper.</p>
+<div class="tscroll"><table><thead><tr><th>Marks</th><th>Budget</th><th>Split (read → write → check)</th><th>Shape</th></tr></thead><tbody>
+<tr><td>2</td><td>4 min</td><td>1 → 2 → 1</td><td>define + one example, 3–4 lines</td></tr>
+<tr><td>5</td><td>9 min</td><td>2 → 6 → 1</td><td>define + mechanism/diagram + example</td></tr>
+<tr><td>10</td><td>17 min</td><td>3 → 12 → 2</td><td>intro / core / analysis / conclusion (1+4+3+1+1)</td></tr>
+<tr><td>20</td><td>35 min</td><td>5 → 27 → 3</td><td>full spine (2+3+8+4+3, see §3)</td></tr>
+</tbody></table></div>
+<p>If the paper's totals differ, rescale linearly — the <em>ratios</em> are what matter.</p>
+<hr>
+<h2 id="1-voice-by-mark-level">1. Voice by mark level</h2>
+<ul><li><strong>2-mark (L1 recall):</strong> define, list, name. One term, plain English, one example. <strong>No justification, no diagram, no trade-offs</strong> — they earn zero here and eat the 4-minute budget.</li><li><strong>5-mark (L2 explain):</strong> define + mechanism or labelled diagram + example. One contrast sentence if the question says "differentiate".</li><li><strong>10-mark (L2/L3):</strong> intro (notes' definition, quoted) → core (one bold sub-heading per scoring point, 2–3 lines each, notes' keywords) → analysis (cause-effect chain, table, or criteria verdict ending "Therefore…") → conclusion (2 lines reusing the question's keywords).</li><li><strong>20-mark (L2–L4):</strong> the full spine from <a href="docs/path.html"><code>learning-path-from-zero.md</code></a> Lesson 12: Define (5–7 lines) → diagram → components under own headings → example → pros/cons/comparison → 3–4 line conclusion on correctness/speed/reliability.</li></ul>
+<hr>
+<h2 id="2-verb-engines-obey-the-question-s-verb-not-the-topic-s-habi">2. Verb engines (obey the question's verb, not the topic's habit)</h2>
+<p>Multi-verb question → <strong>one sub-heading per verb, echoing the question's words, in the order asked.</strong></p>
+<ul><li><strong>Define / List:</strong> term in source wording + one example. Stop.</li><li><strong>Explain / Describe:</strong> definition → mechanism/steps → example → why it matters (one line).</li><li><strong>Differentiate / Compare:</strong> <strong>table first</strong> (4+ parameters), then one verdict line for the scenario. Never two separate essays.</li><li><strong>Apply / Work out (normalization, closure, schedules):</strong> restate given data → numbered steps showing every intermediate result → boxed final answer → one-line benefit/meaning. Examiners award method marks per visible step.</li><li><strong>Analyze:</strong> break into components → relationships/cause-effect → verdict starting "Therefore…".</li><li><strong>Evaluate / Justify:</strong> criteria → strengths vs weaknesses → verdict <strong>on the exact point asked</strong>. Justify must argue the point, not survey the topic.</li><li><strong>Write queries / commands / pipelines:</strong> purpose (one line) → syntax → concrete example → what each clause does. <code>$match</code> first; WHERE before GROUP BY.</li></ul>
+<hr>
+<h2 id="3-mark-chunking-suggested-splits-for-task-questions">3. Mark chunking (suggested splits for task questions)</h2>
+<p>Show every intermediate step — method marks live there.</p>
+<ul><li><strong>Applied normalization (FDs → keys → NF → BCNF):</strong> data+closures <strong>2</strong> · key proof <strong>2</strong> · NF tests in ladder order <strong>4</strong> · decomposition + lossless/preservation check <strong>2</strong>. (= 10)</li><li><strong>Normalization theory:</strong> ladder definitions <strong>3</strong> · worked violation→fix <strong>8</strong> · lossless vs preservation table <strong>4</strong> · anomalies cured <strong>3</strong> · intro/conclusion <strong>2</strong>. (= 20)</li><li><strong>CAP / ACID theory:</strong> exact-statement intro <strong>2</strong> · each property/letter under own heading <strong>8</strong> · scenario application <strong>4</strong> · comparison (BASE / isolation levels) <strong>3</strong> · conclusion <strong>3</strong>. (= 20)</li><li><strong>Recovery comparison:</strong> failure types <strong>2</strong> · deferred vs immediate vs shadow table <strong>8</strong> · WAL + checkpoint chain <strong>4</strong> · which needs UNDO/REDO and why <strong>4</strong> · conclusion <strong>2</strong>. (= 20)</li></ul>
+<hr>
+<h2 id="4-how-marks-are-lost-each-failed-in-previous-exams">4. How marks are lost (each failed in previous exams)</h2>
+<ol><li>No diagram where one exists (processes, hierarchies, algorithms — always draw).</li><li>No intro or no conclusion (the key expects both; 1 mark each).</li><li>Ignored verb (explained when asked to compare; listed when asked to evaluate).</li><li>Generic text without the notes' keywords (examiners grep for terms — see <a href="cram.html"><code>final-cram.md</code></a> §7).</li><li>Writing the standard-textbook version where the notes differ (see <a href="docs/errata.html"><code>errata.md</code></a> E3/E4) — <strong>answer with the notes' version only</strong>; keep conflict flags (<code>CONFLICT: notes say X; standard texts say Y</code>) in your study margin, never in the answer.</li><li>Model answers are plain text: no LaTeX, no emoji, no <code>[tags]</code>; diagrams as labeled boxes; tables max 5×5; writable inside the §0 budget.</li></ol></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

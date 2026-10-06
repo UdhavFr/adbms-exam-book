@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ ACID: the big four — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 3 · ▶ Narrated</div>
+<h2 class="ptitle">▶ ACID: the big four</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch07.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch19/index.html">◀ Ladder lesson</a>
+</div>
+<p class="foot">Pilot lesson 2. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC1 = { id: 'QAC1', topic: 'U3-4', unit: 'U3', pri: 'P1',
+  text: 'Under Read Committed, a transaction CAN see uncommitted changes. True or false?',
+  opts: ['True', 'False'], ans: 1,
+  why: 'Read Committed forbids dirty reads — only Read Uncommitted allows seeing uncommitted data.',
+  whyNot: 'Letting anyone read uncommitted data is exactly the dirty-read problem Read Committed eliminates.',
+  hint: 'Keys: dirty reads survive only at the weakest level.' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty. [[sub]]A C I D: four promises that keep your money real.',
+  svg: `<g>${T(800, 400, 'ACID: the big four', 96, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'four promises that keep your money real', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'a bank transfer in 10 seconds — or money vanishes', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Half a job', short: '0',
+  say: 'Ravi sends 500 rupees to Meena. [[accts]]His account holds 1000, hers holds 500. [[move]]Step one: subtract 500 from Ravi. Step two: add 500 to Meena. [[crash]]Now the power dies between the steps. [[half]]Ravi lost 500, Meena got nothing. Half a job is worse than no job. [[w]]Write this: a transfer is two steps that must succeed or fail together.',
+  svg: `<g><rect x="250" y="220" width="420" height="220" rx="18" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="accts" class="pre"/>
+    ${T(460, 300, 'Ravi: ₹1000', 48, C.quiz, 'middle', 'accts')}
+    <rect x="930" y="220" width="420" height="220" rx="18" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="accts" class="pre"/>
+    ${T(1140, 300, 'Meena: ₹500', 48, C.quiz, 'middle', 'accts')}
+    <path d="M670 330 H930" stroke="${C.dim}" stroke-width="6" pathLength="1" data-step="move" class="pre"/>
+    ${T(800, 290, '−500 → / +500 →', 40, C.chalk, 'middle', 'move')}
+    ${T(800, 520, '⚡ POWER DIES between the steps', 48, C.bad, 'middle', 'crash')}
+    ${T(460, 380, 'Ravi: ₹500', 44, C.bad, 'middle', 'half')}${T(1140, 380, 'Meena: ₹500', 44, C.bad, 'middle', 'half')}
+    ${T(800, 640, 'money vanished — half a job is worse than no job', 44, C.bad, 'middle', 'half')}
+    ${EXAM('a transfer is two steps: succeed or fail together')}</g>` },
+
+{ id: 'txn', title: 'Transaction + states', short: 'T',
+  say: 'That all-or-nothing job has a name. [[unit]]A transaction is one logical unit of work. [[ok]]It travels: Active, to Partially Committed, to Committed. Committed means done and safe. [[fail]]Or it travels: Failed, to Aborted. Aborted means rolled back, as if it never ran. [[w]]Write this: transaction equals one logical unit; committed or aborted, never half.',
+  svg: `<g>${T(800, 180, 'a transaction = one logical unit of work', 48, C.chalk, 'middle', 'unit')}
+    ${T(350, 380, 'Active', 52, C.good, 'middle', 'ok')}${T(800, 380, '→  Partially Committed  →', 44, C.good, 'middle', 'ok')}${T(1230, 380, 'Committed ✓', 52, C.good, 'middle', 'ok')}
+    ${T(800, 470, 'done and safe', 36, C.dim, 'middle', 'ok')}
+    ${T(450, 650, 'Failed', 52, C.bad, 'middle', 'fail')}${T(800, 650, '→  Aborted: rolled back, as if never run', 44, C.bad, 'middle', 'fail')}
+    ${EXAM('committed or aborted — never half')}</g>` },
+
+{ id: 'acid', title: 'The four letters', short: 'ACID',
+  say: 'Four promises, one per letter. [[a]]A: atomicity. All or nothing. The light switch cannot be half on. [[c]]C: consistency. The rules of the game hold before and after. No negative balances. [[i]]I: isolation. Concurrent transfers get separate rooms; nobody sees half-written numbers. [[d]]D: durability. Committed means carved in stone: power cuts cannot erase it. [[w]]Write this: all, correct, isolated, durable, one transfer example each.',
+  svg: `<g>${[['A', 'atomicity: all or nothing', C.task, 'a', 260], ['C', 'consistency: rules hold', C.quiz, 'c', 400], ['I', 'isolation: separate rooms', C.good, 'i', 540], ['D', 'durability: carved in stone', C.pink, 'd', 680]].map(([l, d, c, st, y]) =>
+    `<circle cx="400" cy="${y - 16}" r="40" fill="none" stroke="${c}" stroke-width="6" data-step="${st}" class="pre"/>
+     <text x="400" y="${y}" font-size="48" fill="${c}" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${l}</text>
+     <text x="480" y="${y}" font-size="42" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${d}</text>`).join('')}
+    ${EXAM('all, correct, isolated, durable + one example each')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q98'],
+  say: 'Quick check. [[q]]Debit succeeded, credit failed, so the debit is undone. Which property?',
+  svg: `<g>${T(800, 400, 'Debit ✓ … credit ✗ … debit undone.', 52, C.quiz)}
+    ${T(800, 500, 'Which property?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'isol', title: 'Isolation ladder', short: '4L',
+  say: 'Isolation comes in strengths, weakest first. [[l1]]Read Uncommitted: dirty reads allowed. You may read numbers nobody committed. [[l2]]Read Committed: no dirty reads. [[l3]]Repeatable Read: a row you read twice cannot change under you. New rows may still appear. [[l4]]Serializable: full isolation, as if transfers ran one after another. Strength rises, freedom falls. [[w]]Write this: order the four levels, name what each still allows.',
+  svg: `<g>${[['Read Uncommitted', 'dirty reads ✗', C.bad, 'l1', 220], ['Read Committed', 'no dirty reads', C.quiz, 'l2', 360], ['Repeatable Read', 'rows stable', C.task, 'l3', 500], ['Serializable', 'full isolation ✓', C.good, 'l4', 640]].map(([n, d, c, st, y]) =>
+    `<rect x="400" y="${y - 50}" width="800" height="92" rx="18" fill="none" stroke="${c}" stroke-width="4" data-step="${st}" class="pre"/>
+     <text x="800" y="${y}" font-size="40" fill="${c}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${n} — ${d}</text>`).join('')}
+    ${T(800, 572, '(phantoms may still appear)', 32, C.dim, 'middle', 'l3')}
+    ${T(800, 760, 'strength rises → freedom falls', 36, C.dim, 'middle', 'l4')}
+    ${EXAM('order the four levels + what each allows')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q97'],
+  say: 'Quick check. [[q]]Power cut right after commit, but the data is still there after restart. Which property?',
+  svg: `<g>${T(800, 400, '⚡ cut … restart … data survives.', 52, C.quiz)}
+    ${T(800, 500, 'Which property?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]A transaction is one logical unit: committed or aborted, never half. [[w2]]A is all-or-nothing, C is correct state, I is separate rooms, D is carved in stone. Recovery guards A and D; concurrency control guards I. [[w3]]Isolation ladder weakest to strongest: Uncommitted, Committed, Repeatable, Serializable.',
+  svg: `<g>${[['1', 'One logical unit: committed or aborted, never half.', 'w1', 300], ['2', 'A all, C correct, I separate rooms, D stone. Recovery→AD, CC→I.', 'w2', 470], ['3', 'Ladder: Uncommitted → Committed → Repeatable → Serializable.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="200" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="200" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="270" y="${y}" font-size="36" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q131'],
+  say: 'Chapter practice. [[q]]Which property says all-or-nothing?',
+  svg: `<g>${T(800, 430, 'All … or … nothing.', 60, C.quiz)}${T(800, 520, 'Which property?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['Q99'],
+  say: 'Chapter practice. [[q]]Which component mainly ensures isolation?',
+  svg: `<g>${T(800, 430, 'Separate rooms for transfers.', 56, C.quiz)}${T(800, 520, 'Which component?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['QAC1'],
+  say: 'Chapter practice. [[q]]True or false: Read Committed can see uncommitted changes.',
+  svg: `<g>${T(800, 430, 'Read Committed sees uncommitted data?', 52, C.quiz)}${T(800, 520, 'True or false?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Money is safe. Next stop: C A P, the most misquoted theorem in the subject.',
+  svg: `<g>${T(800, 380, '★ Money is safe ★', 72, C.good)}${T(800, 480, 'unit → letters → ladder', 44, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+if (!window.MCQ_BY_ID['QAC1']) window.MCQ_BY_ID['QAC1'] = QAC1;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 20;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

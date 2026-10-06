@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagrams — draw these blind — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Diagrams — draw these blind</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#diagrams-and-mental-models-md-draw-these-blind">diagrams-and-mental-models.md — Draw These Blind</a></li><li class="l2"><a href="#d1-three-level-architecture-required">D1. Three-level architecture ← required</a></li><li class="l2"><a href="#d2-er-diagram-the-standard-one-required">D2. ER diagram (the standard one) ← required</a></li><li class="l2"><a href="#d3-the-normalization-ladder-required">D3. The normalization ladder ← required</a></li><li class="l2"><a href="#d4-b-tree-required">D4. B+ tree ← required</a></li><li class="l2"><a href="#d5-transaction-state-machine-required">D5. Transaction state machine ← required</a></li><li class="l2"><a href="#d6-two-phase-locking-required">D6. Two-phase locking ← required</a></li><li class="l2"><a href="#d7-recovery-log-flow-required">D7. Recovery / log flow ← required</a></li><li class="l2"><a href="#d8-distributed-database-architecture-required">D8. Distributed database architecture ← required</a></li><li class="l2"><a href="#d9-cap-triangle-required">D9. CAP triangle ← required</a></li><li class="l2"><a href="#d10-sharding-required">D10. Sharding ← required</a></li><li class="l2"><a href="#d11-vector-search-pipeline-required">D11. Vector search pipeline ← required</a></li><li class="l2"><a href="#extra-diagrams-worth-drawing-strong-answers-not-on-the-requi">Extra diagrams worth drawing (strong answers, not on the required list)</a></li><li class="l2"><a href="#mental-models-one-picture-each">Mental models (one picture each)</a></li></ol></nav><div class="content"><h1 id="diagrams-and-mental-models-md-draw-these-blind">diagrams-and-mental-models.md — Draw These Blind</h1>
+<p>Examiner signal: a labelled diagram = instant structure marks. Practise each one <strong>on blank paper, timed (90 seconds)</strong>. Source: Diagram Practice Sheet (11 required) + architecture flows inside the notebook.</p>
+<hr>
+<h2 id="d1-three-level-architecture-required">D1. Three-level architecture ← <em>required</em></h2>
+<p>``<code> EXTERNAL / VIEW LEVEL ┌──────────┬──────────┬──────────┐ │ Student │ Faculty │ Accounts │  ← customised user views │ view  │ view  │ view  │   (simplicity + security) └────┬─────┴────┬─────┴────┬─────┘ └──────────┼──────────┘ ↓ CONCEPTUAL LEVEL   ← complete logical schema: entities + relationships + constraints ↓        (independent of physical storage) INTERNAL LEVEL    ← files + pages + indexes + access paths ↓ PHYSICAL STORAGE    ← disks/blocks </code>`` <strong>Labels you must write:</strong> external = <em>user views</em>, conceptual = <em>logical design</em>, internal = <em>physical layout</em>. <strong>Add the two arrows of independence:</strong> physical (internal ↔ conceptual), logical (conceptual ↔ external).</p>
+<hr>
+<h2 id="d2-er-diagram-the-standard-one-required">D2. ER diagram (the standard one) ← <em>required</em></h2>
+<p>``<code> ┌──────────┐            ┌──────────┐ │ STUDENT │            │ COURSE │ │──────────│            │──────────│ │ StudentID│            │ CourseID │ │ Name   │    ENROLLS    │ Title  │ └────┬─────┘    ◇       └────┬─────┘ │       │          │ │      M    N       │ │                 │ └──────────────┴───────────────────┘ EnrollmentDate (relationship attribute) </code>`<code> <strong>Explain every symbol:</strong> rectangle = entity, oval = attribute, diamond = relationship, M:N = cardinality, </code>EnrollmentDate` belongs to the <em>event</em>, not to one entity. Add a double diamond for a weak entity, double ellipse for a multivalued attribute, dashed ellipse for a derived attribute.</p>
+<hr>
+<h2 id="d3-the-normalization-ladder-required">D3. The normalization ladder ← <em>required</em></h2>
+<p>``<code> UNNORMALIZED ↓ remove repeating groups / non-atomic values 1NF  (atomic values) ↓ remove partial dependencies 2NF  (whole-key dependence) ↓ remove transitive dependencies 3NF  (no non-key determinants) ↓ every determinant must be a super key BCNF ↓ remove non-key multivalued dependencies 4NF ↓ remove problematic join dependencies 5NF / PJNF </code>`` <strong>Write under it:</strong> 1=Atomic · 2=Partial · 3=Transitive · BC=Determinant · 4=MVD · 5=Join.</p>
+<hr>
+<h2 id="d4-b-tree-required">D4. B+ tree ← <em>required</em></h2>
+<p>``<code> [ 30 | 60 ] /    |    \ [10|20]   [40|50]  [70|80|90]   ← internal: separators + child pointers / | \    / | \    / | \ leaves (search keys + record/data pointers) ↕     ↕     ↕      ← LEAVES ARE LINKED [10,20] ↔ [40,50] ↔ [70,80,90]   ← range scan walks this chain </code>`` <strong>Caption to write:</strong> "internal nodes: separator keys + child pointers. Leaf nodes: keys + record pointers, linked for range queries. Balanced ⇒ O(log_f N)."</p>
+<hr>
+<h2 id="d5-transaction-state-machine-required">D5. Transaction state machine ← <em>required</em></h2>
+<p>``<code> ACTIVE │ last statement ↓ PARTIALLY COMMITTED │      │ commit succeeds  failure ↓      ↓ COMMITTED    FAILED │ ROLLBACK ↓ ABORTED │ restart / terminate </code>``</p>
+<hr>
+<h2 id="d6-two-phase-locking-required">D6. Two-phase locking ← <em>required</em></h2>
+<p>``<code> TIME → ┌────────────────────────┬────────────────────────┐ │ GROWING PHASE     │ SHRINKING PHASE    │ │ acquire S/X locks   │ release locks     │ │ NO releases      │ NO new acquisitions  │ └────────────────────────┴────────────────────────┘ ▲ LOCK POINT (last acquisition) </code>``</p>
+<hr>
+<h2 id="d7-recovery-log-flow-required">D7. Recovery / log flow ← <em>required</em></h2>
+<p>``<code> LOG: &lt;START T1&gt. &lt;T1, A, old, new&gt. &lt;START T2&gt. &lt;T2, B, old, new&gt. &lt;COMMIT T1&gt. ↓ CRASH ┌──── CHECKPOINT (recent start point) ────┐ ↓                     ↓ T1 committed → REDO if required   T2 uncommitted → UNDO ↓ CONSISTENT DATABASE </code>`` <strong>Caption:</strong> "WAL: the log record must reach stable storage <strong>before</strong> the data page is written."</p>
+<hr>
+<h2 id="d8-distributed-database-architecture-required">D8. Distributed database architecture ← <em>required</em></h2>
+<p>``<code> DISTRIBUTED DATABASE │ ┌─────────────┼─────────────┐ ↓       ↓       ↓ SITE A    SITE B    SITE C Data A1    Data B1    Data C1 Replica A2  Replica B2  Replica C2 \       │       / └───────── NETWORK ────────┘ </code>`` <strong>Add:</strong> fragments (horizontal/vertical) and replicas at each site, plus a COORDINATOR node for 2PC.</p>
+<hr>
+<h2 id="d9-cap-triangle-required">D9. CAP triangle ← <em>required</em></h2>
+<p>``` CONSISTENCY (C) /\ / \ /  \ /   \ /________\ AVAILABILITY (A) —— PARTITION (P)</p>
+<p>During a partition: trade C against A. ``` <strong>Caption under it (verbatim idea):</strong> "During a network partition a system cannot guarantee both strong consistency and availability for every request under the formal CAP definitions."</p>
+<hr>
+<h2 id="d10-sharding-required">D10. Sharding ← <em>required</em></h2>
+<p>``<code> DATASET │ SHARDING / PARTITION ┌─────────────┼─────────────┐ ↓       ↓       ↓ SHARD 1    SHARD 2    SHARD 3 IDs 1–100   IDs 101–200  IDs 201–300 (range strategy shown. Hash/dir/geographic are alternatives) </code>``</p>
+<hr>
+<h2 id="d11-vector-search-pipeline-required">D11. Vector search pipeline ← <em>required</em></h2>
+<p>``<code> QUERY → EMBEDDING MODEL → QUERY VECTOR → VECTOR INDEX → TOP-K → METADATA/DOCS → RESULTS </code>`` Add side-notes: cosine = angle, Euclidean = distance, dot = alignment+magnitude. HNSW = graph, IVF = clusters.</p>
+<hr>
+<h2 id="extra-diagrams-worth-drawing-strong-answers-not-on-the-requi">Extra diagrams worth drawing (strong answers, not on the required list)</h2>
+<h3>D12. 2PC message flow</h3>
+<p>``<code> COORDINATOR ─── PREPARE ───► P1, P2, P3 COORDINATOR ◄── YES/NO ──── P1, P2, P3 COORDINATOR ─── COMMIT ───► (all YES)  |  ABORT (any NO) ⚠ prepared participant BLOCKS if coordinator's decision is unreachable </code>``</p>
+<h3>D13. Concurrency: conflict → precedence graph</h3>
+<p>``` T1: R(X) … W(X) ────────► T2: R(X) … COMMIT</p>
+<p>edge T1 → T2 (conflicting ops on X, T1 first) → graph acyclic ⇒ conflict-serializable ```</p>
+<h3>D14. ER → relational mapping (before/after)</h3>
+<p>``<code> ER MODEL               RELATIONAL MODEL STUDENT ─── ENROLLS ─── COURSE  →  STUDENT(StudentID, Name) M      N           COURSE(CourseID, Title) ENROLLS(StudentID, CourseID, EnrollDate) </code>``</p>
+<h3>D15. Data flow: disk to CPU</h3>
+<p>``<code> SECONDARY STORAGE (File → Pages) --I/O--&gt. BUFFER POOL [P1 P7 P4 P9] --&gt. CPU / DBMS "DB I/O moves pages, not records" → reducing page I/O is the optimization goal </code>``</p>
+<h3>D16. Normalization worked example (2NF)</h3>
+<p>``<code> ENROLL(StudentID, CourseID, StudentName, CourseName, Grade) │        │ StudentID → StudentName  CourseID → CourseName   ← partial (key is composite) ↓ STUDENT(StudentID, StudentName) COURSE(CourseID, CourseName) ENROLL(StudentID, CourseID, Grade)   ← Grade depends on the FULL key </code>``</p>
+<h3>D17. Transitive dependency (3NF)</h3>
+<p>``<code> EMPLOYEE(EmpID, DeptID, DeptName) EmpID → DeptID DeptID → DeptName  ⇒ transitive ↓ EMPLOYEE(EmpID, DeptID)  +  DEPARTMENT(DeptID, DeptName) </code>``</p>
+<h3>D18. Independent multivalued facts (4NF)</h3>
+<p>``<code> STUDENT ──┬── HOBBIES   ┐ independent of each other └── LANGUAGES  ┘ ⇒ split: STUDENT_HOBBY(Student, Hobby) + STUDENT_LANGUAGE(Student, Language) </code>``</p>
+<h3>D19. Cassandra partition layout</h3>
+<p>``<code> TABLE student  partition key = course ├── Partition MCA: clustering rows (ordered by clustering cols) └── Partition MBA: clustering rows partition key → WHERE the data lives  |  clustering columns → ORDER within partition </code>``</p>
+<h3>D20. Deferred vs immediate update</h3>
+<p>``<code> DEFERRED:  Transaction → LOG only → COMMIT → REDO apply → DB IMMEDIATE: Transaction → LOG → page may hit disk → COMMIT? YES: REDO if needed | NO: UNDO </code>``</p>
+<hr>
+<h2 id="mental-models-one-picture-each">Mental models (one picture each)</h2>
+<div class="tscroll"><table><thead><tr><th>Concept</th><th>Picture to hold</th></tr></thead><tbody>
+<tr><td>Schema vs instance</td><td>blueprint vs the building today</td></tr>
+<tr><td>Data independence</td><td>changing shelves (physical) vs changing the catalogue (logical)</td></tr>
+<tr><td>Normalization</td><td>a messy drawer → labelled separate drawers</td></tr>
+<tr><td>Lossless join</td><td>puzzle pieces that rebuild the exact picture</td></tr>
+<tr><td>Dependency preservation</td><td>rules checked in each drawer without re-merging them</td></tr>
+<tr><td>B+ tree</td><td>a book index whose last page points to the next page</td></tr>
+<tr><td>Hash index</td><td>P.O. boxes: exact address, no ordering</td></tr>
+<tr><td>2PL</td><td>take every key you need, then hand them back — never halfway</td></tr>
+<tr><td>ACID</td><td>four promises of a bank transfer</td></tr>
+<tr><td>WAL</td><td>diary entry before moving the furniture</td></tr>
+<tr><td>Shadow paging</td><td>never overwrite the last good manuscript</td></tr>
+<tr><td>2PC</td><td>everyone raises a hand before anyone acts</td></tr>
+<tr><td>CAP</td><td>when the network splits, decide what you keep</td></tr>
+<tr><td>Cassandra</td><td>the partition key is the address; clustering columns are the shelf order</td></tr>
+<tr><td>Vector DB</td><td>meaning as coordinates; nearest = most similar</td></tr>
+</tbody></table></div></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

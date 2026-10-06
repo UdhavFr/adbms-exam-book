@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 11 · MongoDB + Cassandra + Redis + Neo4j + vector search — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 5 · Chapter 11</div><h2 class="ptitle">Lesson 11 · MongoDB + Cassandra + Redis + Neo4j + vector search</h2>
+<div class="content">
+<p>· MongoDB + Cassandra + Redis + Neo4j + vector search <strong>Read:</strong> U4-10→U4-12 + <a href="docs/unit-5.html"><a href="docs/unit-5.html"><code>chapter-notes/unit-5.md</code></a></a> · <strong>Hooks:</strong></p>
+<details class="ref"><summary>📖 Hooks: 7 <span class="dim">— from memory-hooks.md §7 (tap to expand)</span></summary><div class="content"><h2>7. NoSQL / store hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Four models</td><td><strong>D-K-C-G</strong> = Document, Key-value, Column-family, Graph (anchor uses: catalog · cache · big distributed · social)</td></tr>
+<tr><td>Relational → MongoDB</td><td><strong>Database→Database, Table→Collection, Row→Document, Column→Field, PK→_id</strong></td></tr>
+<tr><td>MongoDB CRUD</td><td>every action has <strong>ONE / MANY</strong> (insertOne/insertMany, find/findOne, updateOne/updateMany, deleteOne/deleteMany)</td></tr>
+<tr><td>MongoDB operators</td><td>comparison <code>$gt $gte $lt $lte $eq $ne</code> · membership <code>$in $nin</code> · logical <code>$and $or $not $nor</code> · update <code>$set $unset $inc $push $pull</code></td></tr>
+<tr><td>Aggregation</td><td><strong>$match → $group → $project → $sort → $limit</strong> (<em>also $skip, $unwind, $lookup</em>)</td></tr>
+<tr><td>Cypher order</td><td><strong>CREATE → MATCH → WHERE → SET → DELETE</strong> ("Create → Find → Filter → Modify → Destroy")</td></tr>
+<tr><td>Cypher pattern</td><td><code>MATCH (node)-[:REL]-&gt;(node) RETURN …</code> — <strong>round = node, bracket = relationship</strong></td></tr>
+<tr><td>Cassandra</td><td><strong>Partition = Place · Clustering = Order</strong></td></tr>
+<tr><td>Redis</td><td>basic key → hash → time → counter (<strong>SET/GET · HSET/HGET · EXPIRE · INCR</strong>)</td></tr>
+<tr><td>Graph model</td><td><strong>Nodes = entities · Edges = relationships · Properties = attributes</strong></td></tr>
+<tr><td>Vector pipeline</td><td><strong>Query → Embedding → Index → Top-K</strong></td></tr>
+<tr><td>Similarity metrics</td><td><strong>Cosine = angle · Euclidean = distance · Dot = alignment + magnitude</strong></td></tr>
+<tr><td>ANN structures</td><td><strong>HNSW = GRAPH navigation · IVF = CLUSTERS</strong></td></tr>
+<tr><td>Index trade-off</td><td><strong>faster reads ↔ storage + maintenance cost</strong></td></tr>
+<tr><td>HBase vs Cassandra</td><td>HBase = <strong>H</strong>adoop-bound, row key + families, shell/API · Cassandra = <strong>independent</strong>, partition+clustering, CQL</td></tr>
+</tbody></table></div>
+<hr></div></details>
+<p>· <a href="docs/comparisons.html"><a href="docs/comparisons.html"><code>comparisons.md</code></a></a> · <a href="docs/processes.html"><a href="docs/processes.html"><code>processes-and-algorithms.md</code></a></a> <strong>You must be able to produce:</strong> the store-comparison table + real commands + the ANN explanation.</p>
+<div class="tscroll"><table><thead><tr><th>Store</th><th>Model</th><th>Anchor fact</th></tr></thead><tbody>
+<tr><td>MongoDB</td><td>Document (JSON)</td><td>Table→<strong>collection</strong>, row→<strong>document</strong>, column→<strong>field</strong>; <code>db.x.find({age:{$gt:20}})</code>; pipeline <code>$match→$group→$sort</code> (filter first!)</td></tr>
+<tr><td>Cassandra</td><td>Wide-column</td><td><strong>Partition key = where data lives</strong>, <strong>clustering = order within</strong>; query-driven design, duplicate freely</td></tr>
+<tr><td>Redis</td><td>Key-value</td><td>Fast temporary/session state; TTL expiry</td></tr>
+<tr><td>Neo4j</td><td>Graph</td><td>Nodes/edges/properties; <code>MATCH (a)-[:FRIEND]-&gt;(b)</code>; friend-of-friend = its sweet spot</td></tr>
+<tr><td>Vector DB</td><td>Embeddings</td><td>Data→embedding→vector→nearest-neighbour; <strong>cosine = angle</strong> similarity; <strong>HNSW = graph</strong> ANN, <strong>IVF = clusters</strong>; brute force O(N·d)</td></tr>
+</tbody></table></div>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Doctors Keep Calm Gracefully = Document, Key-value, Column, Graph · My Great Shoes = Match, Group, Sort · partition = place, clustering = order · scalar access ≠ similarity access. <strong>Trap:</strong> Cassandra partition ≠ clustering; HNSW ≠ IVF (graph vs clusters); aggregation <code>$match</code> first.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong><a href="written.html#Q77">Q77</a>–<a href="written.html#Q86">Q86</a>, <a href="written.html#Q88">Q88</a><strong> + MCQ </strong><a href="quiz.html">Q111</a>–<a href="quiz.html">Q116</a>, <a href="quiz.html">Q137</a>–<a href="quiz.html">Q140</a><strong> </strong>Wrap (3 steps):** 1) MongoDB: table→collection, row→document; pipeline $match first. 2) Cassandra: partition key=where, clustering=order. 3) Redis=key-value+TTL, Neo4j=graph traversal, vectors: cosine=angle, HNSW=graph, IVF=clusters.</div>
+<hr>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b>Table→<b>collection</b>, row→<b>document</b>. <b>Partition = place, clustering = order.</b> <b>HNSW = graph, IVF = clusters.</b> Pipeline: <b>My Great Shoes</b> ($match first). Cosine = angle. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q114"]); renderChoice(_qc, window.MCQ_BY_ID["Q137"]); renderChoice(_qc, window.MCQ_BY_ID["Q117"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="ch10.html">← Ch 10</a><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch12.html">Ch 12 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(11)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

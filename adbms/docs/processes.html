@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Processes as flows — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Processes as flows</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#processes-and-algorithms-md-every-ordered-process-as-flows">processes-and-algorithms.md — Every Ordered Process, as Flows</a></li><li class="l2"><a href="#p1-er-relational-mapping-7-rules-u1-5-p0">P1. ER → Relational mapping (7 rules) — U1 §5 · P0</a></li><li class="l2"><a href="#p2-solving-a-normalization-question-the-full-procedure-u2-p0">P2. Solving a normalization question (the full procedure) — U2 · P0</a></li><li class="l2"><a href="#p3-attribute-closure-x-u2-1-p0">P3. Attribute closure X⁺ — U2 §1 · P0</a></li><li class="l2"><a href="#p4-minimal-cover-u2-11-p1">P4. Minimal cover — U2 §11 · P1</a></li><li class="l2"><a href="#p5-lossless-join-verification-u2-9-p0">P5. Lossless-join verification — U2 §9 · P0</a></li><li class="l2"><a href="#p6-b-tree-search-u2-13-p0">P6. B+ tree search — U2 §13 · P0</a></li><li class="l2"><a href="#p7-hash-lookup-u2-14-p1">P7. Hash lookup — U2 §14 · P1</a></li><li class="l2"><a href="#p8-conflict-serializability-test-u3-5-p0">P8. Conflict serializability test — U3 §5 · P0</a></li><li class="l2"><a href="#p9-two-phase-locking-execution-u3-6-p0">P9. Two-phase locking execution — U3 §6 · P0</a></li><li class="l2"><a href="#p10-timestamp-ordering-rules-u3-7-p1">P10. Timestamp ordering rules — U3 §7 · P1</a></li><li class="l2"><a href="#p11-transaction-state-machine-u3-2-p1">P11. Transaction state machine — U3 §2 · P1</a></li><li class="l2"><a href="#p12-sql-transaction-flow-u3-4-p1">P12. SQL transaction flow — U3 §4 · P1</a></li><li class="l2"><a href="#p13-deferred-update-no-steal-redo-only-flavour-u3-9-p0">P13. Deferred update (no-steal, redo-only flavour) — U3 §9 · P0</a></li><li class="l2"><a href="#p14-immediate-update-steal-flavour-u3-10-p0">P14. Immediate update (steal flavour) — U3 §10 · P0</a></li><li class="l2"><a href="#p15-shadow-paging-u3-11-p1">P15. Shadow paging — U3 §11 · P1</a></li><li class="l2"><a href="#p16-log-based-recovery-with-wal-checkpoint-u3-12-p0">P16. Log-based recovery with WAL + checkpoint — U3 §12 · P0</a></li><li class="l2"><a href="#p17-two-phase-commit-2pc-u4-4-p0">P17. Two-phase commit (2PC) — U4 §4 · P0</a></li><li class="l2"><a href="#p18-fragmentation-allocation-replication-distributed-design-">P18. Fragmentation → allocation → replication (distributed design) — U4 §2–3 · P0/P1</a></li><li class="l2"><a href="#p19-sharding-strategy-selection-u4-9-p0">P19. Sharding strategy selection — U4 §9 · P0</a></li><li class="l2"><a href="#p20-mongodb-aggregation-pipeline-u4-12-p0">P20. MongoDB aggregation pipeline — U4 §12 · P0</a></li><li class="l2"><a href="#p21-vector-similarity-search-u5-6-7-p0">P21. Vector similarity search — U5 §6–7 · P0</a></li><li class="l2"><a href="#p22-query-driven-cassandra-design-u5-2-11-p0">P22. Query-driven Cassandra design — U5 §2, §11 · P0</a></li><li class="l2"><a href="#p23-the-20-mark-answer-process-writing-algorithm-source-intr">P23. The 20-mark answer process (writing algorithm) — source intro · P0</a></li></ol></nav><div class="content"><h1 id="processes-and-algorithms-md-every-ordered-process-as-flows">processes-and-algorithms.md — Every Ordered Process, as Flows</h1>
+<p>Format: <strong>INPUT → steps → OUTPUT</strong>, then a <strong>compressed chain</strong> to memorise, then the <strong>exam-ready explanation</strong> (the sentence to write). Marks for processes come from <em>order</em>, so never re-order the steps.</p>
+<hr>
+<h2 id="p1-er-relational-mapping-7-rules-u1-5-p0">P1. ER → Relational mapping (7 rules) — U1 §5 · P0</h2>
+<p><strong>INPUT:</strong> an ER diagram with entities, attributes, relationships, weak entities. <strong>OUTPUT:</strong> a set of relations with primary/foreign keys.</p>
+<p>``<code> ER DIAGRAM ↓ strong entity      → one relation. Entity PK becomes relation PK ↓ composite attribute   → store the components, not the composite ↓ multivalued attribute  → NEW relation (owner PK + the value) ↓ 1:1 relationship     → PK of one side as FK in the other (prefer total-participation side) ↓ 1:N relationship     → PK of the 1-side becomes FK in the N-side ↓ M:N relationship     → NEW relation with both PKs (usually a composite PK) ↓ weak entity       → its attributes + owner PK. Owner key + partial key identifies it RELATIONAL SCHEMA </code>``</p>
+<p><strong>Chain:</strong> <em>Entity→table · Composite→split · Multi→new table · 1:1→FK · 1:N→FK on N · M:N→new table · Weak→owner+partial.</em> <strong>Exam-ready:</strong> "For a strong entity create a relation whose primary key is the entity's key. Store composite components separately. Give multivalued attributes their own relation. Place the 1-side key as a foreign key on the N-side. For M:N create a junction relation containing both keys. A weak entity's relation carries its owner's key." <strong>Common mistake:</strong> putting the FK on the 1-side for a 1:N relationship (it must go on the <strong>N</strong>-side).</p>
+<hr>
+<h2 id="p2-solving-a-normalization-question-the-full-procedure-u2-p0">P2. Solving a normalization question (the full procedure) — U2 · P0</h2>
+<p><strong>INPUT:</strong> a relation with attributes and a set of FDs (given or inferable). <strong>OUTPUT:</strong> the current normal form, the violation, and the decomposed schema.</p>
+<p>``<code> LIST THE FDs ↓ FIND THE CANDIDATE KEY(s) (attribute closure of candidate combinations) ↓ CLASSIFY attributes: prime vs non-prime ↓ TEST 1NF → atomic values / no repeating groups     (else fix first) ↓ TEST 2NF → any non-prime depends on PART of a key?   → partial dependency ↓ TEST 3NF → any non-prime depends on a non-key attribute? → transitive dependency ↓ TEST BCNF → any determinant that is not a super key? ↓ TEST 4NF → any non-trivial MVD with non-super-key determinant? ↓ TEST 5NF → any non-trivial JD not implied by candidate keys? ↓ DECOMPOSE the violating relation, then RE-VERIFY • lossless join (R1∩R2 → R1 or R2) • dependency preservation where possible RESULT </code>``</p>
+<p><strong>Chain:</strong> <em>FDs → Key → Prime/Non-prime → 1 → 2 → 3 → BC → 4 → 5 → Decompose → Verify.</em> <strong>Exam-ready template (write this for any "check/convert to 3NF" question):</strong></p>
+<ol><li>"The functional dependencies are…"</li><li>"The candidate key is …, computed by attribute closure…"</li><li>"The relation is in __NF because … / violates __NF because …"</li><li>"The violation is a partial/transitive dependency of … on …"</li><li>"Decomposition: …"</li><li>"The result is in the target normal form; the decomposition is lossless (because …) and dependency preserving (because …)."</li></ol>
+<hr>
+<h2 id="p3-attribute-closure-x-u2-1-p0">P3. Attribute closure X⁺ — U2 §1 · P0</h2>
+<p><strong>INPUT:</strong> a set of FDs F, an attribute set X. <strong>OUTPUT:</strong> all attributes determined by X (⇒ super key test).</p>
+<p>``<code> START C = {X} ↓ SCAN F: any FD W→Z with W ⊆ C ?  --no--&gt. STOP (no growth) ↓ yes ADD Z to C ↓ LOOP until no change ↓ IF C = all attributes → X is a SUPER KEY (minimal ⇒ candidate key) </code>``</p>
+<p><strong>Chain:</strong> <em>Start → Unlock → Add → Repeat → Complete.</em> <strong>Worked example:</strong> F={A→B,B→C,C→D}: {A} → {A,B} → {A,B,C} → <strong>{A,B,C,D}</strong> ⇒ A is a key. <strong>Common mistake:</strong> running the FD list only once instead of looping to a fixed point.</p>
+<hr>
+<h2 id="p4-minimal-cover-u2-11-p1">P4. Minimal cover — U2 §11 · P1</h2>
+<p><strong>INPUT:</strong> F. <strong>OUTPUT:</strong> canonical cover G with F⁺ = G⁺.</p>
+<p>``<code> SPLIT every FD so RHS = one attribute ↓ REMOVE extraneous attributes from each left side (re-test each removal) ↓ REMOVE redundant FDs (each must be re-checked against the rest) ↓ G is the MINIMAL COVER </code>``</p>
+<p><strong>Chain:</strong> <strong>S-E-R</strong> = Split → Extraneous → Remove. <strong>Common mistake:</strong> skipping step 2 (extraneous LHS attributes). That is what "minimal" mostly means.</p>
+<hr>
+<h2 id="p5-lossless-join-verification-u2-9-p0">P5. Lossless-join verification — U2 §9 · P0</h2>
+<p><strong>INPUT:</strong> R, F, a decomposition {R₁, R₂}. <strong>OUTPUT:</strong> lossless or not.</p>
+<p>``<code> COMPUTE I = R1 ∩ R2 ↓ TEST I → R1  (using F⁺ / closure of I) ↓ OR   I → R2 ↓ either holds → LOSSLESS (joining reproduces R exactly, no spurious tuples) neither holds → NOT lossless </code>``</p>
+<p><strong>Chain:</strong> <em>Intersect → Determine one side → Confirm.</em> <strong>Common mistake:</strong> testing R1 → I instead of I → one side (direction matters).</p>
+<hr>
+<h2 id="p6-b-tree-search-u2-13-p0">P6. B+ tree search — U2 §13 · P0</h2>
+<p><strong>INPUT:</strong> search key K. <strong>OUTPUT:</strong> the record(s)/data page pointer.</p>
+<p>``<code> START at ROOT (internal node) ↓ COMPARE K with the node's separator keys ↓ FOLLOW the correct child pointer ↓ DESCEND until a LEAF node is reached ↓ SEARCH the leaf's key array ↓ FOLLOW the record/data pointer → RECORD (range query: scan forward along the LINKED leaves) </code>``</p>
+<p><strong>Chain:</strong> <em>Root → Compare → Child → Leaf → Record.</em> <strong>Why fast:</strong> balanced height · high fan-out (few levels) · linked leaves (range scans) · dynamic insert/delete · nodes sized to disk pages. <strong>Complexity:</strong> O(log_f N) node visits. <strong>Common mistake:</strong> forgetting that <strong>leaves are linked</strong>. That is the whole reason B+ trees beat other trees for range queries.</p>
+<hr>
+<h2 id="p7-hash-lookup-u2-14-p1">P7. Hash lookup — U2 §14 · P1</h2>
+<p><strong>INPUT:</strong> equality search key K. <strong>OUTPUT:</strong> records in the bucket.</p>
+<p>``<code> K → hash(K) → BUCKET id ↓ go to bucket → records/pointers ↓ two keys same bucket = COLLISION → overflow bucket / chaining / dynamic hashing </code>``</p>
+<p><strong>Chain:</strong> <em>Key → Hash → Bucket → Records.</em> <strong>Common mistake:</strong> suggesting a hash index for a <strong>range</strong> query (poor fit — use B+ tree).</p>
+<hr>
+<h2 id="p8-conflict-serializability-test-u3-5-p0">P8. Conflict serializability test — U3 §5 · P0</h2>
+<p><strong>INPUT:</strong> a schedule S of transactions. <strong>OUTPUT:</strong> conflict-serializable? (and an equivalent serial order)</p>
+<p>``<code> CREATE one node per transaction (T1, T2, …) ↓ FIND conflicting pairs: same data item, at least one a WRITE, different transactions ↓ for each pair where Ti's op comes FIRST → add edge Ti → Tj ↓ CHECK the graph ↓ ACYCLIC → conflict-serializable (topological order = equivalent serial order) CYCLE  → NOT conflict-serializable </code>``</p>
+<p><strong>Chain:</strong> <em>Build graph → Look for cycle.</em> <strong>Common mistake:</strong> drawing an edge for a pair that is not a conflict (two reads never conflict).</p>
+<hr>
+<h2 id="p9-two-phase-locking-execution-u3-6-p0">P9. Two-phase locking execution — U3 §6 · P0</h2>
+<p><strong>INPUT:</strong> concurrent transactions. <strong>OUTPUT:</strong> conflict-serializable execution.</p>
+<p>``<code> GROWING PHASE: acquire S/X locks. NO releases ↓ LOCK POINT: last lock acquisition ↓ SHRINKING PHASE: release locks. NO new acquisitions ↓ (STRICT 2PL: hold X locks until COMMIT/ABORT → fewer cascading rollbacks) </code>``</p>
+<p><strong>Chain:</strong> <em>Acquire-all → Lock point → Release-all.</em> <strong>Deadlock handling chain:</strong> <strong>PADT</strong> = Prevention · Avoidance · Detection (wait-for graph) · Timeout. <strong>Common mistake:</strong> saying 2PL means "lock everything at once". The real rule is the <em>no-release-while-acquiring</em> boundary.</p>
+<hr>
+<h2 id="p10-timestamp-ordering-rules-u3-7-p1">P10. Timestamp ordering rules — U3 §7 · P1</h2>
+<p><strong>INPUT:</strong> each transaction Ti with timestamp TS(Ti); each item X with Read_TS(X), Write_TS(X). <strong>OUTPUT:</strong> execute, or reject + restart.</p>
+<p>``<code> READ of X by Ti: TS(Ti) &lt. Write_TS(X) → too old, reads stale data → REJECT/ROLLBACK Ti else → allow. Read_TS(X) = max(Read_TS(X), TS(Ti)) WRITE of X by Ti: TS(Ti) &lt. Read_TS(X)  → would overwrite newer read → REJECT/ROLLBACK Ti TS(Ti) &lt. Write_TS(X) → would overwrite newer write → REJECT/ROLLBACK Ti (or Thomas rule) else → allow. Write_TS(X) = max(Write_TS(X), TS(Ti)) </code>`` <strong>Exam-ready point:</strong> no lock waiting ⇒ <strong>lock-based deadlock is impossible</strong>. Cost = repeated aborts waste work. (Detailed rule variants are [EXTERNAL] elaboration of the source's summary: "older = smaller timestamp. Violation ⇒ abort and restart.")</p>
+<hr>
+<h2 id="p11-transaction-state-machine-u3-2-p1">P11. Transaction state machine — U3 §2 · P1</h2>
+<p>``<code> ACTIVE ↓ last statement executes PARTIALLY COMMITTED ↓ commit succeeds → COMMITTED ↓ failure    → FAILED → ROLLBACK → ABORTED → restart/terminate </code>``</p>
+<p><strong>Chain:</strong> <em>Active → Partially committed → Committed; fail anywhere → Failed → Aborted.</em></p>
+<hr>
+<h2 id="p12-sql-transaction-flow-u3-4-p1">P12. SQL transaction flow — U3 §4 · P1</h2>
+<p>``<code> BEGIN / START TRANSACTION ↓ SQL operations (UPDATE …) ↓ ┌──────┴──────┐ success    error ↓       ↓ COMMIT    ROLLBACK   (SAVEPOINT → partial rollback to a marked point) ↓       ↓ durable   uncommitted work undone </code>``</p>
+<hr>
+<h2 id="p13-deferred-update-no-steal-redo-only-flavour-u3-9-p0">P13. Deferred update (no-steal, redo-only flavour) — U3 §9 · P0</h2>
+<p>``<code> TRANSACTION ↓ write LOG records only CONTINUE EXECUTION (no data page written) ↓ COMMIT APPLY / REDO updates → durable database ↓ CRASH before commit nothing reached the DB ⇒ normally NO UNDO needed </code>``</p>
+<p><strong>Chain:</strong> <em>Log → Commit → Redo.</em> <strong>Memory:</strong> <strong>Deferred = delay the data.</strong></p>
+<hr>
+<h2 id="p14-immediate-update-steal-flavour-u3-10-p0">P14. Immediate update (steal flavour) — U3 §10 · P0</h2>
+<p>``<code> TRANSACTION → log old/new values → data page MAY be written before commit ↓ COMMIT? YES → REDO if the page never reached disk NO → UNDO the pages already written </code>``</p>
+<p><strong>Chain:</strong> <em>Log → Write early → Undo uncommitted + Redo committed.</em></p>
+<hr>
+<h2 id="p15-shadow-paging-u3-11-p1">P15. Shadow paging — U3 §11 · P1</h2>
+<p>``<code> BEFORE:  ROOT → SHADOW PAGE TABLE (old, stable) → old pages UPDATE:  write modified pages to NEW locations. Build CURRENT page table COMMIT:  ROOT switches → CURRENT table   (old pages become garbage) CRASH BEFORE COMMIT: keep using SHADOW → old consistent state restored </code>``</p>
+<p><strong>Chain:</strong> <em>Old book safe → new book working → commit flips the pointer → crash uses old book.</em> <strong>Trade-off:</strong> simple recovery, but fragmentation + page-table copy overhead.</p>
+<hr>
+<h2 id="p16-log-based-recovery-with-wal-checkpoint-u3-12-p0">P16. Log-based recovery with WAL + checkpoint — U3 §12 · P0</h2>
+<p><strong>INPUT:</strong> a log on stable storage, a crash. <strong>OUTPUT:</strong> consistent database.</p>
+<p>``<code> NORMAL RUN: for every change, APPEND &lt;TID, item, old, new&gt. To the LOG ↓ WAL: log record reaches STABLE STORAGE before the data page is written ↓ periodically: CHECKPOINT (flush data, note active transactions) ↓ CRASH RECOVERY: START from the last CHECKPOINT (no full log scan) for each transaction: COMMITTED → REDO as needed UNCOMMITTED → UNDO as needed ↓ CONSISTENT DATABASE </code>``</p>
+<p><strong>Chain:</strong> <em>Log first → Checkpoint → Crash → Undo uncommitted → Redo committed.</em> <strong>Master recovery answer (source):</strong> <em>DEFINE → FAILURES → DEFERRED → IMMEDIATE → SHADOW → LOG → WAL → CHECKPOINT → UNDO/REDO → CONCLUSION.</em></p>
+<hr>
+<h2 id="p17-two-phase-commit-2pc-u4-4-p0">P17. Two-phase commit (2PC) — U4 §4 · P0</h2>
+<p>``<code> COORDINATOR          PARTICIPANTS (P1, P2, P3) ↓ PREPARE ──────────────────► record "prepared" state ◄──────────── YES / NO ───── vote ↓ all YES → COMMIT ─────────────► record + apply decision any NO → ABORT ─────────────► record + undo </code>`` <strong>Chain:</strong> <strong>ASK → VOTE → DECIDE.</strong> <strong>Exam-ready:</strong> "2PC guarantees atomic commitment. No site commits unless all can. But a participant in the prepared state may <em>block</em> if the coordinator's decision cannot be learned after a failure." <strong>Common mistake:</strong> calling 2PC a <em>locking</em> protocol. It is a <strong>commit</strong> protocol.</p>
+<hr>
+<h2 id="p18-fragmentation-allocation-replication-distributed-design-">P18. Fragmentation → allocation → replication (distributed design) — U4 §2–3 · P0/P1</h2>
+<p>``<code> RELATION R ↓ horizontal: split by predicate → R1(rows A), R2(rows B)     (completeness, reconstruction, disjointness) ↓ vertical:  split by columns → R1(cols+PK), R2(cols+PK)    (PK repeated so a JOIN reconstructs R) ↓ hybrid:   horizontal then vertical FRAGMENTS → ALLOCATION (which site: query frequency, locality, comm cost, storage, reliability) ↓ REPLICATION: full or partial copies DISTRIBUTED STORAGE with higher availability / local reads, at the cost of update coordination </code>``</p>
+<p><strong>Chain:</strong> <em>Horizontal=Rows → Vertical=Columns → Allocate → Replicate.</em></p>
+<hr>
+<h2 id="p19-sharding-strategy-selection-u4-9-p0">P19. Sharding strategy selection — U4 §9 · P0</h2>
+<p>``<code> DATASET TOO LARGE FOR ONE NODE ↓ CHOOSE SHARD KEY (distributes data+traffic evenly, supports common queries, no hotspots) ↓ RANGE   → key ranges per shard (good ranges, risk of hotspots) HASH    → hash(shard key) (even load, loses range locality) DIRECTORY → mapping service says where each key lives GEOGRAPHIC → assign by region (locality/compliance) ↓ SHARD 1 | SHARD 2 | SHARD 3 </code>``</p>
+<hr>
+<h2 id="p20-mongodb-aggregation-pipeline-u4-12-p0">P20. MongoDB aggregation pipeline — U4 §12 · P0</h2>
+<p>``<code> COLLECTION ↓ $match  filter documents ↓ $group  aggregate (e.g. Total per product) ↓ $project shape/compute fields ↓ $sort  order ↓ $limit  restrict (also $skip, $unwind, $lookup) RESULT </code>``</p>
+<p><strong>Worked example (source):</strong> <code>db.sales.aggregate([{$match:{status:'paid'}}, {$group:{_id:'$product', total:{$sum:'$amount'}}}, {$sort:{total:-1}}])</code> → <em>filters paid sales → groups by product → sums amount → sorts by total descending.</em> <strong>Chain:</strong> <em>Match → Group → Project → Sort → Limit.</em></p>
+<hr>
+<h2 id="p21-vector-similarity-search-u5-6-7-p0">P21. Vector similarity search — U5 §6–7 · P0</h2>
+<p>``<code> USER QUERY ↓ EMBED with the same embedding model → QUERY VECTOR ↓ VECTOR INDEX (brute force = compare all. ANN = HNSW graph / IVF clusters) ↓ TOP-K nearest neighbours (cosine / Euclidean / dot) ↓ attach metadata + original documents FINAL RESULTS </code>`` <strong>Chain:</strong> <em>Query → Embedding → Index → Top-K → Results.</em> <strong>Common mistake:</strong> embedding the query with a <strong>different model</strong> than the stored vectors. The space must be the same (practical point, [EXTERNAL]).</p>
+<hr>
+<h2 id="p22-query-driven-cassandra-design-u5-2-11-p0">P22. Query-driven Cassandra design — U5 §2, §11 · P0</h2>
+<p>``<code> START from the QUERY pattern ↓ choose PARTITION KEY → answers "WHERE will this query look?" ↓ choose CLUSTERING COLS → answers "in what ORDER do rows come back?" ↓ duplication of data is ACCEPTABLE (joins are the thing to avoid) TABLE + index design → efficient partition-local query </code>``</p>
+<p><strong>Chain:</strong> <em>Query → Partition key → Clustering order → Duplicate if needed.</em></p>
+<hr>
+<h2 id="p23-the-20-mark-answer-process-writing-algorithm-source-intr">P23. The 20-mark answer process (writing algorithm) — source intro · P0</h2>
+<p>``<code> READ the question twice → identify exactly what is asked ↓ INTRODUCTION: 5–7 lines. Define + why it matters ↓ LABELLED DIAGRAM / FLOW (architecture, process, hierarchy, algorithm) ↓ COMPONENTS under separate headings (never one blob paragraph) ↓ PRACTICAL EXAMPLE (table, relation, transaction, query, scenario) ↓ ADVANTAGES / LIMITATIONS / COMPARISON ↓ CONCLUSION: 3–4 lines tying to correctness, performance, scalability or reliability </code>`` <strong>Shape:</strong> <strong>DEFINE → DRAW → EXPLAIN COMPONENTS → EXAMPLE → COMPARE/ADVANTAGES → CONCLUDE.</strong></p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

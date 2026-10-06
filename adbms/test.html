@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test details (format hypothesis + choice strategy) — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Test details (format hypothesis + choice strategy)</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#test-details-md-known-format-assumed-slots-choice-strategy">test-details.md — Known Format, Assumed Slots, Choice Strategy</a></li><li class="l2"><a href="#1-known-facts">1. Known facts</a></li><li class="l2"><a href="#2-assumed-format-hypothesis-built-from-the-answer-bank">2. ASSUMED format (hypothesis, built from the answer bank)</a></li><li class="l2"><a href="#3-choice-pair-hypotheses-pick-sides-strategy">3. Choice-pair hypotheses + pick-sides strategy</a></li><li class="l2"><a href="#4-study-doctrine-floor-first">4. Study doctrine (floor first)</a></li><li class="l2"><a href="#5-time-budgets-assumed-100-marks-3-h-1-8-min-mark">5. Time budgets (ASSUMED 100 marks / 3 h → 1.8 min/mark)</a></li><li class="l2"><a href="#6-professor-hint-log-fill-as-hints-arrive">6. Professor-hint log (fill as hints arrive)</a></li><li class="l2"><a href="#7-gap-list-format-unknowns-content-has-no-gaps-vs-the-source">7. Gap list (format unknowns — content has no gaps vs the source)</a></li></ol></nav><div class="content"><h1 id="test-details-md-known-format-assumed-slots-choice-strategy">test-details.md — Known Format, Assumed Slots, Choice Strategy</h1>
+<p><em>Living file (EDT-prompt pattern): facts first, assumptions labeled <strong>ASSUMED</strong>, professor hints logged as they arrive. No past paper was found in this folder — every slot below is an inference from the source's own 20-mark answer bank + "EXAM-READY POINT" markers, NOT a confirmed paper.</em></p>
+<hr>
+<h2 id="1-known-facts">1. Known facts</h2>
+<ul><li>Source: <code>ADBMS_MasterNotes.docx</code> (36 pp., 5 units, 61 chapters) + memorization sheet. Both unmodified.</li><li>The source's own 20-mark answer bank covers: normalization ladder, recovery techniques, fragmentation/2PC, indexing, ACID (see <a href="docs/answers.html"><code>answer-bank.md</code></a> 20-mark skeletons).</li><li>Priority evidence: P0 = 35 chapters, P1 = 24, P2 = 2 (see <a href="docs/guide.html"><code>master-study-guide.md</code></a>).</li><li>Exam date/time: <strong>fill in</strong> — budgets below assume 100 marks / 3 h; rescale if different.</li></ul>
+<h2 id="2-assumed-format-hypothesis-built-from-the-answer-bank">2. ASSUMED format (hypothesis, built from the answer bank)</h2>
+<div class="tscroll"><table><thead><tr><th>Slot</th><th>Likely content</th><th>Voice (<a href="voices.html"><code>answer-voices.md</code></a>)</th><th>Floor?</th></tr></thead><tbody>
+<tr><td>Compulsory short answers (2-mark)</td><td>Definitions + one example from ALL units</td><td>L1 recall</td><td><strong>YES — bulletproof first</strong></td></tr>
+<tr><td>5-mark explains</td><td>SQL families, constraints, FD basics, isolation levels, BASE, sharding</td><td>L2 explain</td><td><strong>YES</strong></td></tr>
+<tr><td>10-mark mechanisms</td><td>2PL, serializability test, B+ tree, 2PC, MongoDB pipeline, Cassandra model</td><td>intro/core/analysis/conclusion</td><td>one side each</td></tr>
+<tr><td>20-mark spines</td><td>Normalization ladder · ACID · CAP · Recovery chain · Cross-system indexing</td><td>full spine</td><td>one strong side each</td></tr>
+</tbody></table></div>
+<h2 id="3-choice-pair-hypotheses-pick-sides-strategy">3. Choice-pair hypotheses + pick-sides strategy</h2>
+<p>Likely internal-choice pairings (same family, pick ONE side after covering both once):</p>
+<ol><li><strong>Normalization theory vs applied normalization</strong> (FDs → keys → NF → BCNF steps).</li><li><strong>B+ tree indexing vs concurrency control</strong> (problems + why needed).</li><li><strong>SQL families vs integrity constraints.</strong></li><li><strong>CAP/BASE vs fragmentation/2PC.</strong></li></ol>
+<p>Say <code>pick sides</code> in the tutor once both sides of a pair are covered: chosen side goes to Red depth (<a href="wms.html"><code>write-memorize-skip.md</code></a> boxes + timed writing), the other drops to Yellow (skim <a href="docs/likely.html"><code>likely-questions.md</code></a> MED once, near the exam, in case the slot fills differently). <strong>Never give an unchosen side or a Green topic Red-level depth.</strong></p>
+<h2 id="4-study-doctrine-floor-first">4. Study doctrine (floor first)</h2>
+<ol><li>Q1-style recall (all units) + 5-mark explains = the floor. Bulletproof before any 20-mark depth.</li><li>Then one strong side per choice pair (§3).</li><li>Yellow topics exist as plausible substitutes, not because they need Red depth.</li><li>Missed block? Compress the middle (drop Green/Yellow depth); protect warm-up, gap-close, and one timed mock.</li></ol>
+<h2 id="5-time-budgets-assumed-100-marks-3-h-1-8-min-mark">5. Time budgets (ASSUMED 100 marks / 3 h → 1.8 min/mark)</h2>
+<p>2-mark = 4 min · 5-mark = 9 min · 10-mark = 17 min · 20-mark = 35 min (read→write→check splits in <a href="voices.html"><code>answer-voices.md</code></a> §0).</p>
+<h2 id="6-professor-hint-log-fill-as-hints-arrive">6. Professor-hint log (fill as hints arrive)</h2>
+<div class="tscroll"><table><thead><tr><th>Date</th><th>Hint</th><th>Affected topics</th><th>Action</th></tr></thead><tbody>
+<tr><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<h2 id="7-gap-list-format-unknowns-content-has-no-gaps-vs-the-source">7. Gap list (format unknowns — content has no gaps vs the source)</h2>
+<ul><li>Exact mark split and choice pattern: unknown (slots in §2 are inferences).</li><li>Recovery-in-Unit-3 style coverage: source HAS it (U3-9→12) — no action.</li><li>If the professor names excluded topics, log them here and downgrade immediately.</li></ul></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

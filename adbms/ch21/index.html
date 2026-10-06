@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ CAP: the precise claim — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 4 · ▶ Narrated</div>
+<h2 class="ptitle">▶ CAP: the precise claim</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch10.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch20/index.html">◀ ACID lesson</a>
+</div>
+<p class="foot">Pilot lesson 3. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC2 = { id: 'QAC2', topic: 'U4-7', unit: 'U4', pri: 'P0',
+  text: 'A shop claims its system "picks any two of C, A and P at all times". True or false?',
+  opts: ['True', 'False'], ans: 1,
+  why: 'The trade-off exists only during a network partition — "at all times" is the classic wrong answer.',
+  whyNot: 'Without a partition a system can have all three; the theorem bites only when the wire cuts.',
+  hint: 'Keys: name the condition, not just the letters.' };
+const QAC3 = { id: 'QAC3', topic: 'U4-7', unit: 'U4', pri: 'P0',
+  text: 'During a cut, a bank stops answering rather than risk wrong balances. Which choice?',
+  opts: ['CP', 'AP', 'CA', 'ACID'], ans: 0,
+  why: 'Correctness over availability during a partition is CP — careful and patient.',
+  whyNot: 'AP keeps answering (possibly stale); CA is not a real CAP choice since P is mandatory.',
+  hint: 'Keys: which did the bank sacrifice — answers or correctness?' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty-one. [[sub]]C A P: the most misquoted theorem in the subject.',
+  svg: `<g>${T(800, 400, 'CAP: the precise claim', 92, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'the most misquoted theorem in the subject', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'one cut wire decides everything', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'The cut wire', short: '0',
+  say: 'Two branches of one bank. One wire between them. [[cut]]A storm cuts the wire, mid-transfer. [[choice]]The branch must choose. Turn customers away and stay correct? Or keep answering, knowing the numbers may be stale? [[w]]Write this: a partition forces a choice between correct and answering.',
+  svg: `<g><rect x="250" y="250" width="380" height="200" rx="18" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="cut" class="pre"/>
+    ${T(440, 340, 'Branch A', 48, C.quiz, 'middle', 'cut')}
+    <rect x="970" y="250" width="380" height="200" rx="18" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="cut" class="pre"/>
+    ${T(1160, 340, 'Branch B', 48, C.quiz, 'middle', 'cut')}
+    <path d="M630 350 H970" stroke="${C.bad}" stroke-width="6" pathLength="1" data-step="cut" class="pre"/>
+    ${T(800, 320, '⚡ CUT mid-transfer', 40, C.bad, 'middle', 'cut')}
+    ${T(440, 560, 'turn away = correct', 40, C.good, 'middle', 'choice')}
+    ${T(1160, 560, 'keep answering = maybe stale', 40, C.task, 'middle', 'choice')}
+    ${T(800, 680, 'correct OR answering — pick one', 46, C.chalk, 'middle', 'choice')}
+    ${EXAM('a partition forces correct-vs-answering')}</g>` },
+
+{ id: 'cap', title: 'C · A · P', short: 'CAP',
+  say: 'Three promises, one per letter. [[c]]C: consistency. Every read gets the latest write, or an error. [[a]]A: availability. Every working branch answers every customer. [[p]]P: partition tolerance. The bank keeps working despite the cut wire. [[w]]Write this: latest-or-error, every-node-answers, works-despite-cut.',
+  svg: `<g>${[['C', 'latest write or error', C.task, 'c', 300], ['A', 'every node answers', C.quiz, 'a', 460], ['P', 'works despite the cut', C.good, 'p', 620]].map(([l, d, c, st, y]) =>
+    `<circle cx="430" cy="${y - 16}" r="40" fill="none" stroke="${c}" stroke-width="6" data-step="${st}" class="pre"/>
+     <text x="430" y="${y}" font-size="48" fill="${c}" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${l}</text>
+     <text x="510" y="${y}" font-size="42" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${d}</text>`).join('')}
+    ${EXAM('latest-or-error, answers, despite-cut')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q103'],
+  say: 'Quick check. [[q]]During a partition, a system keeps answering with possibly stale data. It chose?',
+  svg: `<g>${T(800, 400, 'partition + answering + stale', 52, C.quiz)}
+    ${T(800, 500, 'It chose…?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'choices', title: 'CP vs AP', short: 'CP',
+  say: 'Here is the whole theorem in one picture. [[pin]]P is not optional. The wire will cut, so every real system takes P, then picks C or A. [[cp]]C P: careful and patient. The bank turns customers away rather than risk wrong balances. [[ap]]A P: always present. The shop keeps answering, and converges later. That convergence has a name: BASE. Basically Available, Soft state, Eventual consistency. [[trap]]Never write: pick any two of three at all times. The trade exists only during a partition. [[w]]Write this: P pinned, C-P bank, A-P shop, condition named.',
+  svg: `<g><path d="M800 200 L450 560 H1150 Z" stroke="${C.dim}" stroke-width="4" fill="none" pathLength="1" data-step="pin" class="pre"/>
+    ${T(800, 170, 'C', 56, C.task, 'middle', 'pin')}${T(420, 620, 'A', 56, C.quiz, 'middle', 'pin')}${T(1180, 620, 'P ★ pinned', 52, C.good, 'middle', 'pin')}
+    ${T(800, 420, 'CP: bank, careful &amp; patient', 36, C.task, 'middle', 'cp')}
+    ${T(800, 490, 'AP: shop, always present → BASE', 36, C.quiz, 'middle', 'ap')}
+    ${T(800, 660, '✗ “any two at all times”', 44, C.bad, 'middle', 'trap')}
+    ${T(800, 730, 'trade exists ONLY during a partition', 40, C.task, 'middle', 'trap')}
+    ${EXAM('P pinned, CP bank, AP shop, condition named')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q136'],
+  say: 'Quick check. [[q]]The CAP trade-off is specifically about what?',
+  svg: `<g>${T(800, 400, 'C / A / P trade off when…?', 56, C.quiz)}
+    ${T(800, 500, 'Specifically about what?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]No partition, no trade-off: the condition is the cut wire. [[w2]]P is pinned; the live choice is C-P bank versus A-P shop. [[w3]]BASE is the A-P lifestyle: available now, consistent later.',
+  svg: `<g>${[['1', 'Condition first: the cut wire.', 'w1', 300], ['2', 'P pinned: CP bank vs AP shop.', 'w2', 470], ['3', 'BASE = available now, consistent later.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="330" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="330" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="400" y="${y}" font-size="38" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q104'],
+  say: 'Chapter practice. [[q]]What does the S in BASE stand for?',
+  svg: `<g>${T(800, 430, 'B · A · S · E', 64, C.quiz)}${T(800, 520, 'The S stands for…?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['QAC2'],
+  say: 'Chapter practice. [[q]]True or false: a system may pick any two of C, A, P at all times.',
+  svg: `<g>${T(800, 430, '“any two at all times”?', 56, C.quiz)}${T(800, 520, 'True or false?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['QAC3'],
+  say: 'Chapter practice. [[q]]A bank stops answering to stay correct during a cut. Which choice?',
+  svg: `<g>${T(800, 430, 'silent but correct', 56, C.quiz)}${T(800, 520, 'CP or AP?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Quote it precisely and the marks are safe. Next stop: two-phase locking.',
+  svg: `<g>${T(800, 380, '★ Precisely quoted ★', 72, C.good)}${T(800, 480, 'condition → pinned P → CP vs AP', 44, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+for (const q of [QAC2, QAC3]) if (!window.MCQ_BY_ID[q.id]) window.MCQ_BY_ID[q.id] = q;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 21;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

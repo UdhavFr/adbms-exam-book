@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory: devices + hooks (one hub) — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Memory: devices + hooks (one hub)</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#memorization-techniques-md-the-right-device-per-topic">memorization-techniques.md — The Right Device per Topic</a></li><li class="l2"><a href="#0-operating-rules-non-negotiable">0. Operating rules (non-negotiable)</a></li><li class="l2"><a href="#1-technique-catalog-codes-used-in-2-3">1. Technique catalog (codes used in §2–§3)</a></li><li class="l2"><a href="#2-assignment-map-tier-s-fully-worked-in-3-rest-mapped-here">2. Assignment map (Tier-S fully worked in §3; rest mapped here)</a></li><li class="l2"><a href="#3-fully-worked-devices-recite-these-don-t-just-read">3. Fully-worked devices (recite these, don't just read)</a></li><li class="l2"><a href="#4-one-word-discriminators-the-whole-confusables-list-one-wor">4. One-word discriminators (the whole confusables list, one word each)</a></li><li class="l2"><a href="#5-what-not-to-memorize-derive-dedupe-or-drop">5. What NOT to memorize (derive, dedupe, or drop)</a></li><li class="l2"><a href="#memory-hooks-md-mnemonics-chains-anchors">memory-hooks.md — Mnemonics, Chains, Anchors</a></li><li class="l2"><a href="#1-whole-subject-skeleton-4-chains-learn-this-first">1. Whole-subject skeleton (4 chains) ← learn this first</a></li><li class="l2"><a href="#2-definitions-worth-a-word-chain">2. Definitions worth a word-chain</a></li><li class="l2"><a href="#3-unit-1-processing-hooks">3. Unit 1 processing hooks</a></li><li class="l2"><a href="#4-normalization-hooks-the-money-hooks">4. Normalization hooks ← the money hooks</a></li><li class="l2"><a href="#5-transaction-amp-recovery-hooks">5. Transaction &amp;amp; recovery hooks</a></li><li class="l2"><a href="#6-distributed-hooks">6. Distributed hooks</a></li><li class="l2"><a href="#7-nosql-store-hooks">7. NoSQL / store hooks</a></li><li class="l2"><a href="#8-contrast-pairs-to-recite-30-seconds-each">8. Contrast pairs to recite (30 seconds each)</a></li><li class="l2"><a href="#9-diagram-flash-method-draw-from-memory-90-s-each">9. Diagram-flash method (draw from memory, 90 s each)</a></li></ol></nav><div class="content"><h1 id="memorization-techniques-md-the-right-device-per-topic">memorization-techniques.md — The Right Device per Topic</h1>
+<p><em>Two inputs merged: Blockchain §6 memory rules + a research pass on mnemonic fit (consensus: acronyms/acrostics for short ordered lists, keyword method for terms, loci for long ordered sets, chaining for sequences — matched to material, never one-size-fits-all). Rule zero (BC): a mnemonic must be faster than the plain list, and acronym letters must match the notes' list exactly. Concepts use cause-effect chains; procedures use worked reps, not acronyms.</em></p>
+<hr>
+<h2 id="0-operating-rules-non-negotiable">0. Operating rules (non-negotiable)</h2>
+<ol><li><strong>Retrieve before reveal:</strong> cover the device, recite aloud, then check. Reading a mnemonic is not learning it.</li><li><strong>SOLID = correct in 2 separate sessions:</strong> tonight's block + the morning block. Anything correct only once is re-tested, not trusted.</li><li><strong>Red topics get a redrawn diagram</strong> (look → cover → draw → compare, 3 reps). Labels carry marks — label-first.</li><li><strong>40-min blocks, 5–10 min breaks.</strong> No all-nighter; morning = light retrieval only.</li><li>Warm-up sets live in <a href="plan.html"><code>revision-plan.md</code></a> session rules; confidence-first in <a href="docs/tracker.html"><code>weakness-tracker.md</code></a> §7.</li></ol>
+<hr>
+<h2 id="1-technique-catalog-codes-used-in-2-3">1. Technique catalog (codes used in §2–§3)</h2>
+<div class="tscroll"><table><thead><tr><th>Code</th><th>Technique</th><th>Wins when…</th></tr></thead><tbody>
+<tr><td>ACR</td><td>Acronym (letters = word)</td><td>unordered short sets (ACID, BASE)</td></tr>
+<tr><td>RST</td><td>Acrostic sentence (first letters)</td><td>ordered lists ≤7 (SQL clause order, pipeline)</td></tr>
+<tr><td>CHK</td><td>Chunking (groups ≤4)</td><td>5–9 items (ER rules, sharding, cover steps)</td></tr>
+<tr><td>KW</td><td>Keyword image</td><td>one abstract term (WAL, checkpoint, cosine)</td></tr>
+<tr><td>STY</td><td>Story chain</td><td>sequences with cause-effect (2PC, anomalies)</td></tr>
+<tr><td>LOC</td><td>Memory palace (one route, stations)</td><td>the 6-step 20-mark spine; isolation ladder pegs</td></tr>
+<tr><td>DRW</td><td>Draw reps (look-cover-draw-compare ×3)</td><td>all 11 required diagrams</td></tr>
+<tr><td>WRT</td><td>Write reps (×3 from memory)</td><td>commands, definitions' openers, formulas</td></tr>
+<tr><td>CE</td><td>Cause-effect chain</td><td>concepts (why deferred needs no UNDO)</td></tr>
+<tr><td>D1W</td><td>One-word discriminator</td><td>every confusable pair (§4)</td></tr>
+<tr><td>REP</td><td>Worked reps (3 fresh problems)</td><td>procedures (closure, NF tests, graphs) — never acronyms</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="2-assignment-map-tier-s-fully-worked-in-3-rest-mapped-here">2. Assignment map (Tier-S fully worked in §3; rest mapped here)</h2>
+<div class="tscroll"><table><thead><tr><th>Topic</th><th>Chapters</th><th>Device</th><th>Already-have pointer</th></tr></thead><tbody>
+<tr><td>Normalization ladder</td><td>U2-1→11</td><td>STY (pizza sheet) + RST (ladder sentence) + REP</td><td><a href="mem.html"><code>memory-hooks.md</code></a> §4, ch19 narrated</td></tr>
+<tr><td>ACID + states</td><td>U3-1→4</td><td>ACR + STY (transfer) + DRW (states)</td><td>ch20 narrated</td></tr>
+<tr><td>CAP/BASE</td><td>U4-7/8</td><td>D1W ("during a partition") + ACR + KW triangle</td><td><a href="cram.html"><code>final-cram.md</code></a> §5</td></tr>
+<tr><td>2PL + deadlock</td><td>U3-6</td><td>KW (grow=grab) + CE + D1W (2PL≠2PC)</td><td>hooks §5</td></tr>
+<tr><td>Recovery chain</td><td>U3-9→12</td><td>STY + CE (no log→no undo) + D1W per scheme</td><td>hooks §5</td></tr>
+<tr><td>Serializability</td><td>U3-5</td><td>REP (graphs) + D1W (cycle=bad)</td><td>processes P8–P11</td></tr>
+<tr><td>B+ tree vs hash</td><td>U2-13/14</td><td>KW (Between/Has-exactly) + DRW</td><td>hooks §4</td></tr>
+<tr><td>ER mapping (7 rules)</td><td>U1-4/5</td><td>CHK 2-2-3 + D1W (cardinality≠participation)</td><td>hooks §3</td></tr>
+<tr><td>Fragmentation + 2PC + sharding</td><td>U4-2/4/9</td><td>STY (planner) + CHK + RST</td><td>hooks §6</td></tr>
+<tr><td>Cross-system indexing</td><td>U5-8→14</td><td>CE + KW per system + D1W (partition≠clustering, HNSW≠IVF)</td><td>hooks §7</td></tr>
+<tr><td>SQL families + clauses</td><td>U1-7</td><td>RST (families + execution order) + WRT</td><td>hooks §3</td></tr>
+<tr><td>Integrity constraints</td><td>U1-8</td><td>KW (PK carved, FK leash) + D1W</td><td>flashcards</td></tr>
+<tr><td>Isolation levels</td><td>U3-4</td><td>LOC pegs 1–4 + CE (each level kills one anomaly)</td><td>§3</td></tr>
+<tr><td>Minimal cover</td><td>U2-11</td><td>ACR (SSS) + REP</td><td>§3</td></tr>
+<tr><td>MongoDB pipeline</td><td>U4-12</td><td>RST (My Great Shoes) + CE (filter first)</td><td>hooks §7</td></tr>
+<tr><td>Vector search</td><td>U5-6/7/13</td><td>KW (angle/ruler/shadow) + D1W</td><td>hooks §7</td></tr>
+<tr><td>Three-level architecture</td><td>U1-3</td><td>LOC 3 stations (flat→blueprint→engine room)</td><td>diagrams D1</td></tr>
+<tr><td>Schema vs instance</td><td>U1-2</td><td>D1W (blueprint vs photo)</td><td>flashcards</td></tr>
+<tr><td>Lossless/preservation</td><td>U2-9/10</td><td>D1W (reconstruct vs enforce) + anchor example</td><td>comparisons</td></tr>
+<tr><td>Stores (4 + vector)</td><td>U4-6/10/11, U5-1→5</td><td>ACR (Doctors…) + KW use-case each</td><td>hooks §7</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="3-fully-worked-devices-recite-these-don-t-just-read">3. Fully-worked devices (recite these, don't just read)</h2>
+<p><strong>Isolation ladder — LOC pegs (weakest→strongest):</strong></p>
+<p>Chain: each level kills exactly one anomaly. Gate: recite 1→4 with the killed anomaly each.</p>
+<ol><li><strong>Dirty glass</strong> (Read Uncommitted — you drink unwashed data: dirty reads).</li><li><strong>Clean glass</strong> (Read Committed — washed once: no dirty reads).</li><li><strong>Photocopier</strong> (Repeatable Read — your copy can't change under you; new pages may still arrive = phantoms).</li><li><strong>Single-file queue</strong> (Serializable — one after another, full isolation).</li></ol>
+<p><strong>SQL execution order — RST:</strong> FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. Sentence: "<strong>F</strong>at <strong>W</strong>orms <strong>G</strong>obble <strong>H</strong>ot <strong>S</strong>paghetti <strong>O</strong>ften." Letters match the notes' order exactly. Corollary hook: WHERE filters rows (before), HAVING filters groups (after).</p>
+<p><strong>SQL families — RST + verbs:</strong> <strong>D</strong>DL <em>Defines</em>, D<strong>M</strong>L <em>Manipulates</em>, D<strong>C</strong>L <em>Controls access</em>, T<strong>C</strong>L <em>Tames transactions</em>. Write-reps: CREATE/ALTER/DROP · SELECT/INSERT/UPDATE/DELETE · GRANT/REVOKE · COMMIT/ROLLBACK/SAVEPOINT (3× each from memory).</p>
+<p><strong>Minimal cover — ACR:</strong> <strong>S</strong>plit RHS → <strong>S</strong>hrink LHS → <strong>S</strong>hed redundant FDs. Then REP on two FD sets.</p>
+<p><strong>MongoDB pipeline — RST + CE:</strong> "<strong>M</strong>y <strong>G</strong>reat <strong>S</strong>hoes" ($match → $group → $sort; $project shapes, $limit caps). CE: filter first = every later stage touches less data. Gate: reorder a shuffled pipeline.</p>
+<p><strong>ER 7 rules — CHK 2-2-3:</strong> [entity→table · attributes→columns] [1:N = FK on N · M:N = junction] [multivalued→own table · composite→flatten · weak→owner-key + discriminator].</p>
+<p><strong>Sharding — CHK + images:</strong> Range (library shelves in order — locality) · Hash (lottery balls — balance, ranges die) · Directory (librarian's index — lookup map) · Geographic (local branch — latency).</p>
+<p><strong>WAL — KW + CE:</strong> a <strong>ship's log written before the cargo moves</strong>. CE: no log-before-data → crash leaves changes with no undo/redo record → unrecoverable. Hence "log first, always".</p>
+<div class="callout checkpoint"><b class="tag">Check</b>— KW:<strong> a </strong>bookmark jammed into the log**. Recovery starts at the bookmark, not page one.</div>
+<p><strong>Locks — KW:</strong> <strong>S</strong>hared = reading room (many readers, no pens). e<strong>X</strong>clusive = locked diary (one writer, nobody else).</p>
+<p><strong>Cosine/Euclidean/dot — KW:</strong> cosine = <strong>angle between arrows</strong> (direction, not length) · Euclidean = <strong>ruler distance</strong> · dot = <strong>shadow length</strong> (projection).</p>
+<p><strong>20-mark spine — LOC palace (6 stations, reuse for every long answer):</strong> <strong>Door</strong> (Define 5–7 lines) → <strong>Hallway picture</strong> (Diagram) → <strong>Rooms</strong> (Elaborate, one room per component) → <strong>Kitchen demo</strong> (Example you can touch) → <strong>Scales</strong> (Pros vs cons) → <strong>Guestbook</strong> (Conclusion 3–4 lines). Walk it before every 20-mark answer; the examiner's key follows the same route.</p>
+<hr>
+<h2 id="4-one-word-discriminators-the-whole-confusables-list-one-wor">4. One-word discriminators (the whole confusables list, one word each)</h2>
+<div class="tscroll"><table><thead><tr><th>Pair</th><th>Discriminator</th></tr></thead><tbody>
+<tr><td>3NF vs BCNF</td><td><strong>OR</strong> vs <strong>ONLY</strong> (prime allowed or not)</td></tr>
+<tr><td>CAP phrasing</td><td><strong>partition</strong> (only during one)</td></tr>
+<tr><td>σ vs π</td><td><strong>rows</strong> vs <strong>columns</strong></td></tr>
+<tr><td>FK placement</td><td><strong>N-side</strong> (many gets the key)</td></tr>
+<tr><td>WAL order</td><td><strong>log-first</strong> (never data-first)</td></tr>
+<tr><td>2PL vs 2PC</td><td><strong>locking</strong> vs <strong>agreement</strong></td></tr>
+<tr><td>Lossless vs preservation</td><td><strong>reconstruct</strong> vs <strong>enforce</strong></td></tr>
+<tr><td>Deferred vs immediate</td><td><strong>REDO-only</strong> vs <strong>UNDO+REDO</strong></td></tr>
+<tr><td>Horizontal vs vertical frag</td><td><strong>rows</strong> vs <strong>columns</strong> (UNION vs JOIN-on-key)</td></tr>
+<tr><td>B+ vs hash</td><td><strong>range</strong> vs <strong>equality</strong></td></tr>
+<tr><td>Partition vs clustering key</td><td><strong>place</strong> vs <strong>order</strong></td></tr>
+<tr><td>HNSW vs IVF</td><td><strong>graph</strong> vs <strong>clusters</strong></td></tr>
+<tr><td>Repeatable Read vs Serializable</td><td><strong>phantoms</strong> (survive vs die)</td></tr>
+<tr><td>Schema vs instance</td><td><strong>blueprint</strong> vs <strong>photo</strong></td></tr>
+<tr><td>Cardinality vs participation</td><td><strong>how-many</strong> vs <strong>mandatory</strong></td></tr>
+<tr><td>Entity vs referential integrity</td><td><strong>PK-valid</strong> vs <strong>FK-matches</strong></td></tr>
+<tr><td>Atomicity vs durability</td><td><strong>all-or-nothing</strong> vs <strong>survives-crash</strong></td></tr>
+<tr><td>Consistency (ACID) vs isolation</td><td><strong>rules-hold</strong> vs <strong>separate-rooms</strong></td></tr>
+<tr><td>Eventual consistency</td><td><strong>converge</strong> (never "loss")</td></tr>
+<tr><td>$match position</td><td><strong>first</strong> (cut early)</td></tr>
+</tbody></table></div>
+<p>Drill: cover the right column, recite the word. One wrong word = one lost mark.</p>
+<hr>
+<h2 id="5-what-not-to-memorize-derive-dedupe-or-drop">5. What NOT to memorize (derive, dedupe, or drop)</h2>
+<ul><li>Armstrong axioms (use reflexivity/augmentation/transitivity — never recite them).</li><li>4NF/5NF beyond one line each; B-tree split algorithms; CouchDB depth; EER depth (SKIP boxes agree).</li><li>Full definitions past the opener: memorize the first 5–7 words verbatim (exam opener), reconstruct the rest from keywords.</li><li>Any two mnemonics for the same list — one device per list, the §3 one wins.</li></ul></div><div class="content"><h2 id="memory-hooks-md-mnemonics-chains-anchors">memory-hooks.md — Mnemonics, Chains, Anchors</h2>
+<p>&gt; Companion: [<a href="mem.html"><code>memorization-techniques.md</code></a>](memorization-techniques.md) assigns the apt device &gt; per topic (acronym / story / loci / discriminator), with fully-worked devices and drill protocols. &gt; Hooks below are the raw material; the techniques file says how to encode each one.</p>
+<p>Only hooks that actually help are listed — each is paired with the fact it unlocks. Priority order: <strong>lists → sequences → protocols → classifications → differences → terminology.</strong></p>
+<hr>
+<h2 id="1-whole-subject-skeleton-4-chains-learn-this-first">1. Whole-subject skeleton (4 chains) ← <em>learn this first</em></h2>
+<p>``<code> DESIGN:       ER → RELATIONAL → FD → NORMALIZATION → INDEXING → QUERY PERFORMANCE RELIABILITY:  TRANSACTION → ACID → CONCURRENCY → SERIALIZABILITY → LOCKS/2PL → RECOVERY DISTRIBUTION: DISTRIBUTED DB → FRAGMENT/REPLICATE → 2PC → CAP → NoSQL → SHARDING NoSQL:        MongoDB / Cassandra / Redis / Neo4j / VECTOR DB → specialised access patterns </code>`` If you forget where a topic lives, place it in one of these four chains.</p>
+<hr>
+<h2 id="2-definitions-worth-a-word-chain">2. Definitions worth a word-chain</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>DBMS functions</td><td><strong>D-S-R-U-S-R</strong> = Define, Store, Retrieve, Update, Secure, Recover</td></tr>
+<tr><td>9 DBMS functions (expanded)</td><td><em>Loci:</em> Door = schema · warehouse = storage · search desk = query · cashier = transaction · traffic police = concurrency · rule checker = integrity · guard = security · emergency room = recovery · catalogue = metadata</td></tr>
+<tr><td>Three-level architecture</td><td><strong>E-C-I</strong> = External → Conceptual → Internal</td></tr>
+<tr><td>Data independence</td><td><strong>P</strong> = Pages/physical · <strong>L</strong> = Logic/logical</td></tr>
+<tr><td>Data models list</td><td><em>Chunk:</em> old structural = Hierarchical/Network/Relational · conceptual/object = ER/Object-oriented · modern NoSQL = Document/Key-value/Column-family/Graph</td></tr>
+<tr><td>Keys</td><td><strong>Nested boxes:</strong> Super → Candidate (minimal) → Primary (chosen); unchosen candidate = Alternate; <strong>Foreign = points elsewhere</strong></td></tr>
+<tr><td>Schema vs instance</td><td><strong>BLUEPRINT = schema · CURRENT BUILDING = instance</strong></td></tr>
+<tr><td>Cardinality anchors</td><td>Person–Passport = 1:1 · Department–Employee = 1:N · Student–Course = M:N</td></tr>
+<tr><td>Participation</td><td><strong>Total = mandatory · Partial = optional</strong></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="3-unit-1-processing-hooks">3. Unit 1 processing hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>ER→relational (7 rules)</td><td><strong>Entity→table · Composite→split · Multi→new table · 1:1→FK · 1:N→FK on N · M:N→new table · Weak→owner key + partial key</strong></td></tr>
+<tr><td>Relational vocabulary</td><td>Relation=table, Tuple=row, Attribute=column, Domain=permitted values, Degree=#columns, Cardinality=#rows</td></tr>
+<tr><td>Relational algebra</td><td><strong>Selection selects RECORDS, Projection selects FIELDS</strong> (S↔rows, P↔columns)</td></tr>
+<tr><td>SQL categories</td><td><strong>DDL=Design · DML=Manipulate · DCL=Control access · TCL=Transaction</strong></td></tr>
+<tr><td>SQL processing order</td><td>rhythm: <strong>FROM – WHERE – GROUP – HAVING – SELECT – ORDER – LIMIT</strong></td></tr>
+<tr><td>Integrity constraints</td><td><strong>D-E-R</strong> (Domain, Entity, Referential) <strong>+ U-C-N</strong> (UNIQUE, CHECK, NOT NULL)</td></tr>
+<tr><td>Anomalies</td><td><strong>I-U-D</strong> = Insertion / Update / Deletion</td></tr>
+<tr><td>Unit-1 exam flow</td><td>Requirements → ER → constraints → relational schema → normalization → SQL implementation</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="4-normalization-hooks-the-money-hooks">4. Normalization hooks ← <em>the money hooks</em></h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Ladder</td><td><strong>UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF</strong></td></tr>
+<tr><td>What each fixes</td><td><strong>1=Atomic · 2=Partial · 3=Transitive · BC=Determinant · 4=MVD · 5=Join</strong></td></tr>
+<tr><td>Acronym for the six</td><td><strong>A-P-T-D-M-J</strong> = Atomic, Partial, Transitive, Determinant, Multivalued, Join</td></tr>
+<tr><td>3NF vs BCNF</td><td><strong>3NF = OR · BCNF = ONLY</strong></td></tr>
+<tr><td>Attribute closure</td><td><strong>Start → Unlock → Add → Repeat → Complete</strong></td></tr>
+<tr><td>Minimal cover</td><td><strong>S-E-R</strong> = Split RHS → Extraneous LHS → Remove redundant FDs</td></tr>
+<tr><td>Lossless vs preservation</td><td><strong>Puzzle picture</strong> (exact rebuild) vs <strong>rules checked in each drawer</strong></td></tr>
+<tr><td>Canonical examples</td><td>2NF = ENROLL · 3NF = EMPLOYEE/DEPARTMENT · 4NF = HOBBIES+LANGUAGES</td></tr>
+<tr><td>Solving NF questions</td><td>FDs → Key → Prime/Non-prime → test in ladder order → decompose → verify</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="5-transaction-amp-recovery-hooks">5. Transaction &amp; recovery hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>ACID story</td><td>Atomicity = both debit <strong>and</strong> credit · Consistency = valid account state · Isolation = nobody sees a half-transfer · Durability = still there after restart</td></tr>
+<tr><td>Transaction states</td><td><strong>Active → Partially committed → Committed</strong>; failure branch <strong>Failed → Aborted</strong></td></tr>
+<tr><td>Isolation levels</td><td><strong>RU → RC → RR → S</strong> (increasing strength)</td></tr>
+<tr><td>Anomaly stories</td><td><em>"My write vanished"</em> (lost update) · <em>"I read dirty data"</em> (dirty read) · <em>"Same row changed"</em> (non-repeatable) · <em>"New matching rows appeared"</em> (phantom)</td></tr>
+<tr><td>Locks</td><td><strong>S = Shares · X = eXcludes</strong> (only S+S compatible)</td></tr>
+<tr><td>2PL phases</td><td><strong>GROWING → LOCK POINT → SHRINKING</strong></td></tr>
+<tr><td>Deadlock handling</td><td><strong>PADT</strong> = Prevention, Avoidance, Detection, Timeout</td></tr>
+<tr><td>Failure types</td><td><em>Loci:</em> transaction room → server/power room → disk room → network room</td></tr>
+<tr><td>Deferred vs immediate</td><td><strong>Deferred = delay the data · Immediate = data may already be on disk</strong></td></tr>
+<tr><td>Shadow paging</td><td><strong>old safe book / new working book</strong></td></tr>
+<tr><td>WAL</td><td><strong>LOG FIRST, DATA SECOND</strong></td></tr>
+<tr><td>Recovery master flow</td><td>DEFINE → FAILURES → DEFERRED → IMMEDIATE → SHADOW → LOG → WAL → CHECKPOINT → UNDO/REDO → CONCLUSION</td></tr>
+<tr><td>The single recovery rule</td><td><strong>Committed = REDO as needed · Uncommitted = UNDO as needed</strong></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="6-distributed-hooks">6. Distributed hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Architecture</td><td>SITE A ↔ NETWORK ↔ SITE B ↔ NETWORK ↔ SITE C</td></tr>
+<tr><td>Fragmentation</td><td><strong>Horizontal = Rows · Vertical = Columns</strong> (+ PK repeated)</td></tr>
+<tr><td>2PC</td><td><strong>ASK → VOTE → DECIDE</strong> (PREPARE → YES/NO → COMMIT/ABORT)</td></tr>
+<tr><td>CAP</td><td><strong>C-A-P, only meaningful DURING a partition</strong>; <em>never</em> "any two all the time"</td></tr>
+<tr><td>Consistency models</td><td>strong → eventual → causal → session (read-your-writes, monotonic reads)</td></tr>
+<tr><td>Sharding strategies</td><td><strong>Range · Hash · Directory · Geographic</strong> ("R-H-D-G")</td></tr>
+<tr><td>Good shard key</td><td>even spread · supports common queries · no hotspots</td></tr>
+<tr><td>System types</td><td>Homogeneous = <strong>same</strong> tech · Heterogeneous = <strong>different</strong> · Federated = <strong>independent but cooperating</strong></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="7-nosql-store-hooks">7. NoSQL / store hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Four models</td><td><strong>D-K-C-G</strong> = Document, Key-value, Column-family, Graph (anchor uses: catalog · cache · big distributed · social)</td></tr>
+<tr><td>Relational → MongoDB</td><td><strong>Database→Database, Table→Collection, Row→Document, Column→Field, PK→_id</strong></td></tr>
+<tr><td>MongoDB CRUD</td><td>every action has <strong>ONE / MANY</strong> (insertOne/insertMany, find/findOne, updateOne/updateMany, deleteOne/deleteMany)</td></tr>
+<tr><td>MongoDB operators</td><td>comparison <code>$gt $gte $lt $lte $eq $ne</code> · membership <code>$in $nin</code> · logical <code>$and $or $not $nor</code> · update <code>$set $unset $inc $push $pull</code></td></tr>
+<tr><td>Aggregation</td><td><strong>$match → $group → $project → $sort → $limit</strong> (<em>also $skip, $unwind, $lookup</em>)</td></tr>
+<tr><td>Cypher order</td><td><strong>CREATE → MATCH → WHERE → SET → DELETE</strong> ("Create → Find → Filter → Modify → Destroy")</td></tr>
+<tr><td>Cypher pattern</td><td><code>MATCH (node)-[:REL]-&gt;(node) RETURN …</code> — <strong>round = node, bracket = relationship</strong></td></tr>
+<tr><td>Cassandra</td><td><strong>Partition = Place · Clustering = Order</strong></td></tr>
+<tr><td>Redis</td><td>basic key → hash → time → counter (<strong>SET/GET · HSET/HGET · EXPIRE · INCR</strong>)</td></tr>
+<tr><td>Graph model</td><td><strong>Nodes = entities · Edges = relationships · Properties = attributes</strong></td></tr>
+<tr><td>Vector pipeline</td><td><strong>Query → Embedding → Index → Top-K</strong></td></tr>
+<tr><td>Similarity metrics</td><td><strong>Cosine = angle · Euclidean = distance · Dot = alignment + magnitude</strong></td></tr>
+<tr><td>ANN structures</td><td><strong>HNSW = GRAPH navigation · IVF = CLUSTERS</strong></td></tr>
+<tr><td>Index trade-off</td><td><strong>faster reads ↔ storage + maintenance cost</strong></td></tr>
+<tr><td>HBase vs Cassandra</td><td>HBase = <strong>H</strong>adoop-bound, row key + families, shell/API · Cassandra = <strong>independent</strong>, partition+clustering, CQL</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="8-contrast-pairs-to-recite-30-seconds-each">8. Contrast pairs to recite (30 seconds each)</h2>
+<p>``<code> schema ↔ instance          physical ↔ logical independence      degree ↔ cardinality super ↔ candidate key      selection ↔ projection               partial ↔ transitive 3NF OR ↔ BCNF ONLY         4NF ↔ 5NF                            lossless ↔ preserving B+ ↔ hash                  serial ↔ serializable               S ↔ X basic ↔ strict ↔ rigorous  deferred ↔ immediate ↔ shadow        undo ↔ redo 2PL ↔ 2PC                  horizontal ↔ vertical               fragmentation ↔ replication CAP ↔ BASE                 sharding ↔ replication              partition key ↔ clustering column traditional ↔ vector index cosine ↔ euclidean ↔ dot            HNSW ↔ IVF </code>``</p>
+<hr>
+<h2 id="9-diagram-flash-method-draw-from-memory-90-s-each">9. Diagram-flash method (draw from memory, 90 s each)</h2>
+<ol><li>Three-level architecture · 2. ER (STUDENT ◇ ENROLLS ◇ COURSE, M:N) · 3. Normalization ladder ·</li><li>B+ tree with linked leaves · 5. Transaction states · 6. 2PL with LOCK POINT ·</li><li>LOG → CHECKPOINT → UNDO/REDO · 8. Distributed sites ↔ network · 9. CAP triangle ·</li><li>Sharding split · 11. Vector search pipeline.</li></ol>
+<p><strong>Routine:</strong> cover the page → draw all 11 → check → redraw only the ones you missed (max 2 rounds).</p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

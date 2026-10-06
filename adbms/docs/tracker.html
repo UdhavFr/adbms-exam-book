@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weakness tracker (your log) — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Weakness tracker (your log)</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#weakness-tracker-md-weakness-detection-amp-adaptive-testing-">weakness-tracker.md — Weakness Detection &amp;amp; Adaptive Testing System</a></li><li class="l2"><a href="#1-how-to-log-takes-10-seconds-per-error">1. How to log (takes 10 seconds per error)</a></li><li class="l2"><a href="#2-the-scoring-rules-which-topics-get-quizzed-again">2. The scoring rules (which topics get quizzed again)</a></li><li class="l2"><a href="#3-bias-rules-what-to-spend-time-on">3. Bias rules (what to spend time on)</a></li><li class="l2"><a href="#4-master-tracking-table-copy-rows-as-needed">4. Master tracking table (copy rows as needed)</a></li><li class="l2"><a href="#5-chapter-strength-board-update-after-each-mock">5. Chapter strength board (update after each mock)</a></li><li class="l2"><a href="#6-automatic-re-test-queue-fill-as-you-go">6. Automatic re-test queue (fill as you go)</a></li><li class="l2"><a href="#7-how-the-tutor-me-uses-this-file">7. How the tutor (me) uses this file</a></li></ol></nav><div class="content"><h1 id="weakness-tracker-md-weakness-detection-amp-adaptive-testing-">weakness-tracker.md — Weakness Detection &amp; Adaptive Testing System</h1>
+<p>The point of this file: <strong>stop reviewing what you already know; attack what you keep getting wrong.</strong></p>
+<hr>
+<h2 id="1-how-to-log-takes-10-seconds-per-error">1. How to log (takes 10 seconds per error)</h2>
+<p>After any flashcard, question-bank item, mock exam or tutor question, record failures only:</p>
+<p>``<code> | Date/Time | ID (Q#/flashcard#/topic) | Unit-Chapter | Error type | Your wrong answer (1 line) | Correct answer (1 line) | Severity | Next test | </code>``</p>
+<p><strong>Error types (pick one):</strong></p>
+<ul><li><code>DEF</code> forgotten/inaccurate definition</li><li><code>CONF</code> confused concepts (X vs Y)</li><li><code>ORDER</code> process/sequence mistake</li><li><code>CALC</code> closure/computation mistake</li><li><code>KEY</code> missing exam keyword (right idea, no mark-earning words)</li><li><code>DIAG</code> diagram missing/incorrect</li><li><code>CMD</code> command/syntax error (SQL/Mongo/CQL/Cypher)</li><li><code>TRAP</code> fell for a known distractor (CAP slogan, σ/π swap, etc.)</li></ul>
+<p><strong>Severity:</strong> <code>1</code> = slipped · <code>2</code> = partially correct · <code>3</code> = completely wrong / didn't know.</p>
+<hr>
+<h2 id="2-the-scoring-rules-which-topics-get-quizzed-again">2. The scoring rules (which topics get quizzed again)</h2>
+<p><strong>First-attempt rule (stolen from Papermorph's engine):</strong> only your <strong>first try</strong> at a question counts toward the diagnostic score. If you retry the same question and get it right, that proves <em>learning</em>, not <em>knowing</em> — log the retry as a separate <code>RETEST</code> row with its own result, and never let it overwrite the first attempt. The first-try number is the one that decides what you're weak on.</p>
+<p>Per chapter keep a rolling score (first attempts only):</p>
+<p>``<code> Chapter score = (correct first-tries) − (errors × severity) </code>``</p>
+<p>(re-test a STRONG topic only: once at the start of the next study block, and once before the exam).</p>
+<ul><li><strong>Score ≤ 0 or any severity-3 error</strong> → the chapter is <strong>WEAK</strong>: re-quiz <strong>in 10 minutes</strong>, then <strong>in 30 minutes</strong>, then at the end of the session (3 re-tests minimum).</li><li><strong>Score 1–3</strong> → <strong>SHAKY</strong>: re-quiz once later in the session (different question ID — never the same wording).</li><li><strong>Score ≥ 4 with no severity-3 errors</strong> → <strong>STRONG</strong>: do <strong>not</strong> re-quiz unless spaced repetition is due</li><li>Any <code>TRAP</code> error → always re-test with a <strong>differently worded</strong> version of the same trap.</li></ul>
+<p><strong>Re-test rule:</strong> each re-test must be a <em>different</em> question over the <em>same</em> concept (see <a href="../written.html"><code>question-bank.md</code></a> for alternates; if none exist, change the mark count — 2-mark recall → 5-mark explain → 10-mark apply).</p>
+<hr>
+<h2 id="3-bias-rules-what-to-spend-time-on">3. Bias rules (what to spend time on)</h2>
+<p>case it temporarily outranks a P0 you already know.</p>
+<p>question, then again in 10 minutes, then again in the final cram.</p>
+<p><em>answer structure</em> instead (use <a href="mistakes.html"><code>common-mistakes.md</code></a> §E).</p>
+<ol><li><strong>P0 topics get 60% of quiz time</strong>, P1 30%, P2 10% — <em>unless</em> a P1 topic is repeatedly failing, in which</li><li>Never quiz a STRONG topic twice in a row without a spaced gap.</li><li>Prefer <strong>weak × high-priority</strong> combinations: e.g. if CAP (P0) is a <code>TRAP</code> error, it becomes the very next</li><li>If two consecutive errors are the same <strong>error type</strong> (e.g. <code>KEY</code> twice), stop answering content and fix the</li><li>If a <strong>process</strong> topic fails twice (<code>ORDER</code>), switch to drawing the flow diagram (<a href="diagrams.html"><code>diagrams-and-mental-models.md</code></a>).</li></ol>
+<hr>
+<h2 id="4-master-tracking-table-copy-rows-as-needed">4. Master tracking table (copy rows as needed)</h2>
+<div class="tscroll"><table><thead><tr><th>ID</th><th>Topic</th><th>Unit-Chapter</th><th>Type</th><th>Sev</th><th>Tests</th><th>Status</th></tr></thead><tbody>
+<tr><td>W-001</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>W-002</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>W-003</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>W-004</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>W-005</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<p><strong>Status values:</strong> <code>OPEN</code> → <code>RETEST#1 DUE</code> → <code>RETEST#2 DUE</code> → <code>HEALED</code> (two clean re-tests) / <code>PERSISTENT</code> (fails 3 re-tests → downgrade to "read + write + teach aloud" mode).</p>
+<hr>
+<h2 id="5-chapter-strength-board-update-after-each-mock">5. Chapter strength board (update after each mock)</h2>
+<div class="tscroll"><table><thead><tr><th>Unit-Chapter</th><th>Topic</th><th>1st score</th><th>Mock1</th><th>Mock2</th><th>Mock3</th><th>Final status</th></tr></thead><tbody>
+<tr><td>U1-3</td><td>Abstraction &amp; independence</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U1-4</td><td>ER modeling</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U1-5</td><td>ER → relational</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U1-7</td><td>SQL categories/order</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U1-8</td><td>Integrity constraints</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U2-1</td><td>FD &amp; closure</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U2-3→8</td><td>Normal forms 1→5</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U2-9/10</td><td>Lossless / preservation</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U2-13/14</td><td>B+ tree / hash</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U3-3</td><td>ACID</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U3-5</td><td>Serializability</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U3-6</td><td>Locks &amp; 2PL</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U3-9→12</td><td>Recovery techniques</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U4-2</td><td>Fragmentation</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U4-4</td><td>2PC</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U4-7</td><td>CAP</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U4-8/9</td><td>BASE, sharding</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U4-11/12</td><td>MongoDB CRUD/pipeline</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U5-1/11</td><td>Cassandra model &amp; ordering</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U5-6/7</td><td>Embeddings &amp; search</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>U5-8/9/13</td><td>Indexing systems</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<p>Legend for Final status: 🟢 strong · 🟡 shaky · 🔴 weak.</p>
+<hr>
+<h2 id="6-automatic-re-test-queue-fill-as-you-go">6. Automatic re-test queue (fill as you go)</h2>
+<p><strong>Due in 10 min:</strong> __________________________________________ <strong>Due in 30 min:</strong> __________________________________________ <strong>Due at session end:</strong> _____________________________________ <strong>Due before the exam (final-30 plan):</strong> ______________________</p>
+<hr>
+<h2 id="7-how-the-tutor-me-uses-this-file">7. How the tutor (me) uses this file</h2>
+<p>When you answer me interactively I will:</p>
+<p>line) <em>before</em> you answer; a hint-assisted answer is logged as severity-2, a clean first try as 0-error;</p>
+<p>we just covered, so the session leaves a compressed takeaway, not scattered facts;</p>
+<p>L2 mechanism/diagram, L3 timed exam answer — ending each reply with that layer's gate question ONLY. I never show the next layer, a model answer, or a conflict box before you pass the gate. No L3 without the L1 gate; if you force it I flag "shallow: risk". Fail a gate → I pinpoint the divergence and re-explain differently; pass → I raise difficulty (scenario, extra verb, combined topic).</p>
+<p>of the re-test queue; guess-and-right still gets one re-test (luck is not knowledge).</p>
+<ol><li>start with <strong>P0</strong> recall, mix understanding questions, and increase difficulty gradually;</li><li><strong>offer a hint on request</strong> — say "hint" and I give the minimum keyword scaffold (like Papermorph's "Keys:"</li><li>never reveal the answer before you've tried — even a wrong attempt teaches more than a peek;</li><li>mark partial answers by naming <strong>exactly what's missing</strong> (keyword-level), teach only that, then return to testing;</li><li>after every 3 answered questions, give a <strong>3-step wrap</strong> (numbered recipe, Papermorph-style) of whatever</li><li>skip anything you've answered correctly twice, unless a spaced re-test is due;</li><li>push failed items into the queue above with an error type and severity;</li><li>switch into timed exam simulation once the P0 board is mostly 🟢.</li><li><strong>teach in L1→L2→L3 gates</strong> (Blockchain pattern): one layer per reply — L1 MAP (what + why in your words),</li><li><strong>confidence-first:</strong> before I grade, you say <strong>sure / unsure / guess</strong>. Sure-but-wrong jumps to the front</li></ol>
+<p><strong>Tutor modes (say the word):</strong> <code>check me</code> (one retrieval Q) · <code>quiz me</code> (graded set, confidence asked, marks per line) · <code>cram me</code> (Red topics, no gates) · <code>full [topic]</code> (slow L1→L3) · <code>ELI5 [topic]</code> (L1 only) · <code>exam-ready [topic]</code> (straight to L3) · <code>pick sides</code> (commit a choice-pair side per <a href="../test.html"><code>test-details.md</code></a> §3) · <code>connect me [topic]</code> (cross-unit chain + one Section-J style question) · <code>memorize me [topic]</code> (assign the apt device from <a href="../mem.html"><code>memorization-techniques.md</code></a>, then drill it retrieve-before-reveal) · <code>simulate</code> (timed mock) · <code>NORMAL [question]</code> (bypass protocol once).</p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

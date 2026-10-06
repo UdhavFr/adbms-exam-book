@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 10 · Fragmentation, replication, 2PC, CAP/BASE, sharding — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 4 · Chapter 10</div><h2 class="ptitle">Lesson 10 · Fragmentation, replication, 2PC, CAP/BASE, sharding</h2>
+<div class="content">
+<p>· Fragmentation, replication, 2PC, CAP/BASE, sharding <strong>Read:</strong> <a href="docs/unit-4.html"><a href="docs/unit-4.html"><code>chapter-notes/unit-4.md</code></a></a> · <strong>Hooks:</strong></p>
+<details class="ref"><summary>📖 Hooks: 6 <span class="dim">— from memory-hooks.md §6 (tap to expand)</span></summary><div class="content"><h2>6. Distributed hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Architecture</td><td>SITE A ↔ NETWORK ↔ SITE B ↔ NETWORK ↔ SITE C</td></tr>
+<tr><td>Fragmentation</td><td><strong>Horizontal = Rows · Vertical = Columns</strong> (+ PK repeated)</td></tr>
+<tr><td>2PC</td><td><strong>ASK → VOTE → DECIDE</strong> (PREPARE → YES/NO → COMMIT/ABORT)</td></tr>
+<tr><td>CAP</td><td><strong>C-A-P, only meaningful DURING a partition</strong>; <em>never</em> "any two all the time"</td></tr>
+<tr><td>Consistency models</td><td>strong → eventual → causal → session (read-your-writes, monotonic reads)</td></tr>
+<tr><td>Sharding strategies</td><td><strong>Range · Hash · Directory · Geographic</strong> ("R-H-D-G")</td></tr>
+<tr><td>Good shard key</td><td>even spread · supports common queries · no hotspots</td></tr>
+<tr><td>System types</td><td>Homogeneous = <strong>same</strong> tech · Heterogeneous = <strong>different</strong> · Federated = <strong>independent but cooperating</strong></td></tr>
+</tbody></table></div>
+<hr></div></details>
+<p>· <a href="docs/comparisons.html"><a href="docs/comparisons.html"><code>comparisons.md</code></a></a> <strong>You must be able to produce:</strong> fragmentation types + 2PC two-round flow + the CAP paragraph (exact wording!).</p>
+<p>Rebuild: horizontal → UNION, vertical → JOIN on the key.</p>
+<p>Drawback: <strong>blocking</strong> if the coordinator dies mid-protocol.</p>
+<p>Consistency (every read gets the latest write <strong>or an error</strong>), Availability (every non-failing node answers), Partition tolerance (keeps working despite failures). <strong>Never</strong> write "any two at all times."</p>
+<ul><li><strong>Horizontal fragmentation</strong> — split <strong>rows</strong> (selection σ) · <strong>Vertical</strong> — split <strong>columns</strong> (projection π, keep the key) ·</li><li><strong>Replication:</strong> copies for availability/performance; cost = update coordination.</li><li><strong>2PC:</strong> <em>Prepare</em> (coordinator asks, participants <strong>vote</strong>) → <em>Commit/Abort</em> (any <strong>NO</strong> → global abort).</li><li><strong>CAP theorem (exact wording):</strong> <em>During a network partition</em>, a distributed system can guarantee <strong>at most two of three</strong> —</li><li><strong>BASE:</strong> <strong>B</strong>asically <strong>A</strong>vailable, <strong>S</strong>oft state, <strong>E</strong>ventual consistency — trade immediate consistency for availability.</li><li><strong>Sharding:</strong> Range (locality) · Hash (<strong>balance</strong>, ranges get hard) · Directory (lookup map) · Geographic (latency).</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>CAP is about behavior DURING a partition · CP = Careful &amp; Patient, AP = Always Present · Hand out Rows (horizontal), Vertical slices of columns (vertical) · 2PC = Prepare, then Commit. <strong>Trap:</strong> CAP's condition is <strong>the partition itself</strong> — "any two at all times" is the #1 wrong answer in the subject.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong><a href="written.html#Q69">Q69</a>–<a href="written.html#Q76">Q76</a><strong> + MCQ </strong><a href="quiz.html">Q105</a>–<a href="quiz.html">Q108</a>, <a href="quiz.html">Q135</a>, <a href="quiz.html">Q136</a><strong> </strong>Wrap (3 steps):** 1) Horizontal=rows (σ), vertical=columns (π, key kept); rebuild: UNION / JOIN-on-key. 2) 2PC: Prepare→vote→Commit/Abort; any NO = global abort; blocking = its drawback. 3) CAP = at most two of C/A/P <em>during a partition</em> — never 'any two at all times'; BASE = Basically Available, Soft state, Eventual consistency.</div>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b>CAP = at most two of C/A/P <b>during a partition</b> — never "any two at all times". 2PC = Prepare, then Commit; any NO = global abort. Rows = σ = horizontal (UNION); columns = π = vertical (JOIN-on-key). ▶ <a href="ch21/index.html">Watch the narrated CAP lesson</a>. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q103"]); renderChoice(_qc, window.MCQ_BY_ID["Q107"]); renderChoice(_qc, window.MCQ_BY_ID["Q134"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="ch09.html">← Ch 9</a><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch11.html">Ch 11 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(10)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>
