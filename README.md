@@ -1,5 +1,7 @@
 # ADBMS Exam Book — static site
 
+**Live:** https://udhavfr.github.io/adbms-exam-book/adbms/ (GitHub Pages; `gh-pages` branch serves `site/`).
+
 Papermorph-styled, exam-optimized study site built from `exam/`.
 Deliberate deviation from the full Papermorph pipeline (user request overrides
 defaults): no TTS narration / animated SVG beats — the exam is tomorrow, so
