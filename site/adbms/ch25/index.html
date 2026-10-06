@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ 2PC + fragmentation — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 4 · ▶ Narrated</div>
+<h2 class="ptitle">▶ 2PC + fragmentation: agreement across the wire</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch10.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch24/index.html">◀ B+ tree lesson</a>
+</div>
+<p class="foot">Narrated lesson. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC8 = { id: 'QAC8', topic: 'U4-2', unit: 'U4', pri: 'P0',
+  text: 'Fragments (ID, Name) and (ID, Salary). How is the table rebuilt?',
+  opts: ['UNION of the fragments', 'JOIN on ID'], ans: 1,
+  why: 'Vertical fragments repeat the key precisely so a join on ID reconstructs the table.',
+  whyNot: 'UNION rebuilds horizontal (row) fragments; these share columns via the key, not rows.',
+  hint: 'Keys: which split keeps the key in every piece?' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty-five. [[sub]]Agreement across the wire: split the data, commit as one.',
+  svg: `<g>${T(800, 400, '2PC + fragmentation', 92, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'split the data, commit as one', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'ask · vote · decide', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Split the shop', short: '0',
+  say: 'One giant shop table, customers everywhere. [[cut]]Cut it: northern rows live north, salary columns live with payroll. Each piece lives near its users: less chatter, faster local answers. [[w]]Write this: fragments live near users to cut communication cost.',
+  svg: `<g><rect x="550" y="200" width="500" height="140" rx="16" fill="none" stroke="${C.dim}" stroke-width="4" data-step="cut" class="pre"/>
+    ${T(800, 285, 'ONE GIANT TABLE', 40, C.dim, 'middle', 'cut')}
+    <path d="M800 340 V430" stroke="${C.bad}" stroke-width="5" pathLength="1" data-step="cut" class="pre"/>
+    <rect x="300" y="450" width="420" height="150" rx="16" fill="none" stroke="${C.good}" stroke-width="4" data-step="cut" class="pre"/>
+    ${T(510, 515, 'north rows → north', 36, C.good, 'middle', 'cut')}
+    ${T(510, 560, 'less chatter', 30, C.dim, 'middle', 'cut')}
+    <rect x="880" y="450" width="420" height="150" rx="16" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="cut" class="pre"/>
+    ${T(1090, 515, 'salary cols → payroll', 36, C.quiz, 'middle', 'cut')}
+    ${T(1090, 560, 'faster local answers', 30, C.dim, 'middle', 'cut')}
+    ${EXAM('fragments near users cut cost')}</g>` },
+
+{ id: 'frag', title: 'Rows vs columns', short: '÷',
+  say: 'Two ways to cut. [[horiz]]Horizontal: split rows by predicate. North rows here, south rows there. Rebuild with union. [[vert]]Vertical: split columns, and repeat the primary key in every piece. Rebuild by joining on that key. [[props]]Good fragments are complete, reconstructible, and disjoint. [[w]]Write this: rows-union, columns-join-on-key, key repeated.',
+  svg: `<g>${T(420, 250, 'HORIZONTAL = rows', 44, C.good, 'middle', 'horiz')}
+    ${T(420, 320, 'north / south', 36, C.dim, 'middle', 'horiz')}
+    ${T(420, 380, 'rebuild: UNION', 40, C.good, 'middle', 'horiz')}
+    ${T(1180, 250, 'VERTICAL = columns', 44, C.quiz, 'middle', 'vert')}
+    ${T(1180, 320, 'key repeated everywhere', 34, C.task, 'middle', 'vert')}
+    ${T(1180, 380, 'rebuild: JOIN on key', 40, C.quiz, 'middle', 'vert')}
+    ${T(800, 540, 'complete · reconstructible · disjoint', 38, C.chalk, 'middle', 'props')}
+    ${EXAM('rows-union; columns-join-on-key')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q106'],
+  say: 'Quick check. [[q]]A vertically fragmented table is rebuilt with what?',
+  svg: `<g>${T(800, 430, '(ID, Name) + (ID, Salary)', 52, C.quiz)}${T(800, 520, 'Rebuilt with…?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'twopc', title: 'Ask · vote · decide', short: '2PC',
+  say: 'Now commit across sites as one. [[ask]]The coordinator asks every participant: prepare? Each records a prepared state. [[vote]]Each votes yes or no. [[decide]]All yes means commit; any no means abort. Everyone records and executes the decision. Atomicity holds globally: no lone commits, no lone aborts. [[w]]Write this: ask, vote, decide; no lone outcomes.',
+  svg: `<g><circle cx="800" cy="220" r="70" fill="none" stroke="${C.task}" stroke-width="5" data-step="ask" class="pre"/>
+    ${T(800, 238, 'COORD', 34, C.task, 'middle', 'ask')}
+    <path d="M740 270 L480 380 M860 270 L1120 380" stroke="${C.dim}" stroke-width="4" pathLength="1" data-step="ask" class="pre"/>
+    ${T(800, 300, 'PREPARE ?', 36, C.chalk, 'middle', 'ask')}
+    <circle cx="420" cy="450" r="90" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="vote" class="pre"/>
+    ${T(420, 440, 'P1', 44, C.quiz, 'middle', 'vote')}${T(420, 490, 'votes YES', 30, C.good, 'middle', 'vote')}
+    <circle cx="1180" cy="450" r="90" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="vote" class="pre"/>
+    ${T(1180, 440, 'P2', 44, C.quiz, 'middle', 'vote')}${T(1180, 490, 'votes YES', 30, C.good, 'middle', 'vote')}
+    ${T(800, 620, 'ALL YES → COMMIT · ANY NO → ABORT', 44, C.task, 'middle', 'decide')}
+    ${T(800, 700, 'no lone commits, no lone aborts', 36, C.dim, 'middle', 'decide')}
+    ${EXAM('ask, vote, decide; no lone outcomes')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q107'],
+  say: 'Quick check. [[q]]In two-phase commit, one participant votes no. Result?',
+  svg: `<g>${T(800, 430, 'P2 votes NO.', 56, C.bad)}${T(800, 520, 'Result?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'block', title: 'The price', short: '!',
+  say: 'The price of agreement. [[stuck]]A prepared participant that cannot learn the decision waits. And waits. That waiting is called blocking. [[trap]]And a warning: two-phase commit is a commit protocol, never a locking protocol. [[w]]Write this: prepared plus silence equals blocking; commit, not locking.',
+  svg: `<g>${T(800, 350, 'prepared… waiting… waiting…', 52, C.bad, 'middle', 'stuck')}
+    ${T(800, 440, '= BLOCKING', 64, C.bad, 'middle', 'stuck', 'font-weight="600"')}
+    ${T(800, 570, '2PC = COMMIT protocol', 46, C.good, 'middle', 'trap')}
+    ${T(800, 640, 'never a LOCKING protocol', 46, C.bad, 'middle', 'trap')}
+    ${EXAM('blocking; commit, not locking')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]Rows split by predicate, rebuilt by union; columns split with the key repeated, rebuilt by join. [[w2]]Ask, vote, decide: atomicity across every site. [[w3]]Blocking is the price; and it is a commit protocol, not locking.',
+  svg: `<g>${[['1', 'Rows→UNION · Columns(+key)→JOIN.', 'w1', 300], ['2', 'Ask, vote, decide: global atomicity.', 'w2', 470], ['3', 'Blocking costs; commit, not locking.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="380" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="380" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="450" y="${y}" font-size="38" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q135'],
+  say: 'Chapter practice. [[q]]In two-phase commit, who sends prepare?',
+  svg: `<g>${T(800, 430, '“Prepare?” — who asks?', 56, C.quiz)}${T(800, 520, 'Who sends it?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['Q108'],
+  say: 'Chapter practice. [[q]]Main drawback of two-phase commit?',
+  svg: `<g>${T(800, 430, 'Agreement has a price.', 56, C.quiz)}${T(800, 520, 'Main drawback?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['QAC8'],
+  say: 'Chapter practice. [[q]]Fragments I D-Name and I D-Salary. Rebuild how?',
+  svg: `<g>${T(800, 430, '(ID, Name) + (ID, Salary)', 52, C.quiz)}${T(800, 520, 'Rebuild how?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Split wisely, commit as one. The narrated set is complete: seven lessons watched means every Tier-S machine demonstrated. Now prove it in the mocks.',
+  svg: `<g>${T(800, 380, '★ Set complete ★', 72, C.good)}${T(800, 480, '7 machines demonstrated', 44, C.dim)}
+    ${T(800, 580, 'Now prove it in the mocks →', 36, C.task)}</g>` },
+];
+
+if (!window.MCQ_BY_ID['QAC8']) window.MCQ_BY_ID['QAC8'] = QAC8;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 25;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 9 · Recovery: failures, deferred/immediate, shadow paging, WAL, checkpoints — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 3 · Chapter 9</div><h2 class="ptitle">Lesson 9 · Recovery: failures, deferred/immediate, shadow paging, WAL, checkpoints</h2>
+<div class="content">
+<p>· Recovery: failures, deferred/immediate, shadow paging, WAL, checkpoints <strong>Read:</strong> U3-8→U3-12 · <strong>Hooks:</strong></p>
+<details class="ref"><summary>📖 Hooks: 5 <span class="dim">— from memory-hooks.md §5 (tap to expand)</span></summary><div class="content"><h2>5. Transaction &amp; recovery hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>ACID story</td><td>Atomicity = both debit <strong>and</strong> credit · Consistency = valid account state · Isolation = nobody sees a half-transfer · Durability = still there after restart</td></tr>
+<tr><td>Transaction states</td><td><strong>Active → Partially committed → Committed</strong>; failure branch <strong>Failed → Aborted</strong></td></tr>
+<tr><td>Isolation levels</td><td><strong>RU → RC → RR → S</strong> (increasing strength)</td></tr>
+<tr><td>Anomaly stories</td><td><em>"My write vanished"</em> (lost update) · <em>"I read dirty data"</em> (dirty read) · <em>"Same row changed"</em> (non-repeatable) · <em>"New matching rows appeared"</em> (phantom)</td></tr>
+<tr><td>Locks</td><td><strong>S = Shares · X = eXcludes</strong> (only S+S compatible)</td></tr>
+<tr><td>2PL phases</td><td><strong>GROWING → LOCK POINT → SHRINKING</strong></td></tr>
+<tr><td>Deadlock handling</td><td><strong>PADT</strong> = Prevention, Avoidance, Detection, Timeout</td></tr>
+<tr><td>Failure types</td><td><em>Loci:</em> transaction room → server/power room → disk room → network room</td></tr>
+<tr><td>Deferred vs immediate</td><td><strong>Deferred = delay the data · Immediate = data may already be on disk</strong></td></tr>
+<tr><td>Shadow paging</td><td><strong>old safe book / new working book</strong></td></tr>
+<tr><td>WAL</td><td><strong>LOG FIRST, DATA SECOND</strong></td></tr>
+<tr><td>Recovery master flow</td><td>DEFINE → FAILURES → DEFERRED → IMMEDIATE → SHADOW → LOG → WAL → CHECKPOINT → UNDO/REDO → CONCLUSION</td></tr>
+<tr><td>The single recovery rule</td><td><strong>Committed = REDO as needed · Uncommitted = UNDO as needed</strong></td></tr>
+</tbody></table></div>
+<hr></div></details>
+<p>· <a href="docs/processes.html"><a href="docs/processes.html"><code>processes-and-algorithms.md</code></a></a> <strong>You must be able to produce:</strong> the recovery chain diagram (LOG → CHECKPOINT → CRASH → UNDO/REDO) + a deferred vs immediate comparison row.</p>
+<ul><li><strong>Failures:</strong> transaction (logic/abort) · system (software) · <strong>disk/communication</strong> (torn page, head crash).</li><li><strong>Deferred update:</strong> uncommitted changes never touch the DB → <strong>REDO only</strong> after commit.</li><li><strong>Immediate update:</strong> DB written before commit → <strong>UNDO uncommitted + REDO committed</strong> on recovery.</li><li><strong>Shadow paging:</strong> keep old pages; switch root pointer at commit → old version stays valid (no UNDO).</li><li><strong>WAL:</strong> <strong>log before data</strong> — the log record must reach stable storage <em>before</em> the changed data page.</li><li><strong>Checkpoint:</strong> forces earlier log + dirty pages to disk → recovery starts from the checkpoint, not from time zero.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Deferred = Delay → only REDO · Immediate = I need both → UNDO + REDO · WAL = log first, always. <strong>Trap:</strong> WAL is <strong>log-before-data</strong>, never data-first; deferred update needs <strong>no UNDO</strong>.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong><a href="written.html#Q57">Q57</a>–<a href="written.html#Q68">Q68</a><strong> + MCQ </strong><a href="quiz.html">Q103</a>, <a href="quiz.html">Q104</a>, <a href="quiz.html">Q134</a><strong> </strong>Wrap (3 steps):** 1) Deferred = Delay → REDO only. 2) Immediate = I need both → UNDO+REDO. 3) WAL = log before data, always; checkpoint bounds where recovery starts; shadow paging = switch root pointer, no UNDO.</div>
+<hr>
+<h2 id="unit-4-distributed-amp-nosql-core-lessons-10-11-45-min">UNIT 4 — Distributed &amp; NoSQL core (Lessons 10–11) — 45 min</h2>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b><b>Deferred = Delay → REDO only. Immediate = I need both → UNDO + REDO.</b> WAL = ship's log written <b>before</b> the cargo moves (log-first, always). Checkpoint = bookmark in the log. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q111"]); renderChoice(_qc, window.MCQ_BY_ID["Q112"]); renderChoice(_qc, window.MCQ_BY_ID["Q133"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="ch08.html">← Ch 8</a><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch10.html">Ch 10 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(9)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

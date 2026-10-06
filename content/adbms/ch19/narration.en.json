@@ -1,0 +1,19 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter nineteen. [[sub]]From one messy table to clean tables: the normalization ladder.",
+    "ground": "A pizza shop keeps one messy order sheet. [[mess]]Cheese comma olives crammed in one cell. The same customer address repeated on every row. [[bad]]Delete one customer, and you lose the pizza price too. That is three exam words: insert, update, delete anomalies. [[fix]]Normalization cleans the sheet so each fact lives in exactly one place. [[w]]Write this: anomalies are the disease, normal forms are the cure.",
+    "fd": "A functional dependency is ordinary language first. [[ex]]Student I D 101 always means Ravi. Knowing the I D fixes the name. [[rule]]Write it I D arrow Name. X arrow Y means: knowing X fixes Y. [[w]]Write this: X arrow Y, knowing X fixes Y, one example.",
+    "closure": "Closure asks: starting from X, what can you reach? [[start]]A relation with A, B, C, D. A gives B, and B gives C. [[walk]]Start with A. A gives B, so add B. B gives C, so add C. Nothing gives D. [[key]]So A plus is A, B, C. Not everything, so A alone is not a key. [[why]]Closure finds keys, and keys decide normal forms. [[w]]Write this: show every step, box the closure set.",
+    "q1": "Quick check. [[q]]R with A, B, C. The key is A B, and B gives C. Which normal form fails first?",
+    "lad12": "Climb the first two rungs. [[one]]First normal form: atomic cells, no repeating groups. No cheese comma olives in one cell. [[two]]Second: no partial dependency. Every non-key fact must depend on the whole key, not part of it. A B is the key, B gives C: C leans on half the key, so second normal form fails. [[w]]Write this: name the dependency, partial or transitive, before naming the form.",
+    "lad34": "Two rungs left. [[three]]Third: no transitive dependency. A non-key fact must not determine another non-key fact. I D gives department, department gives head: the head arrives second-hand. [[four]]B C N F: every determinant is a super key. [[hook]]The key, the whole key, nothing but the key, so help me Codd. [[test]]The test for third normal form says: X gives A only if X is a super key, or A is prime. B C N F says: only if X is a super key. No or. That or is the whole difference. [[w]]Write this: 3NF is OR, BCNF is ONLY.",
+    "q2": "Quick check. [[q]]Every B C N F relation is also in third normal form. True or false?",
+    "wrap": "To sum up. [[w1]]Anomalies are the disease, normal forms the cure. [[w2]]Closure finds keys: keep applying dependencies until nothing new. The ladder tests atomicity, whole-key dependence, no transitive dependence, then determinant super key. [[w3]]Third normal form has an or. B C N F has no or. That or is worth marks.",
+    "final1": "Chapter practice. [[q]]Name the broken rule.",
+    "final2": "Chapter practice. [[q]]Test the determinant.",
+    "final3": "Chapter practice. [[q]]Rebuild without loss.",
+    "finish": "Well done. The ladder is climbed. Next stop: A C I D, the highest-value topic in unit three."
+  }
+}

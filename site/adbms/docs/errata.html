@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Errata — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Errata</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#errata-md-source-validation-log">errata.md — Source Validation Log</a></li><li class="l2"><a href="#e1-cardinality-means-two-different-things-in-this-same-noteb">E1 — "Cardinality" means two different things in this same notebook</a></li><li class="l2"><a href="#e2-sql-clause-order-processing-order-vs-syntax-order">E2 — SQL clause order: processing order vs. syntax order</a></li><li class="l2"><a href="#e3-repeatable-read-and-phantoms">E3 — Repeatable Read and phantoms</a></li><li class="l2"><a href="#e4-isolation-level-anomaly-table-is-intentionally-not-a-stri">E4 — Isolation-level anomaly table is intentionally not a strict matrix</a></li><li class="l2"><a href="#e5-structural-inconsistency-in-the-memorisation-sheet-s-unit">E5 — Structural inconsistency in the memorisation sheet's unit labels</a></li><li class="l2"><a href="#e6-cardinality-answer-trap-in-the-relational-algebra-table">E6 — "Cardinality" answer trap in the relational-algebra table</a></li><li class="l2"><a href="#e7-no-page-numbers-exist-in-the-docx-itself">E7 — No page numbers exist in the DOCX itself</a></li></ol></nav><div class="content"><h1 id="errata-md-source-validation-log">errata.md — Source Validation Log</h1>
+<p>Source of truth: <code>ADBMS_MasterNotes.docx</code> (36 pp.) + corroborating <code>ADBMS_MemorizationSheet.docx</code>. Validation method: every definition, rule, algorithm, ordered process, command and example in the notes was re-read against the extracted source text (<code>_source/pages/<em>/text.md</code>) before being written into <code>exam/notes/</em></code>. Entries below are the only places where the source is ambiguous, internally inconsistent, or where outside knowledge was needed.</p>
+<p><strong>Overall finding: no hard factual error was found in the source.</strong> The notebook is unusually careful (it deliberately hedges where textbooks disagree). All entries below are AMBIGUITY / TERMINOLOGY / CLARIFICATION issues — exactly the kind of thing that costs marks when a student "fixes" the professor.</p>
+<hr>
+<h2 id="e1-cardinality-means-two-different-things-in-this-same-noteb">E1 — "Cardinality" means two different things in this same notebook</h2>
+<p>"cardinality = number of rows" in an ER question (or "cardinality = M:N" in a relational-algebra question) looks wrong even though both come from the source.</p>
+<ul><li><strong>Source statement (U1 §4, p.5):</strong> "Cardinality describes how many instances can participate" → 1:1, 1:N, M:N.</li><li><strong>Source statement (U1 §6, p.6):</strong> "Cardinality = number of tuples" (relational vocabulary list).</li><li><strong>Suspected issue:</strong> Same word, two standard meanings, used ~1 page apart. A student who writes</li><li><strong>Resolution to use in the exam:</strong></li><li>ER / relationships context → <strong>cardinality ratio</strong> = 1:1, 1:N, M:N (how entities participate).</li><li>Relation / table context → <strong>cardinality of a relation</strong> = number of tuples (rows).</li><li>Pair it with <em>degree</em> = number of attributes (columns), which is unambiguous.</li><li><strong>Reason:</strong> Both usages are standard in the literature; the source uses both correctly <em>in context</em>.</li><li><strong>Confidence:</strong> High.</li></ul>
+<h2 id="e2-sql-clause-order-processing-order-vs-syntax-order">E2 — SQL clause order: processing order vs. syntax order</h2>
+<p>optimizer may transform it). Students may be marked down if they claim SQL is <em>written</em> in that order.</p>
+<ul><li><strong>Source statement (U1 §7, p.7):</strong> "Typical execution idea: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT".</li><li><strong>Suspected issue:</strong> The source states this as <em>execution/logical</em> order (and explicitly hedges that the</li><li><strong>Clarified version:</strong></li><li><strong>Logical/processing order:</strong> FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT/OFFSET.</li><li><strong>Written (syntax) order:</strong> SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT.</li><li>Memorise the source's chain for "in what order are rows filtered/grouped/sorted"; use syntax order when writing SQL.</li><li><strong>Reason:</strong> Both orders are standard; the source's chain is the examinable one for "order of evaluation".</li><li><strong>Confidence:</strong> High.</li></ul>
+<h2 id="e3-repeatable-read-and-phantoms">E3 — Repeatable Read and phantoms</h2>
+<p>only <strong>Serializable</strong> does. Several real DBMSs (e.g. PostgreSQL, MySQL/InnoDB) <em>do</em> block phantoms at Repeatable Read, which is why the source says behaviour varies.</p>
+<ul><li><strong>Source statement (U3 §4, p.17):</strong> "Repeatable Read | Provides stronger repeat-read guarantees; exact phantom behavior varies by DBMS."</li><li><strong>Suspected issue:</strong> The hedge is correct but a student may be asked "does RR prevent phantoms?" and need a crisp answer.</li><li><strong>Clarified version:</strong> In the <strong>SQL standard</strong>, Repeatable Read does <strong>not</strong> guarantee phantom protection —</li><li><strong>Label:</strong> [EXTERNAL] — added to make the source's hedge answerable, not to replace it.</li><li><strong>Reason:</strong> Standard SQL:1999/SQL:2011 isolation hierarchy; the source's wording stays compatible with it.</li><li><strong>Confidence:</strong> High (external), and consistent with the source.</li></ul>
+<h2 id="e4-isolation-level-anomaly-table-is-intentionally-not-a-stri">E4 — Isolation-level anomaly table is intentionally <em>not</em> a strict matrix</h2>
+<p>dirty-read / lost-update / phantom columns.</p>
+<p>contradict the source's hedge.</p>
+<ul><li><strong>Source statement (U3 §4, p.17):</strong> the four levels are given as "general idea" rows, not as</li><li><strong>Suspected issue:</strong> Students often reproduce the classic textbook anomaly matrix from memory and</li><li><strong>Clarified version (safe to write):</strong></li></ul>
+<div class="tscroll"><table><thead><tr><th>Level</th><th>Dirty read</th><th>Lost/non-repeatable read</th><th>Phantom</th></tr></thead><tbody>
+<tr><td>Read Uncommitted</td><td>possible</td><td>possible</td><td>possible</td></tr>
+<tr><td>Read Committed</td><td>prevented</td><td>possible</td><td>possible</td></tr>
+<tr><td>Repeatable Read</td><td>prevented</td><td>prevented</td><td>DBMS-dependent (standard: possible)</td></tr>
+<tr><td>Serializable</td><td>prevented</td><td>prevented</td><td>prevented</td></tr>
+</tbody></table></div>
+<ul><li><strong>Confidence:</strong> High — this is a superset of the source table, not a contradiction.</li></ul>
+<h2 id="e5-structural-inconsistency-in-the-memorisation-sheet-s-unit">E5 — Structural inconsistency in the memorisation sheet's unit labels</h2>
+<p>("UNIT 1 — WHAT THE DATABASE IS" and "UNIT 1 — EXAM RULES &amp; SQL"), and one titled "UNIT 4/5".</p>
+<p>what <code>exam/sections.json</code> / <code>exam/structure.md</code> encode. The memorisation sheet is treated as a <em>derived high-value index</em>, not as a structural source.</p>
+<ul><li><strong>Source statement:</strong> <code>ADBMS_MemorizationSheet.docx</code> has two sections both titled "UNIT 1"</li><li><strong>Suspected issue:</strong> Cosmetic only. Section numbering inside it restarts (…9, then 10, 11, 12 …).</li><li><strong>Resolution:</strong> The <strong>Master Notes'</strong> unit boundaries (5 units, 61 chapters) are authoritative and are</li><li><strong>Confidence:</strong> High.</li></ul>
+<h2 id="e6-cardinality-answer-trap-in-the-relational-algebra-table">E6 — "Cardinality" answer trap in the relational-algebra table</h2>
+<p>require <strong>union compatibility</strong> (same attribute names, same domains, same order) for ∪ and −.</p>
+<p>but does not spell out. [EXTERNAL] label applies to the phrase only.</p>
+<ul><li><strong>Source statement (U1 §6, p.6–7):</strong> relational algebra table lists σ, π, ∪, −, ×, ⋈.</li><li><strong>Suspected issue:</strong> None in the source; flagged because students commonly write σ = columns / π = rows.</li><li><strong>Clarified version:</strong> σ (selection) = <strong>rows</strong>; π (projection) = <strong>columns</strong>. Union/difference/product</li><li><strong>Note:</strong> "union compatibility" is standard terminology the source implies ("combines compatible relations")</li><li><strong>Confidence:</strong> High.</li></ul>
+<h2 id="e7-no-page-numbers-exist-in-the-docx-itself">E7 — No page numbers exist in the DOCX itself</h2>
+<p>the unmodified file (36 pages), captured in <code>_source/heading_pages.json</code> by reading each heading's <code>Range.Information(wdActiveEndPageNumber)</code>. Section boundaries are in <code>exam/sections.json</code>. The original DOCX files were <strong>not modified</strong> (opened read-only; no PDF re-save was written over them).</p>
+<ul><li><strong>Issue:</strong> The source is a <code>.docx</code>, not a PDF, so it has no fixed PDF page objects and no bookmarks.</li><li><strong>Resolution (not a source error):</strong> page references throughout <code>exam/</code> use <strong>Word's own pagination</strong> of</li><li><strong>Confidence:</strong> High.</li></ul>
+<hr>
+<h3>What was checked and found <em>correct</em> (spot-check log)</h3>
+<div class="tscroll"><table><thead><tr><th>Claim</th><th>Where</th><th>Verdict</th></tr></thead><tbody>
+<tr><td>3NF formal rule "X is super key OR A is prime"</td><td>U2 §5, p.11</td><td>Correct</td></tr>
+<tr><td>BCNF "every determinant is a super key"</td><td>U2 §6, p.11</td><td>Correct</td></tr>
+<tr><td>Lossless binary test: R1∩R2 → R1 or → R2 (example A→B or A→C)</td><td>U2 §9, p.12</td><td>Correct</td></tr>
+<tr><td>Attribute closure example F={A→B,B→C,C→D}, A⁺={A,B,C,D}</td><td>U2 §1, p.9</td><td>Correct</td></tr>
+<tr><td>2NF example ENROLL with key (StudentID, CourseID)</td><td>U2 §4, p.10</td><td>Correct</td></tr>
+<tr><td>3NF example EmpID→DeptID→DeptName (transitive)</td><td>U2 §5, p.11</td><td>Correct</td></tr>
+<tr><td>Minimal cover order: split RHS → remove extraneous LHS → remove redundant FDs</td><td>U2 §11, p.12</td><td>Correct</td></tr>
+<tr><td>Deferred update ⇒ no DB UNDO needed for uncommitted work</td><td>U3 §9, p.19</td><td>Correct</td></tr>
+<tr><td>WAL: log record to stable storage before data page</td><td>U3 §12, p.20</td><td>Correct</td></tr>
+<tr><td>2PC: PREPARE → vote → COMMIT/ABORT; blocking risk</td><td>U4 §4, p.24</td><td>Correct</td></tr>
+<tr><td>CAP stated as partition-scenario trade-off (not "pick any 2")</td><td>U4 §7, p.25</td><td>Correct</td></tr>
+<tr><td>Cassandra <code>PRIMARY KEY ((course), year, student_id)</code> ⇒ partition key + clustering order</td><td>U5 §11, p.32</td><td>Correct</td></tr>
+<tr><td>B+ tree complexity O(log_f N), leaves linked for range scan</td><td>U2 §13, p.13</td><td>Correct</td></tr>
+<tr><td>MongoDB aggregate pipeline <code>$match → $group → $project → $sort → $limit</code></td><td>U4 §12, p.23</td><td>Correct</td></tr>
+</tbody></table></div></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

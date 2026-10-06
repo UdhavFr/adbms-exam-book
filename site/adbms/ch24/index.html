@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ B+ tree indexing — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 2 · ▶ Narrated</div>
+<h2 class="ptitle">▶ B+ tree: where sorted leaves fly</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch05.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch23/index.html">◀ Recovery lesson</a>
+</div>
+<p class="foot">Narrated lesson. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC7 = { id: 'QAC7', topic: 'U2-14', unit: 'U2', pri: 'P1',
+  text: 'Rows are needed in salary order (ORDER BY salary). Hash or B+ tree?',
+  opts: ['Hash index', 'B+ tree'], ans: 1,
+  why: 'Hash buckets keep no order, so ORDER BY needs the sorted linked leaves of a B+ tree.',
+  whyNot: 'Hash is exact-lookup only; asking it for order is the classic range-query mistake.',
+  hint: 'Keys: which structure is sorted?' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty-four. [[sub]]B-plus trees: where sorted leaves fly.',
+  svg: `<g>${T(800, 400, 'B+ tree indexing', 96, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'where sorted leaves fly', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'ranges fly · exact hits land', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Phone book vs pile', short: '0',
+  say: 'Find every Patel in the phone book. [[book]]Sorted pages, tabbed letters: flip to P, walk sideways, collect every Patel. [[pile]]Now find Patel in a pile of sticky notes. No order, no tabs: check each note. Exact name only, one by one. [[w]]Write this: sorted finds ranges; piles find single names.',
+  svg: `<g><rect x="250" y="220" width="500" height="220" rx="18" fill="none" stroke="${C.good}" stroke-width="4" data-step="book" class="pre"/>
+    ${T(500, 300, 'phone book: sorted', 44, C.good, 'middle', 'book')}
+    ${T(500, 360, 'tabs → flip → walk sideways', 34, C.dim, 'middle', 'book')}
+    <rect x="850" y="220" width="500" height="220" rx="18" fill="none" stroke="${C.task}" stroke-width="4" data-step="pile" class="pre"/>
+    ${T(1100, 300, 'sticky pile: unsorted', 44, C.task, 'middle', 'pile')}
+    ${T(1100, 360, 'check each note, exact only', 34, C.dim, 'middle', 'pile')}
+    ${T(800, 560, 'sorted → ranges ✓', 46, C.good, 'middle', 'w')}
+    ${T(800, 630, 'pile → single names only', 46, C.task, 'middle', 'w')}
+    ${EXAM('sorted finds ranges; piles find names')}</g>` },
+
+{ id: 'bptree', title: 'Structure + walk', short: 'T',
+  say: 'The phone book, engineered. [[top]]Root holds separators, pointing to children. Compare, follow the child, land on a leaf. [[leaf]]Data lives only in the leaves, and the leaves are linked like a chain. [[walk]]Root, compare, child, leaf, record pointer. Five steps, every search. [[w]]Write this: walk root-compare-child-leaf-pointer; data only in linked leaves.',
+  svg: `<g><rect x="650" y="150" width="300" height="90" rx="14" fill="none" stroke="${C.chalk}" stroke-width="4" data-step="top" class="pre"/>
+    ${T(800, 208, 'ROOT: separators', 34, C.chalk, 'middle', 'top')}
+    <path d="M700 240 L550 360 M900 240 L1050 360" stroke="${C.dim}" stroke-width="4" pathLength="1" data-step="top" class="pre"/>
+    <rect x="400" y="360" width="300" height="80" rx="14" fill="none" stroke="${C.dim}" stroke-width="3" data-step="top" class="pre"/>
+    ${T(550, 410, 'internal: routes', 30, C.dim, 'middle', 'top')}
+    <rect x="900" y="360" width="300" height="80" rx="14" fill="none" stroke="${C.dim}" stroke-width="3" data-step="top" class="pre"/>
+    ${T(1050, 410, 'internal: routes', 30, C.dim, 'middle', 'top')}
+    <rect x="300" y="540" width="220" height="80" rx="14" fill="none" stroke="${C.good}" stroke-width="4" data-step="leaf" class="pre"/>
+    ${T(410, 590, 'LEAF', 32, C.good, 'middle', 'leaf')}
+    <rect x="590" y="540" width="220" height="80" rx="14" fill="none" stroke="${C.good}" stroke-width="4" data-step="leaf" class="pre"/>
+    ${T(700, 590, 'LEAF', 32, C.good, 'middle', 'leaf')}
+    <rect x="880" y="540" width="220" height="80" rx="14" fill="none" stroke="${C.good}" stroke-width="4" data-step="leaf" class="pre"/>
+    ${T(990, 590, 'LEAF', 32, C.good, 'middle', 'leaf')}
+    <rect x="1170" y="540" width="220" height="80" rx="14" fill="none" stroke="${C.good}" stroke-width="4" data-step="leaf" class="pre"/>
+    ${T(1280, 590, 'LEAF', 32, C.good, 'middle', 'leaf')}
+    <path d="M520 580 H590 M810 580 H880 M1100 580 H1170" stroke="${C.good}" stroke-width="4" pathLength="1" data-step="leaf" class="pre"/>
+    ${T(800, 700, 'data ONLY in leaves · leaves LINKED', 40, C.task, 'middle', 'leaf')}
+    ${T(800, 770, 'root → compare → child → leaf → pointer', 38, C.chalk, 'middle', 'walk')}
+    ${EXAM('root-compare-child-leaf-pointer')}</g>` },
+
+{ id: 'range', title: 'Down then sideways', short: '↔',
+  say: 'Salary between 30 and 50 thousand. [[down]]Walk down to 30 thousand. [[side]]Then walk sideways along the linked leaves to 50 thousand. No full scan. [[why]]Why fast: balanced height, huge fan-out, linked leaves, disk-sized pages. Cost grows like log of N. [[w]]Write this: down then sideways; log-time with fan-out.',
+  svg: `<g>${T(800, 300, 'salary BETWEEN 30000 AND 50000', 48, C.quiz, 'middle', 'down')}
+    <path d="M800 350 V480" stroke="${C.dim}" stroke-width="5" pathLength="1" data-step="down" class="pre"/>
+    ${T(800, 430, '▼ down to 30000', 34, C.dim, 'middle', 'down')}
+    <path d="M450 560 H1150" stroke="${C.good}" stroke-width="6" pathLength="1" data-step="side" class="pre"/>
+    ${T(800, 530, '◀ walk sideways to 50000 ▶', 36, C.good, 'middle', 'side')}
+    ${T(800, 660, 'balanced · fan-out · linked · disk pages', 38, C.chalk, 'middle', 'why')}
+    ${T(800, 730, 'O(log N) — mention linked leaves for ranges', 38, C.task, 'middle', 'why')}
+    ${EXAM('down then sideways; log-time')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q109'],
+  say: 'Quick check. [[q]]Salary between 30000 and 50000. Best index?',
+  svg: `<g>${T(800, 430, 'BETWEEN 30000 AND 50000', 56, C.quiz)}${T(800, 520, 'Best index?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'hash', title: 'Buckets', short: '#',
+  say: 'The sticky-note machine. [[box]]Key goes in, hash function picks a bucket, O(1) exact lookup. Student I D 101, straight to its bucket. [[clash]]Two keys, one bucket: collision. Chain them, or spill to overflow buckets. [[flat]]But buckets keep no order. Ranges die here, and so does order-by. [[w]]Write this: hash is exact-only; collisions chain.',
+  svg: `<g>${T(800, 220, 'key → hash() → bucket', 48, C.quiz, 'middle', 'box')}
+    <rect x="600" y="300" width="400" height="100" rx="14" fill="none" stroke="${C.task}" stroke-width="4" data-step="box" class="pre"/>
+    ${T(800, 362, 'bucket 7: ID 101 ✓ O(1)', 36, C.task, 'middle', 'box')}
+    <rect x="600" y="440" width="400" height="100" rx="14" fill="none" stroke="${C.bad}" stroke-width="4" data-step="clash" class="pre"/>
+    ${T(800, 502, 'bucket 7: ID 101 + ID 209 ✗', 36, C.bad, 'middle', 'clash')}
+    ${T(800, 560, 'collision → chain / overflow', 36, C.dim, 'middle', 'clash')}
+    ${T(800, 670, 'buckets keep NO order → ranges die', 44, C.bad, 'middle', 'flat')}
+    ${EXAM('hash exact-only; collisions chain')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q130'],
+  say: 'Quick check. [[q]]A hash collision occurs when?',
+  svg: `<g>${T(800, 430, 'Two keys, one bucket?', 56, C.quiz)}${T(800, 520, 'That is called…?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]B is for Between: sorted linked leaves, ranges fly. [[w2]]H is for Has-exactly: buckets, instant equality, no order. [[w3]]Indexes cost storage and slower writes; order-by always means B-plus.',
+  svg: `<g>${[['1', 'B = Between: sorted linked leaves.', 'w1', 300], ['2', 'H = Has-exactly: buckets, no order.', 'w2', 470], ['3', 'Cost: storage + writes. ORDER BY = B+.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="330" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="330" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="400" y="${y}" font-size="38" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q110'],
+  say: 'Chapter practice. [[q]]Main downside of indexes?',
+  svg: `<g>${T(800, 430, 'Reads fly… but?', 56, C.quiz)}${T(800, 520, 'Main downside?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['QAC7'],
+  say: 'Chapter practice. [[q]]Rows needed in salary order. Hash or B-plus?',
+  svg: `<g>${T(800, 430, 'ORDER BY salary', 56, C.quiz)}${T(800, 520, 'Hash or B-plus?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['Q129'],
+  say: 'Chapter practice. [[q]]Which index suits a range query naturally?',
+  svg: `<g>${T(800, 430, 'A range query.', 56, C.quiz)}${T(800, 520, 'Natural fit?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Ranges fly, exact hits land. Next stop: two-phase commit, agreement across the wire.',
+  svg: `<g>${T(800, 380, '★ Sorted &amp; found ★', 72, C.good)}${T(800, 480, 'down + sideways · buckets for exact', 44, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+if (!window.MCQ_BY_ID['QAC7']) window.MCQ_BY_ID['QAC7'] = QAC7;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 24;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

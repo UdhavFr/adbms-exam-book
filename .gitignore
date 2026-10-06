@@ -1,0 +1,12 @@
+# third-party clones (reference only, huge)
+_skills/
+_papermorph/
+# python caches
+__pycache__/
+*.pyc
+# TTS build cache (regenerable)
+content/**/*.timings.json
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.tmp

@@ -1,0 +1,916 @@
+[
+  {
+    "folder": "app_how-to-write-a-20-mark-answer",
+    "title": "How to write a 20-mark answer",
+    "unit": "APPENDIX",
+    "start": 1,
+    "end": 1,
+    "chapter_start": 1,
+    "topics": []
+  },
+  {
+    "folder": "u1ch01",
+    "title": "1. Introduction to Database Systems",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 2,
+    "end": 2,
+    "chapter_start": 2,
+    "topics": [
+      {
+        "title": "Why DBMS is needed",
+        "page": 2
+      },
+      {
+        "title": "Main functions of a DBMS",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "folder": "u1ch02",
+    "title": "2. Data Models, Schemas and Instances",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 3,
+    "end": 3,
+    "chapter_start": 3,
+    "topics": [
+      {
+        "title": "Types of data models",
+        "page": 3
+      },
+      {
+        "title": "Schema",
+        "page": 3
+      },
+      {
+        "title": "Instance",
+        "page": 3
+      }
+    ]
+  },
+  {
+    "folder": "u1ch03",
+    "title": "3. Levels of Data Abstraction",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 4,
+    "end": 4,
+    "chapter_start": 4,
+    "topics": [
+      {
+        "title": "External level",
+        "page": 4
+      },
+      {
+        "title": "Conceptual level",
+        "page": 4
+      },
+      {
+        "title": "Internal level",
+        "page": 4
+      },
+      {
+        "title": "Data independence",
+        "page": 4
+      }
+    ]
+  },
+  {
+    "folder": "u1ch04",
+    "title": "4. Conceptual Modeling Using ER Approach",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 5,
+    "end": 5,
+    "chapter_start": 5,
+    "topics": [
+      {
+        "title": "Entities",
+        "page": 5
+      },
+      {
+        "title": "Attributes",
+        "page": 5
+      },
+      {
+        "title": "Keys",
+        "page": 5
+      },
+      {
+        "title": "Relationships and cardinality",
+        "page": 5
+      },
+      {
+        "title": "Participation constraints",
+        "page": 5
+      }
+    ]
+  },
+  {
+    "folder": "u1ch05",
+    "title": "5. Mapping ER Diagrams to Relational Schemas",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 6,
+    "end": 6,
+    "chapter_start": 6,
+    "topics": []
+  },
+  {
+    "folder": "u1ch06",
+    "title": "6. Overview of Relational Model",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 6,
+    "end": 6,
+    "chapter_start": 6,
+    "topics": [
+      {
+        "title": "Important terms",
+        "page": 6
+      },
+      {
+        "title": "Relational algebra operations",
+        "page": 7
+      }
+    ]
+  },
+  {
+    "folder": "u1ch07",
+    "title": "7. SQL — DDL, DML, DCL and TCL",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 7,
+    "end": 7,
+    "chapter_start": 7,
+    "topics": [
+      {
+        "title": "Important SQL clauses",
+        "page": 7
+      }
+    ]
+  },
+  {
+    "folder": "u1ch08",
+    "title": "8. Integrity and Referential Constraints",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 7,
+    "end": 7,
+    "chapter_start": 7,
+    "topics": [
+      {
+        "title": "Why constraints matter",
+        "page": 8
+      }
+    ]
+  },
+  {
+    "folder": "u1ch09",
+    "title": "9. Guidelines for Relational Schema Design",
+    "unit": "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING",
+    "start": 8,
+    "end": 8,
+    "chapter_start": 8,
+    "topics": [
+      {
+        "title": "Modification anomalies",
+        "page": 8
+      }
+    ]
+  },
+  {
+    "folder": "u2ch01",
+    "title": "1. Functional Dependencies",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 9,
+    "end": 9,
+    "chapter_start": 9,
+    "topics": [
+      {
+        "title": "Why FDs matter",
+        "page": 9
+      },
+      {
+        "title": "Important types",
+        "page": 9
+      },
+      {
+        "title": "Attribute closure",
+        "page": 9
+      }
+    ]
+  },
+  {
+    "folder": "u2ch02",
+    "title": "2. Normalization — Need and Goals",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 9,
+    "end": 9,
+    "chapter_start": 9,
+    "topics": []
+  },
+  {
+    "folder": "u2ch03",
+    "title": "3. First Normal Form (1NF)",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 10,
+    "end": 10,
+    "chapter_start": 10,
+    "topics": [
+      {
+        "title": "Benefits of 1NF",
+        "page": 10
+      }
+    ]
+  },
+  {
+    "folder": "u2ch04",
+    "title": "4. Second Normal Form (2NF)",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 10,
+    "end": 10,
+    "chapter_start": 10,
+    "topics": []
+  },
+  {
+    "folder": "u2ch05",
+    "title": "5. Third Normal Form (3NF)",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 10,
+    "end": 10,
+    "chapter_start": 10,
+    "topics": []
+  },
+  {
+    "folder": "u2ch06",
+    "title": "6. Boyce-Codd Normal Form (BCNF)",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 11,
+    "end": 11,
+    "chapter_start": 11,
+    "topics": []
+  },
+  {
+    "folder": "u2ch07",
+    "title": "7. Multivalued Dependencies and 4NF",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 11,
+    "end": 11,
+    "chapter_start": 11,
+    "topics": []
+  },
+  {
+    "folder": "u2ch08",
+    "title": "8. Join Dependencies and 5NF",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 11,
+    "end": 11,
+    "chapter_start": 11,
+    "topics": []
+  },
+  {
+    "folder": "u2ch09",
+    "title": "9. Lossless Join Decomposition",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 11,
+    "end": 11,
+    "chapter_start": 11,
+    "topics": []
+  },
+  {
+    "folder": "u2ch10",
+    "title": "10. Dependency Preservation",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 12,
+    "end": 12,
+    "chapter_start": 12,
+    "topics": []
+  },
+  {
+    "folder": "u2ch11",
+    "title": "11. Minimal Cover and Equivalence of FDs",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 12,
+    "end": 12,
+    "chapter_start": 12,
+    "topics": [
+      {
+        "title": "Steps",
+        "page": 12
+      }
+    ]
+  },
+  {
+    "folder": "u2ch12",
+    "title": "12. Data Storage, Disk Structure and Blocks",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 12,
+    "end": 12,
+    "chapter_start": 12,
+    "topics": [
+      {
+        "title": "File organizations",
+        "page": 13
+      }
+    ]
+  },
+  {
+    "folder": "u2ch13",
+    "title": "13. B+ Tree Indexing",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 13,
+    "end": 13,
+    "chapter_start": 13,
+    "topics": [
+      {
+        "title": "Search process",
+        "page": 13
+      },
+      {
+        "title": "Why B+ trees are efficient",
+        "page": 13
+      }
+    ]
+  },
+  {
+    "folder": "u2ch14",
+    "title": "14. Hash-Based Indexing",
+    "unit": "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING",
+    "start": 14,
+    "end": 14,
+    "chapter_start": 14,
+    "topics": []
+  },
+  {
+    "folder": "u3ch01",
+    "title": "1. Concept of a Transaction",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 15,
+    "end": 15,
+    "chapter_start": 15,
+    "topics": []
+  },
+  {
+    "folder": "u3ch02",
+    "title": "2. Transaction States and System Concepts",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 15,
+    "end": 15,
+    "chapter_start": 15,
+    "topics": []
+  },
+  {
+    "folder": "u3ch03",
+    "title": "3. ACID Properties",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 15,
+    "end": 15,
+    "chapter_start": 15,
+    "topics": []
+  },
+  {
+    "folder": "u3ch04",
+    "title": "4. Transaction Support in SQL",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 16,
+    "end": 16,
+    "chapter_start": 16,
+    "topics": [
+      {
+        "title": "Isolation levels",
+        "page": 16
+      }
+    ]
+  },
+  {
+    "folder": "u3ch05",
+    "title": "5. Concurrency Control and Serializability",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 17,
+    "end": 17,
+    "chapter_start": 17,
+    "topics": [
+      {
+        "title": "Common anomalies",
+        "page": 17
+      },
+      {
+        "title": "Serial vs serializable",
+        "page": 17
+      },
+      {
+        "title": "Conflict serializability",
+        "page": 17
+      }
+    ]
+  },
+  {
+    "folder": "u3ch06",
+    "title": "6. Lock-Based Concurrency Control and 2PL",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 17,
+    "end": 17,
+    "chapter_start": 17,
+    "topics": [
+      {
+        "title": "Two-Phase Locking",
+        "page": 18
+      },
+      {
+        "title": "Deadlock",
+        "page": 18
+      }
+    ]
+  },
+  {
+    "folder": "u3ch07",
+    "title": "7. Timestamp-Based Concurrency Control",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 18,
+    "end": 18,
+    "chapter_start": 18,
+    "topics": []
+  },
+  {
+    "folder": "u3ch08",
+    "title": "8. Recovery and Types of Failures",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 18,
+    "end": 18,
+    "chapter_start": 18,
+    "topics": []
+  },
+  {
+    "folder": "u3ch09",
+    "title": "9. Deferred Update",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 19,
+    "end": 19,
+    "chapter_start": 19,
+    "topics": []
+  },
+  {
+    "folder": "u3ch10",
+    "title": "10. Immediate Update",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 19,
+    "end": 19,
+    "chapter_start": 19,
+    "topics": []
+  },
+  {
+    "folder": "u3ch11",
+    "title": "11. Shadow Paging",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 19,
+    "end": 19,
+    "chapter_start": 19,
+    "topics": []
+  },
+  {
+    "folder": "u3ch12",
+    "title": "12. Log-Based Recovery",
+    "unit": "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY",
+    "start": 20,
+    "end": 20,
+    "chapter_start": 20,
+    "topics": [
+      {
+        "title": "Write-Ahead Logging",
+        "page": 20
+      },
+      {
+        "title": "Checkpointing",
+        "page": 20
+      }
+    ]
+  },
+  {
+    "folder": "u4ch01",
+    "title": "1. Introduction to Distributed Databases",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 21,
+    "end": 21,
+    "chapter_start": 21,
+    "topics": [
+      {
+        "title": "Characteristics",
+        "page": 21
+      },
+      {
+        "title": "Types",
+        "page": 21
+      }
+    ]
+  },
+  {
+    "folder": "u4ch02",
+    "title": "2. Data Fragmentation",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 21,
+    "end": 21,
+    "chapter_start": 21,
+    "topics": [
+      {
+        "title": "Horizontal fragmentation",
+        "page": 21
+      },
+      {
+        "title": "Vertical fragmentation",
+        "page": 21
+      },
+      {
+        "title": "Hybrid fragmentation",
+        "page": 21
+      }
+    ]
+  },
+  {
+    "folder": "u4ch03",
+    "title": "3. Replication and Allocation",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 22,
+    "end": 22,
+    "chapter_start": 22,
+    "topics": []
+  },
+  {
+    "folder": "u4ch04",
+    "title": "4. Distributed Transaction Management",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 22,
+    "end": 22,
+    "chapter_start": 22,
+    "topics": [
+      {
+        "title": "Two-Phase Commit (2PC)",
+        "page": 22
+      }
+    ]
+  },
+  {
+    "folder": "u4ch05",
+    "title": "5. Distributed Consistency Models",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 22,
+    "end": 22,
+    "chapter_start": 22,
+    "topics": []
+  },
+  {
+    "folder": "u4ch06",
+    "title": "6. NoSQL Systems — Types",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 23,
+    "end": 23,
+    "chapter_start": 23,
+    "topics": []
+  },
+  {
+    "folder": "u4ch07",
+    "title": "7. CAP Theorem",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 23,
+    "end": 23,
+    "chapter_start": 23,
+    "topics": [
+      {
+        "title": "Consistency",
+        "page": 23
+      },
+      {
+        "title": "Availability",
+        "page": 23
+      },
+      {
+        "title": "Partition tolerance",
+        "page": 23
+      }
+    ]
+  },
+  {
+    "folder": "u4ch08",
+    "title": "8. BASE vs ACID",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 24,
+    "end": 24,
+    "chapter_start": 24,
+    "topics": []
+  },
+  {
+    "folder": "u4ch09",
+    "title": "9. Sharding and Partitioning",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 24,
+    "end": 24,
+    "chapter_start": 24,
+    "topics": [
+      {
+        "title": "Strategies",
+        "page": 24
+      }
+    ]
+  },
+  {
+    "folder": "u4ch10",
+    "title": "10. MongoDB Data Model",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 24,
+    "end": 24,
+    "chapter_start": 24,
+    "topics": []
+  },
+  {
+    "folder": "u4ch11",
+    "title": "11. MongoDB CRUD",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 25,
+    "end": 25,
+    "chapter_start": 25,
+    "topics": [
+      {
+        "title": "Create",
+        "page": 25
+      },
+      {
+        "title": "Read",
+        "page": 25
+      },
+      {
+        "title": "Update",
+        "page": 25
+      },
+      {
+        "title": "Delete",
+        "page": 25
+      },
+      {
+        "title": "Common operators",
+        "page": 25
+      }
+    ]
+  },
+  {
+    "folder": "u4ch12",
+    "title": "12. MongoDB Aggregation",
+    "unit": "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS",
+    "start": 25,
+    "end": 26,
+    "chapter_start": 25,
+    "topics": []
+  },
+  {
+    "folder": "u5ch01",
+    "title": "1. Column-Oriented Databases: HBase and Cassandra",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 27,
+    "end": 27,
+    "chapter_start": 27,
+    "topics": [
+      {
+        "title": "HBase",
+        "page": 27
+      },
+      {
+        "title": "Cassandra",
+        "page": 27
+      }
+    ]
+  },
+  {
+    "folder": "u5ch02",
+    "title": "2. Cassandra Basic Operations",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 27,
+    "end": 27,
+    "chapter_start": 27,
+    "topics": [
+      {
+        "title": "Schema evolution",
+        "page": 28
+      }
+    ]
+  },
+  {
+    "folder": "u5ch03",
+    "title": "3. Redis — Key-Value Store",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 28,
+    "end": 28,
+    "chapter_start": 28,
+    "topics": [
+      {
+        "title": "Common commands",
+        "page": 28
+      }
+    ]
+  },
+  {
+    "folder": "u5ch04",
+    "title": "4. Graph Databases and Graph Data Model",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 28,
+    "end": 28,
+    "chapter_start": 28,
+    "topics": []
+  },
+  {
+    "folder": "u5ch05",
+    "title": "5. Neo4j and Cypher",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 29,
+    "end": 29,
+    "chapter_start": 29,
+    "topics": [
+      {
+        "title": "Cypher pattern",
+        "page": 29
+      }
+    ]
+  },
+  {
+    "folder": "u5ch06",
+    "title": "6. Vector Databases and Embeddings",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 29,
+    "end": 29,
+    "chapter_start": 29,
+    "topics": [
+      {
+        "title": "Similarity measures",
+        "page": 29
+      }
+    ]
+  },
+  {
+    "folder": "u5ch07",
+    "title": "7. Similarity Search",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 30,
+    "end": 30,
+    "chapter_start": 30,
+    "topics": [
+      {
+        "title": "HNSW",
+        "page": 30
+      },
+      {
+        "title": "IVF-style indexing",
+        "page": 30
+      }
+    ]
+  },
+  {
+    "folder": "u5ch08",
+    "title": "8. Indexing and Ordering Data Sets",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 30,
+    "end": 30,
+    "chapter_start": 30,
+    "topics": [
+      {
+        "title": "Ordering",
+        "page": 30
+      }
+    ]
+  },
+  {
+    "folder": "u5ch09",
+    "title": "9. MongoDB Indexing and Ordering",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 30,
+    "end": 30,
+    "chapter_start": 30,
+    "topics": []
+  },
+  {
+    "folder": "u5ch10",
+    "title": "10. CouchDB Indexing and Ordering",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 31,
+    "end": 31,
+    "chapter_start": 31,
+    "topics": []
+  },
+  {
+    "folder": "u5ch11",
+    "title": "11. Cassandra Indexing and Ordering",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 31,
+    "end": 31,
+    "chapter_start": 31,
+    "topics": []
+  },
+  {
+    "folder": "u5ch12",
+    "title": "12. Neo4j Indexing and Ordering",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 31,
+    "end": 31,
+    "chapter_start": 31,
+    "topics": []
+  },
+  {
+    "folder": "u5ch13",
+    "title": "13. Vector Store Indexing",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 31,
+    "end": 31,
+    "chapter_start": 31,
+    "topics": []
+  },
+  {
+    "folder": "u5ch14",
+    "title": "14. Importance of Indexes for NoSQL Query Performance",
+    "unit": "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS",
+    "start": 32,
+    "end": 32,
+    "chapter_start": 32,
+    "topics": [
+      {
+        "title": "Benefits",
+        "page": 32
+      },
+      {
+        "title": "Costs and limitations",
+        "page": 32
+      }
+    ]
+  },
+  {
+    "folder": "app_master-20-mark-answer-bank",
+    "title": "MASTER 20-MARK ANSWER BANK",
+    "unit": "APPENDIX",
+    "start": 33,
+    "end": 33,
+    "chapter_start": 33,
+    "topics": []
+  },
+  {
+    "folder": "app63",
+    "title": "Question 1: Explain normalization and all normal forms.",
+    "unit": "APPENDIX",
+    "start": 33,
+    "end": 33,
+    "chapter_start": 33,
+    "topics": []
+  },
+  {
+    "folder": "app64",
+    "title": "Question 2: Explain transaction processing, concurrency control and recovery.",
+    "unit": "APPENDIX",
+    "start": 33,
+    "end": 33,
+    "chapter_start": 33,
+    "topics": []
+  },
+  {
+    "folder": "app65",
+    "title": "Question 3: Explain distributed databases and CAP.",
+    "unit": "APPENDIX",
+    "start": 33,
+    "end": 33,
+    "chapter_start": 33,
+    "topics": []
+  },
+  {
+    "folder": "app66",
+    "title": "Question 4: Explain NoSQL systems and MongoDB.",
+    "unit": "APPENDIX",
+    "start": 34,
+    "end": 34,
+    "chapter_start": 34,
+    "topics": []
+  },
+  {
+    "folder": "app67",
+    "title": "Question 5: Explain indexing in relational and NoSQL databases.",
+    "unit": "APPENDIX",
+    "start": 34,
+    "end": 34,
+    "chapter_start": 34,
+    "topics": []
+  },
+  {
+    "folder": "app_diagram-practice-sheet",
+    "title": "DIAGRAM PRACTICE SHEET",
+    "unit": "APPENDIX",
+    "start": 34,
+    "end": 34,
+    "chapter_start": 34,
+    "topics": []
+  },
+  {
+    "folder": "app_final-revision-what-to-memorise-word-for",
+    "title": "FINAL REVISION: WHAT TO MEMORISE WORD-FOR-WORD",
+    "unit": "APPENDIX",
+    "start": 35,
+    "end": 35,
+    "chapter_start": 35,
+    "topics": []
+  },
+  {
+    "folder": "app_final-exam-checklist",
+    "title": "FINAL EXAM CHECKLIST",
+    "unit": "APPENDIX",
+    "start": 36,
+    "end": 36,
+    "chapter_start": 36,
+    "topics": []
+  }
+]

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>▶ 2PL + deadlock — narrated lesson</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+#stagewrap { background: #1d2b27; border: 1.5px solid var(--edge); border-radius: 18px; overflow: hidden; }
+#stage { display: block; width: 100%; height: auto; }
+#stage .pre { opacity: 0; }
+#stage [data-step] { transition: opacity .5s ease; }
+#stage path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ndr .9s ease forwards; }
+@keyframes ndr { to { stroke-dashoffset: 0; } }
+.player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+#beatdots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bdot { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--dim); cursor: pointer; font-size: 13px; }
+.bdot.on { border-color: var(--task); color: var(--task); }
+#beattitle { color: var(--dim); font-size: 15px; }
+#caption { font-size: 19px; line-height: 1.55; min-height: 3.2em; padding: 12px 16px;
+  border-left: 6px solid var(--task); background: var(--panel); border-radius: 0 12px 12px 0; margin: 12px 0; }
+#caption .saying { color: var(--chalk); }
+#caption .said { color: var(--faint); }
+#caption .dim { color: var(--faint); }
+#ask h3 { color: var(--quiz); }
+.vchoice { margin: 10px 0; font-size: 14px; color: var(--dim); display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.vchoice button { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--edge);
+  background: var(--panel); color: var(--chalk); cursor: pointer; margin-right: 8px; }
+.vchoice button.on { border-color: var(--task); color: var(--task); }
+.vchoice select { background: var(--panel); color: var(--chalk); border: 1.5px solid var(--edge);
+  border-radius: 9px; padding: 6px 10px; font-size: 14px; max-width: 260px; }
+.vchoice input[type=range] { width: 150px; accent-color: var(--task); }
+#ratelab { color: var(--task); font-weight: 700; min-width: 48px; display: inline-block; }
+</style>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Narration, word-sync and quick checks need JavaScript. The lesson text equivalent is on the linked reading page.</p></noscript>
+<div class="crumb"><a href="../index.html#contents">ADBMS exam book</a> · Unit 3 · ▶ Narrated</div>
+<h2 class="ptitle">▶ 2PL + deadlock</h2>
+<p class="psub">Narrated + animated · ~9 min with checks · Space = play/pause · ←/→ = beats · Zero knowledge needed.</p>
+<div class="vchoice" id="vchoice">
+<span>Voice: <button data-v="auto" class="on">Auto</button><button data-v="mute">Mute (captions only)</button>
+<select id="voicelist" title="Pick a narration voice"></select></span>
+<span>Speed: <input type="range" id="rate" min="0.7" max="1.5" step="0.05" value="1"><b id="ratelab">1×</b></span>
+</div>
+<div class="player">
+<button id="btnplay" class="btn small go" onclick="Narrate.play()">▶ Play</button>
+<button id="btnauto" class="btn small quiet" onclick="Narrate.toggleAuto()">▶ Auto-play all</button>
+<button id="btnprev" class="btn small quiet" onclick="Narrate.prev()">← Prev</button>
+<button id="btnnext" class="btn small quiet" onclick="Narrate.next()">Next beat →</button>
+<div id="beatdots"></div>
+</div>
+<div id="beattitle"></div>
+<div id="stagewrap"><svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Lesson stage"></svg></div>
+<div id="caption"></div>
+<div id="ask"></div>
+<div class="chapnav">
+<a class="btn small quiet" href="../index.html#contents">Contents</a>
+<a class="btn small quiet" href="../ch08.html">Read the lesson instead</a>
+<a class="btn small quiet" href="../mem.html">Memory devices</a>
+<a class="btn small go" href="../ch21/index.html">◀ CAP lesson</a>
+</div>
+<p class="foot">Narrated lesson. Audio is synthesized in your browser. Faster speeds keep animations in sync automatically.</p>
+</main>
+<script src="../app.js"></script>
+<script src="../quizzes.js"></script>
+<script src="../narrate.js"></script>
+<script>
+'use strict';
+const C = { chalk: '#ece8dc', dim: '#9aaba3', task: '#f0b45a', quiz: '#86c9e8', good: '#8fd6b0', bad: '#f0979a', pink: '#e8a0c8' };
+const T = (x, y, s, size, fill, anchor, step, extra) =>
+  `<text x="${x}" y="${y}" font-size="${size}" fill="${fill || C.chalk}" text-anchor="${anchor || 'middle'}" font-family="Iowan Old Style, Palatino, Georgia, serif" ${step ? `data-step="${step}" class="pre"` : ''} ${extra || ''}>${s}</text>`;
+const EXAM = s => `<text x="800" y="845" font-size="34" fill="${C.task}" text-anchor="middle" font-family="Iowan Old Style, Palatino, serif" data-step="w" class="pre">✍ Write this: ${s}</text>`;
+
+const QAC4 = { id: 'QAC4', topic: 'U3-6', unit: 'U3', pri: 'P0',
+  text: 'A schedule follows two-phase locking. Can it still deadlock?',
+  opts: ['Yes', 'No'], ans: 0,
+  why: '2PL guarantees conflict serializability, not deadlock-freedom — the growing/shrinking rule says nothing about circular waiting.',
+  whyNot: 'No would confuse the guarantee: serializable schedules can still contain a waits-for cycle.',
+  hint: 'Keys: what exactly does 2PL promise — order, or no waiting?' };
+
+const BEATS = [
+{ id: 'intro', title: 'Title card', short: '▶',
+  say: 'Chapter twenty-two. [[sub]]Two-phase locking, and its shadow: deadlock.',
+  svg: `<g>${T(800, 400, '2PL + deadlock', 96, C.chalk, 'middle', null, 'font-weight="600"')}
+    ${T(800, 500, 'grow, shrink, never regrow', 40, C.dim, 'middle', 'sub')}
+    ${T(800, 580, 'deadlock = circular waiting', 36, C.task, 'middle', 'sub')}</g>` },
+
+{ id: 'ground', title: 'Library rules', short: '0',
+  say: 'A library with one rulebook. [[room]]The reading room fits twenty readers at once. Nobody changes the book, so everybody reads. [[diary]]But the diary has one copy. One rewriter takes it home, and nineteen people wait. [[w]]Write this: many may read together; one writer excludes everyone.',
+  svg: `<g><rect x="250" y="220" width="500" height="200" rx="18" fill="none" stroke="${C.quiz}" stroke-width="4" data-step="room" class="pre"/>
+    ${T(500, 300, 'reading room: 20 readers', 44, C.quiz, 'middle', 'room')}
+    ${T(500, 360, 'nobody writes → nobody waits', 36, C.dim, 'middle', 'room')}
+    <rect x="850" y="220" width="500" height="200" rx="18" fill="none" stroke="${C.task}" stroke-width="4" data-step="diary" class="pre"/>
+    ${T(1100, 300, 'diary: 1 copy', 44, C.task, 'middle', 'diary')}
+    ${T(1100, 360, '1 rewriter → 19 wait', 36, C.dim, 'middle', 'diary')}
+    ${T(800, 560, 'many may read together', 46, C.good, 'middle', 'w')}
+    ${T(800, 630, 'one writer excludes everyone', 46, C.bad, 'middle', 'w')}
+    ${EXAM('many read together; one writer excludes all')}</g>` },
+
+{ id: 'locks', title: 'S vs X', short: 'SX',
+  say: 'Two lock modes, one grid. [[s]]S means shared, for reading. S plus S is fine. [[x]]X means exclusive, for writing. X against anything is a clash. [[w]]Write this: S with S ok; X with everything no.',
+  svg: `<g>${T(800, 150, 'can these two locks share one item?', 44, C.chalk)}
+    ${T(550, 260, 'S', 56, C.good, 'middle', 's')}${T(1050, 260, 'X', 56, C.bad, 'middle', 'x')}
+    ${T(550, 360, '+ S → ✓ fine', 44, C.good, 'middle', 's')}
+    ${T(1050, 360, '+ S → ✗ clash', 44, C.bad, 'middle', 'x')}
+    ${T(1050, 440, '+ X → ✗ clash', 44, C.bad, 'middle', 'x')}
+    ${T(800, 600, 'S with S ok — X with everything no', 46, C.task, 'middle', 'w')}
+    ${EXAM('S+S ok; X vs anything clash')}</g>` },
+
+{ id: 'twopl', title: 'Grow → shrink', short: '2P',
+  say: 'Two phases, one way through. [[grow]]Growing: grab locks, release none. [[point]]Lock point: the moment you hold everything you will ever hold. [[shrink]]Shrinking: release locks, grab none. Never regrow. [[safe]]This discipline guarantees serializability. It does not prevent deadlock. [[w]]Write this: grow, lock point, shrink; serializable yes, deadlock still possible.',
+  svg: `<g><path d="M200 400 H1400" stroke="${C.dim}" stroke-width="5" pathLength="1" data-step="grow" class="pre"/>
+    ${T(400, 340, 'GROWING: grab, release none', 40, C.good, 'middle', 'grow')}
+    ${T(800, 300, '◆ LOCK POINT', 40, C.task, 'middle', 'point')}
+    ${T(800, 360, 'everything you will ever hold', 32, C.dim, 'middle', 'point')}
+    ${T(1200, 340, 'SHRINKING: release, grab none', 40, C.quiz, 'middle', 'shrink')}
+    ${T(800, 520, 'never regrow', 48, C.bad, 'middle', 'shrink')}
+    ${T(800, 630, 'guarantees serializability — may still deadlock', 42, C.chalk, 'middle', 'safe')}
+    ${EXAM('grow, lock point, shrink; deadlock still possible')}</g>` },
+
+{ id: 'q1', title: 'Quick check', short: '?1', ask: ['Q101'],
+  say: 'Quick check. [[q]]In two-phase locking, what is forbidden after the first unlock?',
+  svg: `<g>${T(800, 400, 'first lock released…', 52, C.quiz)}
+    ${T(800, 500, 'What is now forbidden?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'deadlock', title: 'The circle', short: '◯',
+  say: 'Two transactions, two items, one circle. [[hold]]T1 holds A and waits for B. T2 holds B and waits for A. [[cycle]]Each waits for the other, forever. That circle is the deadlock. [[handle]]Handle it four ways: prevention, avoidance, detection with a wait-for graph, or timeout. Detection finds the circle; the cure aborts a victim and breaks it. [[w]]Write this: draw the holds-and-waits circle, name PADT, abort a victim.',
+  svg: `<g><circle cx="500" cy="380" r="110" fill="none" stroke="${C.quiz}" stroke-width="5" data-step="hold" class="pre"/>
+    ${T(500, 365, 'T1', 52, C.quiz, 'middle', 'hold')}${T(500, 420, 'holds A', 32, C.dim, 'middle', 'hold')}
+    <circle cx="1100" cy="380" r="110" fill="none" stroke="${C.quiz}" stroke-width="5" data-step="hold" class="pre"/>
+    ${T(1100, 365, 'T2', 52, C.quiz, 'middle', 'hold')}${T(1100, 420, 'holds B', 32, C.dim, 'middle', 'hold')}
+    <path d="M610 380 H990" stroke="${C.bad}" stroke-width="5" pathLength="1" data-step="cycle" class="pre"/>
+    <path d="M990 470 H610" stroke="${C.bad}" stroke-width="5" pathLength="1" data-step="cycle" class="pre"/>
+    ${T(800, 350, 'waits for B →', 32, C.bad, 'middle', 'cycle')}${T(800, 505, '← waits for A', 32, C.bad, 'middle', 'cycle')}
+    ${T(800, 620, 'a circle = deadlock — abort a victim to break it', 42, C.task, 'middle', 'handle')}
+    ${T(800, 690, 'PADT: prevention · avoidance · detection · timeout', 36, C.dim, 'middle', 'handle')}
+    ${EXAM('circle + PADT + abort a victim')}</g>` },
+
+{ id: 'q2', title: 'Quick check', short: '?2', ask: ['Q102'],
+  say: 'Quick check. [[q]]Deadlock is detected using what?',
+  svg: `<g>${T(800, 400, 'Two transactions, waiting forever…', 52, C.quiz)}
+    ${T(800, 500, 'Detected using what?', 52, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'wrap', title: 'Wrap', short: '✓',
+  say: 'To sum up. [[w1]]S with S is fine; X clashes with everything. [[w2]]Grow, lock point, shrink, never regrow: serializable, but deadlock still possible. [[w3]]Deadlock is a holds-and-waits circle; find it with the wait-for graph, fix it by aborting a victim.',
+  svg: `<g>${[['1', 'S+S fine; X clashes with all.', 'w1', 300], ['2', 'Grow, lock point, shrink: serializable, deadlock possible.', 'w2', 470], ['3', 'Circle → wait-for graph → abort a victim.', 'w3', 640]].map(([n, s, st, y]) =>
+    `<circle cx="270" cy="${y - 14}" r="34" fill="${C.task}" data-step="${st}" class="pre"/>
+     <text x="270" y="${y}" font-size="38" fill="#1d2b27" text-anchor="middle" font-weight="700" data-step="${st}" class="pre">${n}</text>
+     <text x="340" y="${y}" font-size="36" fill="${C.chalk}" text-anchor="start" font-family="Iowan Old Style, Palatino, serif" data-step="${st}" class="pre">${s}</text>`).join('')}</g>` },
+
+{ id: 'final1', title: 'Practice 1 of 3', short: 'P1', ask: ['Q132'],
+  say: 'Chapter practice. [[q]]Which two-phase-locking phase forbids acquiring new locks?',
+  svg: `<g>${T(800, 430, 'No new locks allowed.', 56, C.quiz)}${T(800, 520, 'Which phase?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final2', title: 'Practice 2 of 3', short: 'P2', ask: ['Q100'],
+  say: 'Chapter practice. [[q]]A precedence graph contains a cycle. The schedule is?',
+  svg: `<g>${T(800, 430, 'Cycle in the graph.', 56, C.quiz)}${T(800, 520, 'Serializable?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'final3', title: 'Practice 3 of 3', short: 'P3', ask: ['QAC4'],
+  say: 'Chapter practice. [[q]]A schedule follows two-phase locking. Can it still deadlock?',
+  svg: `<g>${T(800, 430, '2PL obeyed. Deadlock?', 56, C.quiz)}${T(800, 520, 'Yes or no?', 48, C.chalk, 'middle', 'q')}</g>` },
+
+{ id: 'finish', title: 'Finished', short: '★',
+  say: 'Well done. Locks obeyed, circles broken. Next stop: recovery, where logs undo death itself.',
+  svg: `<g>${T(800, 380, '★ Circles broken ★', 72, C.good)}${T(800, 480, 'grow → point → shrink · PADT', 44, C.dim)}
+    ${T(800, 580, 'Press Finish to save progress', 36, C.task)}</g>` },
+];
+
+if (!window.MCQ_BY_ID['QAC4']) window.MCQ_BY_ID['QAC4'] = QAC4;
+
+let muted = false;
+document.querySelectorAll('#vchoice button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#vchoice button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  muted = b.dataset.v === 'mute';
+  if (muted) try { speechSynthesis.cancel(); } catch {}
+});
+const rateEl = document.getElementById('rate');
+const voiceEl = document.getElementById('voicelist');
+function fillVoices() {
+  const vs = Narrate.listVoices();
+  voiceEl.innerHTML = '';
+  vs.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v.voiceURI; o.textContent = `${v.name} (${v.lang})`;
+    voiceEl.append(o);
+  });
+  if (Narrate.voiceURI) voiceEl.value = Narrate.voiceURI;
+  if (!voiceEl.value && vs.length) voiceEl.selectedIndex = 0;
+}
+voiceEl.onchange = () => Narrate.setVoice(voiceEl.value);
+rateEl.oninput = () => Narrate.setRate(parseFloat(rateEl.value));
+const _play = Narrate.play.bind(Narrate);
+Narrate.play = function () {
+  if (muted) {
+    this.playing = true;
+    this.schedule();
+    const n = this.parsed ? this.parsed.words.length : 40;
+    this.timers.push(setTimeout(() => { this.playing = false; this.onBeatSpoken(); }, n * 200 / this.rate + 800));
+    document.getElementById('btnplay').textContent = '⏸ Restart';
+    if (this.cap) this.cap.textContent = this.parsed.clean;
+    return;
+  }
+  _play();
+};
+
+Narrate.chapter = 22;
+Narrate.init(BEATS, 'stage');
+rateEl.value = Narrate.rate;
+Narrate.setRate(Narrate.rate);
+fillVoices();
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = fillVoices;
+if (Narrate.auto) Narrate.syncAutoBtn();
+initContents(25);initReveal();
+</script>
+</body>
+</html>

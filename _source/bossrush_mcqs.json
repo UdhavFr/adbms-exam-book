@@ -1,0 +1,354 @@
+[
+ {
+  "q": "Which step comes first in a 20-mark answer?",
+  "options": [
+   "Diagram",
+   "Definition and intro",
+   "Conclusion",
+   "Example"
+  ],
+  "ans": 1,
+  "why": "Start with a 5-7 line definition and why it matters."
+ },
+ {
+  "q": "A topic has a process or architecture. What should you add?",
+  "options": [
+   "Nothing, text is enough",
+   "A labelled diagram or flow",
+   "Only a table",
+   "A longer conclusion"
+  ],
+  "ans": 1,
+  "why": "Diagrams are explicitly rewarded for processes, hierarchies and algorithms."
+ },
+ {
+  "q": "R(A,B,C), key is AB, and B→C. Which normal form is violated first?",
+  "options": [
+   "1NF",
+   "2NF",
+   "3NF",
+   "BCNF"
+  ],
+  "ans": 1,
+  "why": "C depends on only part of the key (B), which is a partial dependency, so 2NF fails."
+ },
+ {
+  "q": "Student(ID, Dept, DeptHead) with ID→Dept and Dept→DeptHead. What is the problem?",
+  "options": [
+   "Partial dependency",
+   "Transitive dependency",
+   "Not atomic",
+   "Lossy join"
+  ],
+  "ans": 1,
+  "why": "ID→Dept→DeptHead is transitive, so 3NF fails."
+ },
+ {
+  "q": "Which statement is true?",
+  "options": [
+   "Every 3NF relation is in BCNF",
+   "Every BCNF relation is in 3NF",
+   "BCNF is weaker than 2NF",
+   "1NF allows repeating groups"
+  ],
+  "ans": 1,
+  "why": "BCNF is stricter than 3NF, so BCNF implies 3NF but not the reverse."
+ },
+ {
+  "q": "R(A,B,C,D) with A→B and B→C. What is A+?",
+  "options": [
+   "{A}",
+   "{A,B}",
+   "{A,B,C}",
+   "{A,B,C,D}"
+  ],
+  "ans": 2,
+  "why": "A gives B, B gives C, and nothing gives D, so A+ is {A,B,C}."
+ },
+ {
+  "q": "When is a binary decomposition R1, R2 lossless?",
+  "options": [
+   "Common attribute set is a key of R1 or R2",
+   "R1 and R2 share no attributes",
+   "Both are in 1NF",
+   "It has fewer tables"
+  ],
+  "ans": 0,
+  "why": "Intersection must be a super key of at least one part."
+ },
+ {
+  "q": "Which normal form decomposition always preserves dependencies AND is lossless?",
+  "options": [
+   "BCNF",
+   "3NF",
+   "2NF",
+   "4NF"
+  ],
+  "ans": 1,
+  "why": "3NF synthesis guarantees both; BCNF may lose dependencies."
+ },
+ {
+  "q": "Power cut right after COMMIT, but the data is still there after restart. Which property?",
+  "options": [
+   "Atomicity",
+   "Consistency",
+   "Isolation",
+   "Durability"
+  ],
+  "ans": 3,
+  "why": "Committed changes surviving failure is durability."
+ },
+ {
+  "q": "Debit succeeded, credit failed, so the debit is undone. Which property?",
+  "options": [
+   "Atomicity",
+   "Isolation",
+   "Durability",
+   "Consistency"
+  ],
+  "ans": 0,
+  "why": "All-or-nothing is atomicity."
+ },
+ {
+  "q": "Which component mainly ensures Isolation?",
+  "options": [
+   "Recovery manager",
+   "Concurrency control",
+   "Buffer manager",
+   "Query optimizer"
+  ],
+  "ans": 1,
+  "why": "Locking or timestamps give isolation."
+ },
+ {
+  "q": "A precedence graph contains a cycle. The schedule is...",
+  "options": [
+   "Conflict serializable",
+   "Not conflict serializable",
+   "Always recoverable",
+   "Serial"
+  ],
+  "ans": 1,
+  "why": "A cycle means no equivalent serial order exists."
+ },
+ {
+  "q": "In 2PL, what is forbidden after the first unlock?",
+  "options": [
+   "Reading",
+   "Acquiring new locks",
+   "Committing",
+   "Unlocking"
+  ],
+  "ans": 1,
+  "why": "Once shrinking starts, no new locks."
+ },
+ {
+  "q": "Deadlock is detected using...",
+  "options": [
+   "Precedence graph",
+   "Wait-for graph",
+   "B+ tree",
+   "Shadow table"
+  ],
+  "ans": 1,
+  "why": "A cycle in the wait-for graph means deadlock."
+ },
+ {
+  "q": "During a partition, a system keeps answering with possibly stale data. It chose...",
+  "options": [
+   "CP",
+   "AP",
+   "CA",
+   "ACID"
+  ],
+  "ans": 1,
+  "why": "Availability over consistency is AP."
+ },
+ {
+  "q": "What does the S in BASE stand for?",
+  "options": [
+   "Strong",
+   "Soft state",
+   "Serializable",
+   "Sharded"
+  ],
+  "ans": 1,
+  "why": "Soft state: data may change without input as replicas converge."
+ },
+ {
+  "q": "Hash sharding mainly helps with...",
+  "options": [
+   "Range queries",
+   "Even data distribution",
+   "Joins",
+   "Foreign keys"
+  ],
+  "ans": 1,
+  "why": "Hashing spreads keys evenly, but range queries get harder."
+ },
+ {
+  "q": "How is a vertically fragmented table rebuilt?",
+  "options": [
+   "UNION",
+   "JOIN on the key",
+   "Intersection",
+   "Cartesian product"
+  ],
+  "ans": 1,
+  "why": "Each fragment keeps the key so a join reconstructs the table."
+ },
+ {
+  "q": "In 2PC, one participant votes NO. Result?",
+  "options": [
+   "Commit",
+   "Global abort",
+   "Ignore it",
+   "Retry later only for that site"
+  ],
+  "ans": 1,
+  "why": "Any NO vote forces a global abort."
+ },
+ {
+  "q": "Main drawback of 2PC?",
+  "options": [
+   "No atomicity",
+   "Blocking if coordinator fails",
+   "Too many tables",
+   "No logging"
+  ],
+  "ans": 1,
+  "why": "Participants can be stuck waiting for the coordinator decision."
+ },
+ {
+  "q": "Query: salary BETWEEN 30000 AND 50000. Best index?",
+  "options": [
+   "Hash",
+   "B+ tree",
+   "No index",
+   "Bitmap on name"
+  ],
+  "ans": 1,
+  "why": "Linked sorted leaves make ranges fast."
+ },
+ {
+  "q": "Main downside of indexes?",
+  "options": [
+   "Slower reads",
+   "Extra storage and write overhead",
+   "Data loss",
+   "No ordering"
+  ],
+  "ans": 1,
+  "why": "Every write must also update the index."
+ },
+ {
+  "q": "Which recovery scheme never needs UNDO?",
+  "options": [
+   "Deferred update",
+   "Immediate update",
+   "Both",
+   "Neither"
+  ],
+  "ans": 0,
+  "why": "Nothing uncommitted ever reaches the database."
+ },
+ {
+  "q": "WAL means...",
+  "options": [
+   "Data page first, log later",
+   "Log first, then data page",
+   "Lock then write",
+   "Write all later"
+  ],
+  "ans": 1,
+  "why": "Log before data is what makes undo and redo possible."
+ },
+ {
+  "q": "Best store for friend-of-friend recommendations?",
+  "options": [
+   "Redis",
+   "Neo4j",
+   "Cassandra",
+   "MongoDB"
+  ],
+  "ans": 1,
+  "why": "Relationship traversal is the graph database sweet spot."
+ },
+ {
+  "q": "Which command finds docs with age over 20 in MongoDB?",
+  "options": [
+   "SELECT age>20",
+   "db.users.find({age:{$gt:20}})",
+   "GET age",
+   "MATCH (age)"
+  ],
+  "ans": 1,
+  "why": "$gt is the MongoDB greater-than operator."
+ },
+ {
+  "q": "Which stage should usually come first to cut data early?",
+  "options": [
+   "$sort",
+   "$match",
+   "$group",
+   "$limit after group"
+  ],
+  "ans": 1,
+  "why": "Filtering first shrinks the data every later stage touches."
+ },
+ {
+  "q": "Which measure compares the angle between two vectors?",
+  "options": [
+   "Hamming",
+   "Cosine similarity",
+   "Manhattan time",
+   "Jaccard rows"
+  ],
+  "ans": 1,
+  "why": "Cosine similarity is based on the angle."
+ },
+ {
+  "q": "HNSW is mainly used for...",
+  "options": [
+   "Exact joins",
+   "Approximate nearest neighbour search",
+   "Locking",
+   "Sharding"
+  ],
+  "ans": 1,
+  "why": "It is a graph index for fast approximate similarity search."
+ },
+ {
+  "q": "How is an M:N relationship mapped?",
+  "options": [
+   "FK on either side",
+   "Separate junction table",
+   "Merge the entities",
+   "Ignore it"
+  ],
+  "ans": 1,
+  "why": "A new table holds the keys of both entities."
+ },
+ {
+  "q": "GRANT and REVOKE belong to...",
+  "options": [
+   "DDL",
+   "DML",
+   "DCL",
+   "TCL"
+  ],
+  "ans": 2,
+  "why": "They control access, so Data Control Language."
+ },
+ {
+  "q": "Entity integrity means...",
+  "options": [
+   "FK must match",
+   "Primary key cannot be null",
+   "Values are unique across tables",
+   "Every table has an index"
+  ],
+  "ans": 1,
+  "why": "No primary key attribute may be null."
+ }
+]

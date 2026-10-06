@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 · What databases are, why DBMS exist, and the three-level map — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 1 · Chapter 1</div><h2 class="ptitle">Lesson 1 · What databases are, why DBMS exist, and the three-level map</h2>
+<div class="content">
+<p>· What databases are, why DBMS exist, and the three-level map <strong>Read:</strong></p>
+<details class="ref"><summary>📖 Read: chapter-notes/unit-1.md (U1-1→U1-3) <span class="dim">— from chapter-notes/unit-1.md (tap to expand)</span></summary><div class="content"><h2>U1-1 Introduction to Database Systems — <strong>P1</strong> (p. 2)</h2>
+<ul><li><strong>WHAT:</strong> DB = organized collection of logically related data; DBMS = software to define/store/retrieve/update/protect/recover it.</li><li><strong>WHY:</strong> file systems give redundancy → inconsistency, and poor sharing/security/concurrency/recovery.</li><li><strong>HOW:</strong> DBMS centralizes data, adds constraints, concurrency control, logging/checkpoints, abstraction.</li><li><strong>EXAM WRITE:</strong> definition (D-S-R-U-S-R) → the 7-row problem/cure table → 9 functions → conclusion.</li><li><strong>MISTAKE:</strong> listing functions without the <em>problem→cure</em> table (that table is where the easy marks are).</li></ul>
+<h2>U1-2 Data Models, Schemas and Instances — <strong>P1</strong> (p. 3)</h2>
+<ul><li><strong>WHAT:</strong> data model = concepts describing structure/relationships/constraints(+operations); schema = blueprint; instance = contents now.</li><li><strong>EXAM WRITE:</strong> definition → 9 model types in 3 chunks (old structural / conceptual-object / modern NoSQL) → schema-vs-instance table → blueprint analogy.</li><li><strong>MISTAKE:</strong> confusing schema and instance (blueprint vs current building), or forgetting that inserts change the <em>instance</em> only.</li></ul>
+<h2>U1-3 Levels of Data Abstraction &amp; Data Independence — <strong>P0</strong> (p. 4)</h2>
+<p>Logical independence = change conceptual schema while required external views still work (split a table with a compatible view).</p>
+<ul><li><strong>WHAT:</strong> three levels — <strong>External</strong> (customized user views) → <strong>Conceptual</strong> (complete logical schema, storage-independent) → <strong>Internal</strong> (files, pages, indexes, access paths) → physical storage.</li><li><strong>WHY:</strong> hides implementation detail; lets storage or logical design change without breaking users.</li><li><strong>HOW:</strong> physical independence = change storage without changing conceptual schema (change an index).</li><li><strong>REMEMBER:</strong> <strong>E-C-I</strong>; <strong>P</strong>=Pages/physical, <strong>L</strong>=Logic/logical.</li><li><strong>EXAM WRITE:</strong> diagram (D1) + one line per level + a two-row independence table with examples.</li><li><strong>MISTAKE:</strong> swapping the two independences. Fix: <em>which layer am I changing?</em> storage→physical, schema→logical.</li></ul></div></details>
+<p>· <strong>Hooks file:</strong></p>
+<details class="ref"><summary>📖 Hooks: 3 <span class="dim">— from memory-hooks.md §3 (tap to expand)</span></summary><div class="content"><h2>3. Unit 1 processing hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>ER→relational (7 rules)</td><td><strong>Entity→table · Composite→split · Multi→new table · 1:1→FK · 1:N→FK on N · M:N→new table · Weak→owner key + partial key</strong></td></tr>
+<tr><td>Relational vocabulary</td><td>Relation=table, Tuple=row, Attribute=column, Domain=permitted values, Degree=#columns, Cardinality=#rows</td></tr>
+<tr><td>Relational algebra</td><td><strong>Selection selects RECORDS, Projection selects FIELDS</strong> (S↔rows, P↔columns)</td></tr>
+<tr><td>SQL categories</td><td><strong>DDL=Design · DML=Manipulate · DCL=Control access · TCL=Transaction</strong></td></tr>
+<tr><td>SQL processing order</td><td>rhythm: <strong>FROM – WHERE – GROUP – HAVING – SELECT – ORDER – LIMIT</strong></td></tr>
+<tr><td>Integrity constraints</td><td><strong>D-E-R</strong> (Domain, Entity, Referential) <strong>+ U-C-N</strong> (UNIQUE, CHECK, NOT NULL)</td></tr>
+<tr><td>Anomalies</td><td><strong>I-U-D</strong> = Insertion / Update / Deletion</td></tr>
+<tr><td>Unit-1 exam flow</td><td>Requirements → ER → constraints → relational schema → normalization → SQL implementation</td></tr>
+</tbody></table></div>
+<hr></div></details>
+<div class="callout produce"><b class="tag">Produce</b>the three-level architecture diagram with labels + physical vs logical independence examples.</div>
+<div class="tscroll"><table><thead><tr><th>Concept</th><th>Plain meaning</th></tr></thead><tbody>
+<tr><td>Database</td><td>Organized collection of logically related data</td></tr>
+<tr><td>DBMS</td><td>Software that defines, creates, stores, retrieves, updates, protects, recovers the data</td></tr>
+<tr><td>File system pain</td><td>Redundancy → inconsistency; no sharing/security/concurrency/recovery control; program-data dependence</td></tr>
+<tr><td>External level</td><td>What each user group sees (views)</td></tr>
+<tr><td>Conceptual level</td><td>The logical blueprint of everything</td></tr>
+<tr><td>Internal level</td><td>How it's physically stored (files, pages, indexes)</td></tr>
+<tr><td>Physical independence</td><td>Change storage/index without changing the logical schema</td></tr>
+<tr><td>Logical independence</td><td>Change the conceptual schema without breaking user views</td></tr>
+<tr><td>Schema</td><td>The blueprint (stable) · <strong>Instance</strong></td><td>The current data values (changes constantly)</td></tr>
+</tbody></table></div>
+<div class="callout hooks"><b class="tag">Memory hooks</b>DBMS = <em>define, store, retrieve, update, protect, recover</em> · External = what user sees, Conceptual = blueprint, Internal = storage · Physical = storage changes, Logical = schema changes. <strong>Trap:</strong> never swap conceptual ↔ internal; never say "schema = SQL".</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> <a href="written.html"><code>question-bank.md</code></a> </strong><a href="written.html#Q1">Q1</a>, <a href="written.html#Q3">Q3</a>, <a href="written.html#Q4">Q4</a>, <a href="written.html#Q5">Q5</a><strong> + MCQ </strong><a href="quiz.html">Q121</a>, <a href="quiz.html">Q122</a>, <a href="quiz.html">Q89</a><strong> </strong>Wrap (3 steps):** 1) DBMS = define, store, retrieve, update, protect, recover. 2) External=user views, Conceptual=blueprint, Internal=storage. 3) Physical independence = storage changes; logical = schema changes; schema=blueprint, instance=data now.</div>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b><b>External</b> = user views · <b>Conceptual</b> = blueprint · <b>Internal</b> = storage. Schema = structure, instance = state. Discriminator: physical = storage changes, logical = schema changes. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q121"]); renderChoice(_qc, window.MCQ_BY_ID["Q122"]); renderChoice(_qc, window.MCQ_BY_ID["Q89"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch02.html">Ch 2 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(1)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

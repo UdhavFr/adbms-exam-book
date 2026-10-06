@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ADBMS Boss Rush</title>
+<style>
+:root{--bg:#f6f4ff;--card:#fff;--ink:#1d1b2e;--mut:#6b6885;--acc:#6d4aff;--ok:#16a34a;--bad:#e11d48;--gold:#f59e0b;--line:#e3dfff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14122a;--card:#1f1c3d;--ink:#f1efff;--mut:#a9a5d1;--acc:#9b83ff;--line:#34305f}}
+:root[data-theme="dark"]{--bg:#14122a;--card:#1f1c3d;--ink:#f1efff;--mut:#a9a5d1;--acc:#9b83ff;--line:#34305f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:12px 14px 40px}
+.hud{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:3px 12px;font-weight:700;font-size:14px}
+.bar{flex:1;min-width:90px;height:10px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--gold));transition:width .5s}
+h1{font-size:24px;margin:8px 0 2px}p.s{color:var(--mut);margin:0 0 12px}
+.m{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 10px;color:var(--ink);font:inherit;cursor:pointer;transition:transform .15s}
+.m:active{transform:scale(.98)}.m b{display:block}.m small{color:var(--mut)}.m .e{font-size:30px}.m .st{margin-left:auto;font-size:20px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;margin:10px 0;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+.big{font-size:19px;font-weight:700}.card ul{padding-left:20px;margin:6px 0}.card li{margin:5px 0}
+.mn{font-size:21px;font-weight:800;color:var(--acc);margin:6px 0}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:12px;padding:11px 18px;font:700 16px inherit;cursor:pointer;margin:4px 6px 4px 0}
+.btn.g{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:11px 13px;margin:8px 0;font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--bg))}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,var(--bg));animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.why{margin-top:8px;color:var(--mut)}
+.boss{font-size:56px;text-align:center;transition:transform .3s}.boss.hit{animation:sh .3s}.boss.dead{transform:rotate(90deg) scale(.5);opacity:.4}
+.hp{height:14px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0 12px}.hp i{display:block;height:100%;background:var(--bad);transition:width .4s}
+.pop{position:fixed;left:50%;top:30%;transform:translateX(-50%);font-size:34px;font-weight:900;color:var(--gold);animation:up 1s forwards;pointer-events:none;z-index:9}
+@keyframes up{to{opacity:0;transform:translate(-50%,-70px)}}
+</style></head><body><main>
+<div class="hud"><span class="pill" id="lv"></span><div class="bar"><i id="xb"></i></div><span class="pill" id="xp"></span><span class="pill" id="sk"></span><button class="pill" id="vo" style="cursor:pointer;color:var(--ink)"></button></div>
+<div id="app"></div></main>
+<script>
+const M=[
+{i:'📝',n:'The 20-Mark Formula',s:'Every answer, every unit',
+story:'Examiners are hungry judges. Feed them in the same order every time and they stay happy.',
+mn:'Dogs Draw Elaborate Elephants, Politely Concluding',
+pts:['Dogs = Define it (5-7 lines)','Draw = Diagram or flow','Elaborate = Explain each component under its own heading','Elephants = Example (table, query, schedule)','Politely = Pros, cons, comparison','Concluding = 3-4 line wrap-up on correctness, speed or reliability'],
+def:'Show WHAT it is, WHY it is needed, HOW it works and WHERE it is used.',
+q:[['Which step comes first in a 20-mark answer?',['Diagram','Definition and intro','Conclusion','Example'],1,'Start with a 5-7 line definition and why it matters.'],['A topic has a process or architecture. What should you add?',['Nothing, text is enough','A labelled diagram or flow','Only a table','A longer conclusion'],1,'Diagrams are explicitly rewarded for processes, hierarchies and algorithms.']]},
+{i:'🍕',n:'Normal Forms (1NF to BCNF)',s:'The most asked 20-marker',
+story:'A pizza shop keeps one messy order sheet. Cheese and Olives crammed in one cell? Customer address repeated on every row? Delete one customer and you lose the pizza price too. Normalization cleans the sheet so each fact lives in exactly one place.',
+mn:'The key (1NF), the WHOLE key (2NF), nothing but the key (3NF), so help me Codd (BCNF)',
+pts:['1NF: atomic cells, no repeating groups (no "Cheese, Olives" in one cell)','2NF: 1NF + no partial dependency (non-key attribute must depend on the WHOLE key)','3NF: no transitive dependency (non-key must not determine non-key)','BCNF: every determinant is a super key','Anomalies fixed: insert, update, delete','4NF = no bad multivalued dependency, 5NF = no join dependency not implied by keys'],
+def:'3NF: for every non-trivial X→A, X is a super key or A is a prime attribute. BCNF: every determinant of a non-trivial FD is a super key.',
+q:[['R(A,B,C), key is AB, and B→C. Which normal form is violated first?',['1NF','2NF','3NF','BCNF'],1,'C depends on only part of the key (B), which is a partial dependency, so 2NF fails.'],['Student(ID, Dept, DeptHead) with ID→Dept and Dept→DeptHead. What is the problem?',['Partial dependency','Transitive dependency','Not atomic','Lossy join'],1,'ID→Dept→DeptHead is transitive, so 3NF fails.'],['Which statement is true?',['Every 3NF relation is in BCNF','Every BCNF relation is in 3NF','BCNF is weaker than 2NF','1NF allows repeating groups'],1,'BCNF is stricter than 3NF, so BCNF implies 3NF but not the reverse.']]},
+{i:'🧮',n:'FDs, Closure, Minimal Cover, Lossless Join',s:'Numerical marks live here',
+story:'Your student ID tells the college your name, department and batch. ID determines them. Closure is asking: starting from ID, everything can I reach?',
+mn:'RAT rules: Reflexivity, Augmentation, Transitivity (Armstrong axioms). Minimal cover = Split, Shrink, Shed.',
+pts:['X→Y: value of X uniquely fixes Y','Closure X+: start with X, keep adding RHS of any FD whose LHS is already inside','Candidate key: X+ contains all attributes and no proper subset does','Minimal cover: Split (single attribute RHS), Shrink (drop extraneous LHS attributes), Shed (remove redundant FDs)','Lossless: R1 intersect R2 is a key of R1 or R2 (joining gives back exactly the original)','Dependency preserving: every FD can be checked inside one table without a join','3NF decomposition is always lossless AND dependency preserving. BCNF is always lossless but may lose dependencies'],
+def:'A decomposition is lossless when joining its decomposed relations reconstructs exactly the original relation. X→Y means that the value of X uniquely determines the value of Y.',
+q:[['R(A,B,C,D) with A→B and B→C. What is A+?',['{A}','{A,B}','{A,B,C}','{A,B,C,D}'],2,'A gives B, B gives C, and nothing gives D, so A+ is {A,B,C}.'],['When is a binary decomposition R1, R2 lossless?',['Common attribute set is a key of R1 or R2','R1 and R2 share no attributes','Both are in 1NF','It has fewer tables'],0,'Intersection must be a super key of at least one part.'],['Which normal form decomposition always preserves dependencies AND is lossless?',['BCNF','3NF','2NF','4NF'],1,'3NF synthesis guarantees both; BCNF may lose dependencies.']]},
+{i:'🏦',n:'Transactions and ACID',s:'Guaranteed question',
+story:'You send 500 rupees to a friend. Debit and credit must be one unit. If the app crashes between them, either everything happens or nothing does.',
+mn:'ACID = All-or-nothing, Correct, Isolated, Durable. Recovery guards A and D, concurrency control guards I, you and constraints guard C.',
+pts:['Atomicity: all or nothing (rollback if failure)','Consistency: DB moves from one valid state to another','Isolation: concurrent transactions do not see each other half-done','Durability: committed data survives crashes','States: Active, Partially committed, Committed, Failed, Aborted','SQL: COMMIT, ROLLBACK, SAVEPOINT'],
+def:'A transaction is a logical unit of database work that must preserve correctness. ACID stands for Atomicity, Consistency, Isolation and Durability.',
+q:[['Power cut right after COMMIT, but the data is still there after restart. Which property?',['Atomicity','Consistency','Isolation','Durability'],3,'Committed changes surviving failure is durability.'],['Debit succeeded, credit failed, so the debit is undone. Which property?',['Atomicity','Isolation','Durability','Consistency'],0,'All-or-nothing is atomicity.'],['Which component mainly ensures Isolation?',['Recovery manager','Concurrency control','Buffer manager','Query optimizer'],1,'Locking or timestamps give isolation.']]},
+{i:'🔒',n:'Concurrency, Serializability and 2PL',s:'Pairs with ACID in the exam',
+story:'Two chefs edit the same order ticket at once. Chaos: one reads a half-edited ticket, another overwrites a change. Locks are the rule: grab every pen you need first, then put them all down, and never pick one up again.',
+mn:'Anomalies = Dirty, Non-repeatable, Phantom, Lost update. 2PL = Grow then Shrink, never regrow. Cycle in the graph = bad news.',
+pts:['Dirty read: read uncommitted data','Non-repeatable read: same row, different value on re-read','Phantom: new rows appear in a repeated range query','Lost update: two writes, one overwritten','Conflict serializable if precedence graph has NO cycle','2PL: growing phase (acquire locks), shrinking phase (release locks)','Deadlock = cycle in wait-for graph; fix with timeout, detection, prevention','Timestamp ordering: older timestamp wins, no locks'],
+def:'A schedule is serializable when its effect is equivalent to some serial execution. Two-phase locking has a growing phase for acquiring locks and a shrinking phase for releasing locks.',
+q:[['A precedence graph contains a cycle. The schedule is...',['Conflict serializable','Not conflict serializable','Always recoverable','Serial'],1,'A cycle means no equivalent serial order exists.'],['In 2PL, what is forbidden after the first unlock?',['Reading','Acquiring new locks','Committing','Unlocking'],1,'Once shrinking starts, no new locks.'],['Deadlock is detected using...',['Precedence graph','Wait-for graph','B+ tree','Shadow table'],1,'A cycle in the wait-for graph means deadlock.']]},
+{i:'🌐',n:'CAP, BASE and Sharding',s:'Distributed and NoSQL core',
+story:'A bank has two branches and the phone line between them is cut. Branch A can refuse to answer until it can verify with B (consistent but unavailable), or answer from what it knows (available but maybe stale). Partitions happen, so you pick one.',
+mn:'P is not optional, so choose C or A. CP = Careful and Patient, AP = Always Present. BASE = Basically Available, Soft state, Eventual consistency.',
+pts:['CAP: during a partition you cannot guarantee both consistency and availability','CP examples: MongoDB (default), HBase. AP examples: Cassandra, CouchDB','ACID = strict and pessimistic. BASE = flexible and eventual','Sharding = horizontal partitioning across nodes','Shard strategies: range, hash, directory','Replication gives availability and read speed, costs consistency'],
+def:'During a network partition, a distributed system cannot simultaneously guarantee both strong consistency and availability for every request. Sharding horizontally partitions data across multiple nodes.',
+q:[['During a partition, a system keeps answering with possibly stale data. It chose...',['CP','AP','CA','ACID'],1,'Availability over consistency is AP.'],['What does the S in BASE stand for?',['Strong','Soft state','Serializable','Sharded'],1,'Soft state: data may change without input as replicas converge.'],['Hash sharding mainly helps with...',['Range queries','Even data distribution','Joins','Foreign keys'],1,'Hashing spreads keys evenly, but range queries get harder.']]},
+{i:'🧩',n:'Distributed DBs: Fragmentation, Replication, 2PC',s:'Full 20-marker in Unit 4',
+story:'A pizza chain: each city keeps its own orders (horizontal split), headquarters keeps only prices and menus (vertical split), and big cities keep copies of each other data (replication). To confirm a bulk order across cities, the manager asks everyone Are you ready?, then says Commit!.',
+mn:'Horizontal = Hand out Rows (selection). Vertical = Vertical slices of Columns (projection, keep the key). 2PC = Prepare, then Commit.',
+pts:['Fragmentation rules: completeness, reconstruction, disjointness','Horizontal: rows by condition, rebuild with UNION','Vertical: columns, every fragment keeps the primary key, rebuild with JOIN','Hybrid: both together','Replication: more availability and read speed, but update cost and consistency risk','2PC phase 1: coordinator sends PREPARE, participants vote YES or NO. Phase 2: all YES means COMMIT, any NO means ABORT','2PC weakness: blocking if the coordinator fails','Consistency models: strong, eventual, causal'],
+def:'Sharding horizontally partitions data across multiple nodes. Two-phase commit has a voting phase and a decision phase to ensure all sites commit or all abort.',
+q:[['How is a vertically fragmented table rebuilt?',['UNION','JOIN on the key','Intersection','Cartesian product'],1,'Each fragment keeps the key so a join reconstructs the table.'],['In 2PC, one participant votes NO. Result?',['Commit','Global abort','Ignore it','Retry later only for that site'],1,'Any NO vote forces a global abort.'],['Main drawback of 2PC?',['No atomicity','Blocking if coordinator fails','Too many tables','No logging'],1,'Participants can be stuck waiting for the coordinator decision.']]},
+{i:'📚',n:'Indexing: B+ Tree vs Hash',s:'Relational and NoSQL both',
+story:'A phone book. To find all names from Mehta to Nair, you flip to M and read sideways: that is a B+ tree leaf chain. To find exactly one number you jump straight to a slot: that is a hash.',
+mn:'B for Between (range queries), H for Has-exactly (equality only).',
+pts:['B+ tree: balanced, all data pointers in linked leaves, O(log n) search','Great for equality AND range and ordered scans','Hash index: O(1) average for equality, useless for ranges','Index costs: extra storage and slower inserts, updates and deletes','Index benefit: much faster reads on the indexed attribute','NoSQL: MongoDB createIndex, Cassandra secondary index, Neo4j index, vector index (HNSW, IVF)'],
+def:'An index is an auxiliary access structure that improves data lookup performance at the cost of storage and maintenance.',
+q:[['Query: salary BETWEEN 30000 AND 50000. Best index?',['Hash','B+ tree','No index','Bitmap on name'],1,'Linked sorted leaves make ranges fast.'],['Main downside of indexes?',['Slower reads','Extra storage and write overhead','Data loss','No ordering'],1,'Every write must also update the index.']]},
+{i:'🛟',n:'Recovery: Deferred, Immediate, WAL',s:'The tricky comparison table',
+story:'Writing an exam in pencil versus pen. Deferred: draft in rough, copy to the final sheet only when sure (commit). Immediate: write straight on the final sheet, so you may need to erase (undo).',
+mn:'Deferred = Delay, so only REDO. Immediate = I need both, UNDO + REDO.',
+pts:['Deferred update: DB changes only after commit, so no UNDO needed','Immediate update: DB may change before commit, so UNDO and REDO','WAL: write the log record BEFORE the data page','Checkpoint: limits how much log must be scanned at restart','Shadow paging: keep old page table; commit switches the pointer, no log needed','Failure types: transaction, system crash, disk failure'],
+def:'Write-ahead logging requires that log records be written to stable storage before the corresponding data changes reach the database.',
+q:[['Which recovery scheme never needs UNDO?',['Deferred update','Immediate update','Both','Neither'],0,'Nothing uncommitted ever reaches the database.'],['WAL means...',['Data page first, log later','Log first, then data page','Lock then write','Write all later'],1,'Log before data is what makes undo and redo possible.']]},
+{i:'🍃',n:'NoSQL Types and Commands',s:'Easy marks at the end',
+story:'Four tools in one kitchen: a filing cabinet of JSON (Document), a sticky-note wall (Key-Value), a spreadsheet by columns (Column-family), and a string-and-pin conspiracy board (Graph).',
+mn:'Doctors Keep Calm, Gracefully = Document, Key-value, Column, Graph. Mongo, Redis, Cassandra, Neo4j.',
+pts:['MongoDB: db.users.find({age:{$gt:20}})','Redis: SET key val, GET key (fast cache, sessions)','Cassandra: CREATE TABLE ... PRIMARY KEY, wide-column, AP, write heavy','Neo4j: MATCH (a)-[:KNOWS]->(b) RETURN b','Vector DB: embeddings plus similarity search (cosine, ANN with HNSW)','Pick by access pattern: relationships = graph, cache = key-value'],
+def:'NoSQL is a broad family of non-relational database technologies designed for flexible data models and scalable or distributed workloads.',
+q:[['Best store for friend-of-friend recommendations?',['Redis','Neo4j','Cassandra','MongoDB'],1,'Relationship traversal is the graph database sweet spot.'],['Which command finds docs with age over 20 in MongoDB?',['SELECT age>20','db.users.find({age:{$gt:20}})','GET age','MATCH (age)'],1,'$gt is the MongoDB greater-than operator.']]},
+{i:'🔍',n:'MongoDB Aggregation and Vector Search',s:'Commands plus modern topics',
+story:'An assembly line: raw orders enter, a filter drops junk, a group station totals per customer, a sorter lines them up. For vectors, every sentence becomes a point on a map and similar meanings sit close together.',
+mn:'Pipeline order = Match, Group, Sort (My Great Shoes). Vectors: Cosine = angle, HNSW = Highway-style graph.',
+pts:['db.orders.aggregate([{$match:{status:"A"}},{$group:{_id:"$cust",total:{$sum:"$amt"}}},{$sort:{total:-1}}])','$match early reduces data for later stages','CRUD: insertOne, find, updateOne with $set, deleteOne','Embedding: numerical vector of an object made by a model','Similarity: cosine, Euclidean, dot product','HNSW: layered graph for fast approximate nearest neighbours. IVF: cluster first, search nearest clusters','Approximate search trades a little accuracy for big speed'],
+def:'An embedding is a numerical vector representation of an object produced by an embedding model. Vector similarity search retrieves stored vectors closest to a query vector according to a chosen similarity or distance measure.',
+q:[['Which stage should usually come first to cut data early?',['$sort','$match','$group','$limit after group'],1,'Filtering first shrinks the data every later stage touches.'],['Which measure compares the angle between two vectors?',['Hamming','Cosine similarity','Manhattan time','Jaccard rows'],1,'Cosine similarity is based on the angle.'],['HNSW is mainly used for...',['Exact joins','Approximate nearest neighbour search','Locking','Sharding'],1,'It is a graph index for fast approximate similarity search.']]},
+{i:'🗺️',n:'ER Mapping, Keys, SQL, Constraints',s:'Unit 1 scoring basics',
+story:'A college blueprint: Students and Courses are things, Enrol is the link. Turning the blueprint into tables follows fixed rules.',
+mn:'Many gets the key (FK on the N side). Many-to-Many needs a Middleman table. SQL: DDL Defines, DML Manipulates, DCL Controls access, TCL Tames transactions.',
+pts:['Strong entity becomes a table; weak entity table includes owner key','1:N: put a foreign key on the N side','M:N: new junction table with both keys','Multivalued attribute: separate table','DDL: CREATE, ALTER, DROP, TRUNCATE. DML: INSERT, UPDATE, DELETE, SELECT. DCL: GRANT, REVOKE. TCL: COMMIT, ROLLBACK, SAVEPOINT','Entity integrity: primary key never null. Referential integrity: foreign key matches an existing key or is null','Constraints: PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK'],
+def:'Referential integrity requires every foreign key value to either be null or match an existing primary key value in the referenced relation.',
+q:[['How is an M:N relationship mapped?',['FK on either side','Separate junction table','Merge the entities','Ignore it'],1,'A new table holds the keys of both entities.'],['GRANT and REVOKE belong to...',['DDL','DML','DCL','TCL'],2,'They control access, so Data Control Language.'],['Entity integrity means...',['FK must match','Primary key cannot be null','Values are unique across tables','Every table has an index'],1,'No primary key attribute may be null.']]}
+];
+let S={xp:0,st:0,done:{}};try{S=Object.assign(S,JSON.parse(localStorage.getItem('adbms2')||'{}'))}catch(e){}
+let voice=true;const $=id=>document.getElementById(id),A=$('app');
+const save=()=>{try{localStorage.setItem('adbms2',JSON.stringify(S))}catch(e){}};
+function say(t){if(!voice)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/→/g,' leads to ').replace(/[$(){}\[\]:]/g,' '));u.rate=1.05;speechSynthesis.speak(u)}catch(e){}}
+function hud(){const l=Math.floor(S.xp/100)+1;$('lv').textContent='Lv '+l;$('xb').style.width=(S.xp%100)+'%';$('xp').textContent='⚡ '+S.xp+' XP';$('sk').textContent='🔥 '+S.st;$('vo').textContent=voice?'🔊 On':'🔇 Off';save()}
+$('vo').onclick=()=>{voice=!voice;if(!voice)try{speechSynthesis.cancel()}catch(e){}hud()};
+function pop(t){const d=document.createElement('div');d.className='pop';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1000)}
+function home(){const dn=Object.keys(S.done).length;A.innerHTML=`<h1>🎮 ADBMS Boss Rush</h1><p class="s">Highest-yield first. Clear ${M.length} missions, then face the Final Boss. ${dn}/${M.length} done.</p>`+M.map((m,k)=>`<button class="m" onclick="play(${k})"><span class="e">${m.i}</span><span><b>${k+1}. ${m.n}</b><small>${m.s}</small></span><span class="st">${S.done[k]?'⭐':'▶'}</span></button>`).join('')+`<button class="m" onclick="final()"><span class="e">👹</span><span><b>FINAL BOSS</b><small>6 random questions from every mission</small></span><span class="st">⚔️</span></button><button class="m" onclick="cram()"><span class="e">📄</span><span><b>Morning cram sheet</b><small>All mnemonics and must-memorise sentences on one page</small></span><span class="st">➜</span></button>`;scrollTo(0,0)}
+function cram(){A.innerHTML='<h1>📄 Cram sheet</h1><p class="s">Read this last, right before the exam.</p>'+M.map(m=>`<div class="card"><span class="tag">${m.i} ${m.n}</span><div class="mn" style="font-size:17px">${m.mn}</div><p>${m.def}</p></div>`).join('')+'<button class="btn g" onclick="home()">Map</button>';scrollTo(0,0)}
+function play(k){const m=M[k],c=[['📖 Story',`<div class="big">${m.story}</div>`,m.story],['🧠 Mnemonic',`<div class="mn">${m.mn}</div>`,m.mn],['✍️ Key points',`<ul>${m.pts.map(p=>`<li>${p}</li>`).join('')}</ul>`,m.pts.join('. ')],['📌 Memorise this sentence',`<div class="big">${m.def}</div>`,m.def]];let i=0;
+function show(){if(i>=c.length)return boss(m.q,k,m.i,m.n);const x=c[i];A.innerHTML=`<p class="s">${m.i} ${m.n} · card ${i+1}/${c.length}</p><div class="card"><span class="tag">${x[0]}</span>${x[1]}</div><button class="btn g" id="rp">🔁 Replay voice</button><button class="btn" id="nx">${i==c.length-1?'⚔️ Fight the boss':'Next ➜'}</button><button class="btn g" onclick="home()">Map</button>`;$('nx').onclick=()=>{i++;show()};$('rp').onclick=()=>{const v=voice;voice=true;say(x[2]);voice=v};say(x[2]);scrollTo(0,0)}show()}
+function final(){const all=M.flatMap(m=>m.q).sort(()=>Math.random()-.5).slice(0,6);boss(all,-1,'👹','FINAL BOSS')}
+function boss(qs,k,em,name){let q=0,hp=qs.length,hearts=3;
+function ask(){const [t,o0,a0,w]=qs[q],ord=o0.map((_,j)=>j).sort(()=>Math.random()-.5),o=ord.map(j=>o0[j]),a=ord.indexOf(a0);A.innerHTML=`<p class="s">${name} · ${'❤️'.repeat(hearts)||'💔'}</p><div class="boss" id="bs">${em}</div><div class="hp"><i style="width:${hp/qs.length*100}%"></i></div><div class="card"><span class="tag">Question ${q+1}/${qs.length}</span><div class="big">${t}</div>${o.map((x,j)=>`<button class="opt" data-j="${j}">${x}</button>`).join('')}<div class="why" id="wy"></div></div><div id="ct"></div>`;
+say(t);document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;document.querySelectorAll('.opt').forEach(x=>x.disabled=true);const ok=j==a;
+if(ok){b.classList.add('ok');const g=10+Math.min(S.st,5)*2;S.st++;S.xp+=g;hp--;pop('+'+g+' XP');$('bs').classList.add('hit')}else{b.classList.add('no');document.querySelectorAll('.opt')[a].classList.add('ok');S.st=0;hearts--}
+$('wy').textContent=(ok?'✅ ':'❌ ')+w;hud();const end=hp==0||hearts==0;
+$('ct').innerHTML=`<button class="btn" id="go">${end?'See result':'Next ➜'}</button>`;$('go').onclick=()=>{q++;end?fin(hp==0):ask()}})}
+function fin(win){if(win&&k>=0&&!S.done[k]){S.done[k]=1;S.xp+=50}else if(win&&k<0)S.xp+=100;hud();A.innerHTML=`<div class="boss ${win?'dead':''}">${win?'🏆':'💀'}</div><div class="card"><div class="big">${win?'Boss defeated! '+(k<0?'+100':'+50')+' XP':'You ran out of hearts.'}</div><p class="why">${win?'Next mission awaits. Highest yield first, so you are building marks fast.':'Re-read the mnemonic card and go again. Repetition is the whole trick.'}</p></div><button class="btn" onclick="${k<0?'final()':'play('+k+')'}">${win?'🔁 Again':'↩ Retry'}</button><button class="btn g" onclick="home()">Map</button>`;if(win)pop('🎉');say(win?'Boss defeated!':'Try again.')}
+ask()}
+hud();home();
+</script></body></html>

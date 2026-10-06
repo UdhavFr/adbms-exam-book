@@ -1,0 +1,18 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty. [[sub]]A C I D: four promises that keep your money real.",
+    "ground": "Ravi sends 500 rupees to Meena. [[accts]]His account holds 1000, hers holds 500. [[move]]Step one: subtract 500 from Ravi. Step two: add 500 to Meena. [[crash]]Now the power dies between the steps. [[half]]Ravi lost 500, Meena got nothing. Half a job is worse than no job. [[w]]Write this: a transfer is two steps that must succeed or fail together.",
+    "txn": "That all-or-nothing job has a name. [[unit]]A transaction is one logical unit of work. [[ok]]It travels: Active, to Partially Committed, to Committed. Committed means done and safe. [[fail]]Or it travels: Failed, to Aborted. Aborted means rolled back, as if it never ran. [[w]]Write this: transaction equals one logical unit; committed or aborted, never half.",
+    "acid": "Four promises, one per letter. [[a]]A: atomicity. All or nothing. The light switch cannot be half on. [[c]]C: consistency. The rules of the game hold before and after. No negative balances. [[i]]I: isolation. Concurrent transfers get separate rooms; nobody sees half-written numbers. [[d]]D: durability. Committed means carved in stone: power cuts cannot erase it. [[w]]Write this: all, correct, isolated, durable, one transfer example each.",
+    "q1": "Quick check. [[q]]Debit succeeded, credit failed, so the debit is undone. Which property?",
+    "isol": "Isolation comes in strengths, weakest first. [[l1]]Read Uncommitted: dirty reads allowed. You may read numbers nobody committed. [[l2]]Read Committed: no dirty reads. [[l3]]Repeatable Read: a row you read twice cannot change under you. New rows may still appear. [[l4]]Serializable: full isolation, as if transfers ran one after another. Strength rises, freedom falls. [[w]]Write this: order the four levels, name what each still allows.",
+    "q2": "Quick check. [[q]]Power cut right after commit, but the data is still there after restart. Which property?",
+    "wrap": "To sum up. [[w1]]A transaction is one logical unit: committed or aborted, never half. [[w2]]A is all-or-nothing, C is correct state, I is separate rooms, D is carved in stone. Recovery guards A and D; concurrency control guards I. [[w3]]Isolation ladder weakest to strongest: Uncommitted, Committed, Repeatable, Serializable.",
+    "final1": "Chapter practice. [[q]]Which property says all-or-nothing?",
+    "final2": "Chapter practice. [[q]]Which component mainly ensures isolation?",
+    "final3": "Chapter practice. [[q]]True or false: Read Committed can see uncommitted changes.",
+    "finish": "Well done. Money is safe. Next stop: C A P, the most misquoted theorem in the subject."
+  }
+}

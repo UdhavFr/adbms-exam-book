@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparisons — tables = marks — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Comparisons — tables = marks</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#comparisons-md-contrast-pairs-tables-marks">comparisons.md — Contrast Pairs (Tables = Marks)</a></li><li class="l2"><a href="#c1-file-system-vs-dbms">C1. File system vs DBMS</a></li><li class="l2"><a href="#c2-schema-vs-instance">C2. Schema vs Instance</a></li><li class="l2"><a href="#c3-physical-vs-logical-data-independence">C3. Physical vs Logical data independence</a></li><li class="l2"><a href="#c4-keys">C4. Keys</a></li><li class="l2"><a href="#c5-cardinality-ratios-er-plus-the-terminology-trap">C5. Cardinality ratios (ER) — plus the terminology trap</a></li><li class="l2"><a href="#c6-participation">C6. Participation</a></li><li class="l2"><a href="#c7-sql-sub-languages">C7. SQL sub-languages</a></li><li class="l2"><a href="#c8-modification-anomalies">C8. Modification anomalies</a></li><li class="l2"><a href="#c9-the-normal-form-ladder-the-single-most-examinable-table">C9. The normal-form ladder (the single most examinable table)</a></li><li class="l2"><a href="#c10-3nf-vs-bcnf-classic-5-10-mark-question">C10. 3NF vs BCNF ← classic 5/10-mark question</a></li><li class="l2"><a href="#c11-lossless-join-vs-dependency-preservation">C11. Lossless join vs Dependency preservation</a></li><li class="l2"><a href="#c12-file-organizations">C12. File organizations</a></li><li class="l2"><a href="#c13-b-tree-vs-hash-index-very-frequently-asked">C13. B+ tree vs Hash index ← very frequently asked</a></li><li class="l2"><a href="#c14-index-benefits-vs-costs">C14. Index: benefits vs costs</a></li><li class="l2"><a href="#c15-transaction-states">C15. Transaction states</a></li><li class="l2"><a href="#c16-acid-highest-value-unit-3-table">C16. ACID ← highest-value Unit 3 table</a></li><li class="l2"><a href="#c17-isolation-levels-which-anomaly-each-stops">C17. Isolation levels + which anomaly each stops</a></li><li class="l2"><a href="#c18-concurrency-anomalies">C18. Concurrency anomalies</a></li><li class="l2"><a href="#c19-serial-vs-serializable-and-2pl-variants">C19. Serial vs Serializable · and 2PL variants</a></li><li class="l2"><a href="#c20-lock-compatibility">C20. Lock compatibility</a></li><li class="l2"><a href="#c21-lock-based-2pl-vs-timestamp-ordering">C21. Lock-based (2PL) vs Timestamp ordering</a></li><li class="l2"><a href="#c22-failure-types">C22. Failure types</a></li><li class="l2"><a href="#c23-deferred-update-vs-immediate-update-vs-shadow-paging-fav">C23. Deferred update vs Immediate update vs Shadow paging ← favourite 10-marker</a></li><li class="l2"><a href="#c24-recovery-mechanisms">C24. Recovery mechanisms</a></li><li class="l2"><a href="#c25-homogeneous-vs-heterogeneous-vs-federated">C25. Homogeneous vs Heterogeneous vs Federated</a></li><li class="l2"><a href="#c26-fragmentation-types">C26. Fragmentation types</a></li><li class="l2"><a href="#c27-replication-benefits-vs-costs">C27. Replication: benefits vs costs</a></li><li class="l2"><a href="#c28-2pl-vs-2pc-derived-c-do-not-confuse">C28. 2PL vs 2PC ← derived (C) — do not confuse</a></li><li class="l2"><a href="#c29-consistency-models">C29. Consistency models</a></li><li class="l2"><a href="#c30-acid-vs-base-very-common-5-mark-question">C30. ACID vs BASE ← very common 5-mark question</a></li><li class="l2"><a href="#c31-cap-the-exact-framing">C31. CAP — the exact framing</a></li><li class="l2"><a href="#c32-sharding-strategies">C32. Sharding strategies</a></li><li class="l2"><a href="#c33-nosql-data-models">C33. NoSQL data models</a></li><li class="l2"><a href="#c34-relational-vs-mongodb-vocabulary">C34. Relational vs MongoDB vocabulary</a></li><li class="l2"><a href="#c35-hbase-vs-cassandra-unit-5-comparison-table">C35. HBase vs Cassandra ← Unit 5 comparison table</a></li><li class="l2"><a href="#c36-traditional-index-vs-vector-index">C36. Traditional index vs Vector index</a></li><li class="l2"><a href="#c37-brute-force-vs-ann-search">C37. Brute-force vs ANN search</a></li><li class="l2"><a href="#c38-cosine-vs-euclidean-vs-dot-product">C38. Cosine vs Euclidean vs Dot product</a></li><li class="l2"><a href="#c39-relational-design-vs-cassandra-design-philosophy-derived">C39. Relational design vs Cassandra design philosophy (derived)</a></li></ol></nav><div class="content"><h1 id="comparisons-md-contrast-pairs-tables-marks">comparisons.md — Contrast Pairs (Tables = Marks)</h1>
+<p>Examiners award marks per correct <em>row</em>. Memorise the <strong>contrast</strong>, not the paragraph. Rows marked <strong>derived</strong> are assembled from source facts (not new material).</p>
+<hr>
+<h2 id="c1-file-system-vs-dbms">C1. File system vs DBMS</h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>File-processing system</th><th>DBMS</th></tr></thead><tbody>
+<tr><td>Redundancy</td><td>duplicated across app files</td><td>centralized/shared design reduces it</td></tr>
+<tr><td>Inconsistency</td><td>copies drift apart</td><td>constraints + controlled updates</td></tr>
+<tr><td>Sharing</td><td>hard (app-owned files)</td><td>multiple users/applications share one DB</td></tr>
+<tr><td>Security</td><td>ad hoc per app</td><td>authentication + authorization</td></tr>
+<tr><td>Concurrent access</td><td>uncoordinated</td><td>concurrency-control mechanisms</td></tr>
+<tr><td>Recovery</td><td>manual/limited</td><td>logging, checkpoints, restore</td></tr>
+<tr><td>Program-data dependence</td><td>data embedded in programs</td><td>data abstraction + data independence</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c2-schema-vs-instance">C2. Schema vs Instance</h2>
+<div class="tscroll"><table><thead><tr><th>Aspect</th><th>Schema</th><th>Instance</th></tr></thead><tbody>
+<tr><td>Meaning</td><td>design / logical structure</td><td>actual contents at a moment</td></tr>
+<tr><td>Change frequency</td><td>relatively infrequent</td><td>changes frequently</td></tr>
+<tr><td>Example</td><td><code>STUDENT(RollNo, Name, Course)</code></td><td><code>(101, Ravi, MCA)</code></td></tr>
+<tr><td>Analogy</td><td>blueprint</td><td>current building</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c3-physical-vs-logical-data-independence">C3. Physical vs Logical data independence</h2>
+<div class="tscroll"><table><thead><tr><th>Type</th><th>What can change</th><th>What must NOT change</th><th>Example</th></tr></thead><tbody>
+<tr><td>Physical</td><td>storage structures (files, indexes, pages)</td><td>conceptual schema</td><td>add/change an index</td></tr>
+<tr><td>Logical</td><td>conceptual schema</td><td>required external views/apps</td><td>split a table, keep a compatible view</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c4-keys">C4. Keys</h2>
+<div class="tscroll"><table><thead><tr><th>Key</th><th>Definition</th><th>Test</th></tr></thead><tbody>
+<tr><td>Super key</td><td>any attribute set that uniquely identifies a tuple</td><td>uniqueness only</td></tr>
+<tr><td>Candidate key</td><td><strong>minimal</strong> super key</td><td>remove any attribute ⇒ uniqueness breaks</td></tr>
+<tr><td>Primary key</td><td>the chosen candidate key</td><td>one per relation</td></tr>
+<tr><td>Alternate key</td><td>a candidate key not chosen</td><td>still valid identifier</td></tr>
+<tr><td>Foreign key</td><td>attribute(s) referencing a key in another relation</td><td>must match a referenced key (or NULL if allowed)</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c5-cardinality-ratios-er-plus-the-terminology-trap">C5. Cardinality ratios (ER) — plus the terminology trap</h2>
+<div class="tscroll"><table><thead><tr><th>Ratio</th><th>Meaning</th><th>Anchor example</th></tr></thead><tbody>
+<tr><td>1:1</td><td>one entity ↔ at most one on the other side</td><td>Person–Passport</td></tr>
+<tr><td>1:N</td><td>one ↔ many</td><td>Department–Employee</td></tr>
+<tr><td>M:N</td><td>many ↔ many</td><td>Student–Course</td></tr>
+</tbody></table></div>
+<p>⚠ <strong>Cardinality of a relation = number of tuples</strong> (different meaning — errata E1). Degree = number of attributes.</p>
+<hr>
+<h2 id="c6-participation">C6. Participation</h2>
+<div class="tscroll"><table><thead><tr><th></th><th>Total</th><th>Partial</th></tr></thead><tbody>
+<tr><td>Meaning</td><td>every entity participates</td><td>participation optional</td></tr>
+<tr><td>Drawing</td><td>double line</td><td>single line</td></tr>
+<tr><td>Example</td><td>each student must enrol somewhere</td><td>some employees are not on a project</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c7-sql-sub-languages">C7. SQL sub-languages</h2>
+<div class="tscroll"><table><thead><tr><th>Category</th><th>Purpose</th><th>Commands</th></tr></thead><tbody>
+<tr><td>DDL</td><td>define/modify structure</td><td>CREATE, ALTER, DROP, TRUNCATE</td></tr>
+<tr><td>DML</td><td>retrieve/change data</td><td>SELECT, INSERT, UPDATE, DELETE</td></tr>
+<tr><td>DCL</td><td>privileges/security</td><td>GRANT, REVOKE</td></tr>
+<tr><td>TCL</td><td>transaction control</td><td>COMMIT, ROLLBACK, SAVEPOINT</td></tr>
+</tbody></table></div>
+<p><strong>Hook:</strong> DDL=Design · DML=Manipulate · DCL=Control access · TCL=Transaction.</p>
+<hr>
+<h2 id="c8-modification-anomalies">C8. Modification anomalies</h2>
+<div class="tscroll"><table><thead><tr><th>Anomaly</th><th>One line</th></tr></thead><tbody>
+<tr><td>Insertion</td><td>cannot insert a fact without an unrelated fact</td></tr>
+<tr><td>Update</td><td>one logical change requires many updates</td></tr>
+<tr><td>Deletion</td><td>deleting a fact accidentally deletes another fact</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c9-the-normal-form-ladder-the-single-most-examinable-table">C9. The normal-form ladder (the single most examinable table)</h2>
+<div class="tscroll"><table><thead><tr><th>NF</th><th>Fixed by</th><th>Defining rule</th><th>Canonical example</th></tr></thead><tbody>
+<tr><td>1NF</td><td>atomic values</td><td>no repeating groups / nested sets</td><td>STUDENT(…, Phones) → STUDENT_PHONE</td></tr>
+<tr><td>2NF</td><td>remove <strong>partial</strong> dependency</td><td>non-prime depends on the <strong>whole</strong> key</td><td>ENROLL(StudentID, CourseID, StudentName, CourseName, Grade)</td></tr>
+<tr><td>3NF</td><td>remove <strong>transitive</strong> dependency</td><td>X→A allowed if <strong>X super key OR A prime</strong></td><td>EMPLOYEE(EmpID, DeptID, DeptName)</td></tr>
+<tr><td>BCNF</td><td>remove non-key determinants</td><td><strong>every determinant is a super key</strong></td><td>stricter than 3NF</td></tr>
+<tr><td>4NF</td><td>remove independent MVDs</td><td>non-trivial MVD ⇒ determinant is a super key</td><td>STUDENT(Student, Hobby, Language)</td></tr>
+<tr><td>5NF</td><td>remove join-dependency redundancy</td><td>non-trivial JD implied by candidate keys</td><td>lossless reconstruction by projections</td></tr>
+</tbody></table></div>
+<p><strong>One-line memory:</strong> 1=Atomic · 2=Partial · 3=Transitive · BC=Determinant · 4=MVD · 5=Join.</p>
+<hr>
+<h2 id="c10-3nf-vs-bcnf-classic-5-10-mark-question">C10. 3NF vs BCNF ← <em>classic 5/10-mark question</em></h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>3NF</th><th>BCNF</th></tr></thead><tbody>
+<tr><td>Condition for X → A</td><td>X is a super key <strong>OR</strong> A is prime</td><td>X <strong>must be</strong> a super key</td></tr>
+<tr><td>Restrictive?</td><td>less restrictive</td><td>more restrictive</td></tr>
+<tr><td>Dependency preservation</td><td>usually preserved (a lossless, dependency-preserving decomposition always exists)</td><td>may be lost</td></tr>
+<tr><td>Practical role</td><td>common compromise</td><td>used when stronger redundancy removal is needed</td></tr>
+<tr><td>Memory</td><td><strong>OR</strong></td><td><strong>ONLY</strong></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c11-lossless-join-vs-dependency-preservation">C11. Lossless join vs Dependency preservation</h2>
+<div class="tscroll"><table><thead><tr><th>Property</th><th>Question it answers</th></tr></thead><tbody>
+<tr><td>Lossless join</td><td>Can I reconstruct the original relation <strong>exactly</strong>, with no spurious tuples?</td></tr>
+<tr><td>Dependency preservation</td><td>Can I enforce the original dependencies <strong>without joining</strong>?</td></tr>
+</tbody></table></div>
+<p><strong>Puzzle memory:</strong> lossless = pieces rebuild the exact picture · preserved = rules checked locally. They are independent: one can hold without the other.</p>
+<hr>
+<h2 id="c12-file-organizations">C12. File organizations</h2>
+<div class="tscroll"><table><thead><tr><th>Organization</th><th>Description</th><th>Best for</th></tr></thead><tbody>
+<tr><td>Heap</td><td>unordered records</td><td>frequent inserts, full scans</td></tr>
+<tr><td>Sequential/sorted</td><td>key order</td><td>ordered processing, range access</td></tr>
+<tr><td>Hash</td><td>key → bucket via hash function</td><td>equality lookups</td></tr>
+<tr><td>Clustered</td><td>related records close together</td><td>queries accessing related records together</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c13-b-tree-vs-hash-index-very-frequently-asked">C13. B+ tree vs Hash index ← <em>very frequently asked</em></h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>B+ tree</th><th>Hash index</th></tr></thead><tbody>
+<tr><td>Structure</td><td>balanced ordered tree</td><td>unordered buckets</td></tr>
+<tr><td>Workload</td><td>equality <strong>+ range</strong></td><td>equality only</td></tr>
+<tr><td>ORDER BY / range scan</td><td>good (linked leaves)</td><td>poor</td></tr>
+<tr><td>Lookup path</td><td>root → internal → leaf → record</td><td>key → hash → bucket → records</td></tr>
+<tr><td>Complexity</td><td>O(log_f N)</td><td>~O(1) average for equality</td></tr>
+<tr><td>Memory</td><td>"broad access"</td><td>"hit the exact key"</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c14-index-benefits-vs-costs">C14. Index: benefits vs costs</h2>
+<div class="tscroll"><table><thead><tr><th>Benefits</th><th>Costs</th></tr></thead><tbody>
+<tr><td>avoids full table/collection scans</td><td>extra storage</td></tr>
+<tr><td>lower latency</td><td>write overhead (index maintenance)</td></tr>
+<tr><td>supports selective filtering</td><td>memory/cache pressure</td></tr>
+<tr><td>ordered index supports range + sorting</td><td>useless if the query doesn't match its shape</td></tr>
+<tr><td>nearest-neighbour retrieval in vector systems</td><td>too many indexes slow write-heavy systems</td></tr>
+<tr><td>reduces CPU/memory/disk I/O/network work</td><td>needs partition-aware design when distributed</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c15-transaction-states">C15. Transaction states</h2>
+<div class="tscroll"><table><thead><tr><th>State</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Active</td><td>executing</td></tr>
+<tr><td>Partially committed</td><td>last statement executed; durability not yet final</td></tr>
+<tr><td>Committed</td><td>completed successfully; effects durable</td></tr>
+<tr><td>Failed</td><td>cannot continue</td></tr>
+<tr><td>Aborted</td><td>effects rolled back → restart or terminate</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c16-acid-highest-value-unit-3-table">C16. ACID ← <em>highest-value Unit 3 table</em></h2>
+<div class="tscroll"><table><thead><tr><th>Property</th><th>Detailed meaning</th><th>Banking example</th></tr></thead><tbody>
+<tr><td>Atomicity</td><td>all-or-nothing; rollback if an essential operation fails</td><td>debit <strong>and</strong> credit both happen</td></tr>
+<tr><td>Consistency</td><td>committed transactions preserve integrity rules</td><td>no invalid account state</td></tr>
+<tr><td>Isolation</td><td>intermediate effects of concurrent transactions controlled ⇒ equivalent to acceptable serial behaviour</td><td>nobody sees a half-completed transfer</td></tr>
+<tr><td>Durability</td><td>committed effects survive later system failure</td><td>transfer still there after restart</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c17-isolation-levels-which-anomaly-each-stops">C17. Isolation levels + which anomaly each stops</h2>
+<div class="tscroll"><table><thead><tr><th>Level</th><th>Dirty read</th><th>Non-repeatable read</th><th>Phantom</th></tr></thead><tbody>
+<tr><td>Read Uncommitted</td><td>possible</td><td>possible</td><td>possible</td></tr>
+<tr><td>Read Committed</td><td>prevented</td><td>possible</td><td>possible</td></tr>
+<tr><td>Repeatable Read</td><td>prevented</td><td>prevented</td><td>DBMS-dependent (SQL standard: possible)</td></tr>
+<tr><td>Serializable</td><td>prevented</td><td>prevented</td><td>prevented</td></tr>
+</tbody></table></div>
+<p><em>(Source gives the "general idea" rows; matrix form per errata E4.)</em></p>
+<hr>
+<h2 id="c18-concurrency-anomalies">C18. Concurrency anomalies</h2>
+<div class="tscroll"><table><thead><tr><th>Anomaly</th><th>One-line trigger</th><th>Story</th></tr></thead><tbody>
+<tr><td>Lost update</td><td>later write overwrites an earlier write</td><td>"my write vanished"</td></tr>
+<tr><td>Dirty read</td><td>read a value written by an uncommitted transaction</td><td>"I read dirty data"</td></tr>
+<tr><td>Non-repeatable read</td><td>same row read twice gives different committed values</td><td>"the row changed under me"</td></tr>
+<tr><td>Phantom read</td><td>repeated predicate query returns a different row <strong>set</strong></td><td>"new rows appeared"</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c19-serial-vs-serializable-and-2pl-variants">C19. Serial vs Serializable · and 2PL variants</h2>
+<div class="tscroll"><table><thead><tr><th></th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Serial schedule</td><td>transactions run one after another</td></tr>
+<tr><td>Serializable schedule</td><td>may interleave, but equivalent to <strong>some</strong> serial schedule</td></tr>
+</tbody></table></div>
+<div class="tscroll"><table><thead><tr><th>Variant</th><th>Rule</th><th>Guarantees</th></tr></thead><tbody>
+<tr><td>Basic 2PL</td><td>growing/shrinking phases</td><td>conflict serializability</td></tr>
+<tr><td>Strict 2PL</td><td>hold <strong>X</strong> locks till commit/abort</td><td>fewer cascading rollbacks</td></tr>
+<tr><td>Rigorous 2PL</td><td>hold <strong>S and X</strong> till completion</td><td>strongest lock holding</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c20-lock-compatibility">C20. Lock compatibility</h2>
+<div class="tscroll"><table><thead><tr><th>held \ req</th><th>S</th><th>X</th></tr></thead><tbody>
+<tr><td>S</td><td>✅</td><td>❌</td></tr>
+<tr><td>X</td><td>❌</td><td>❌</td></tr>
+</tbody></table></div>
+<p><em>S = Shares (read), X = eXcludes (write).</em></p>
+<hr>
+<h2 id="c21-lock-based-2pl-vs-timestamp-ordering">C21. Lock-based (2PL) vs Timestamp ordering</h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>2PL</th><th>Timestamp ordering</th></tr></thead><tbody>
+<tr><td>Coordination</td><td>locks + phases</td><td>unique timestamps, order of operations</td></tr>
+<tr><td>Waiting</td><td>may wait for locks</td><td>no waiting</td></tr>
+<tr><td>Deadlock</td><td>possible (cycle)</td><td>lock-wait deadlock impossible</td></tr>
+<tr><td>Cost</td><td>blocking / lower concurrency in contention</td><td>aborted work wasted on restarts</td></tr>
+<tr><td>Correctness</td><td>conflict serializable</td><td>serializable by timestamp order</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c22-failure-types">C22. Failure types</h2>
+<div class="tscroll"><table><thead><tr><th>Failure</th><th>Cause</th><th>What is lost</th></tr></thead><tbody>
+<tr><td>Transaction failure</td><td>logical error, constraint violation, deadlock victim, explicit abort</td><td>that transaction's progress</td></tr>
+<tr><td>System crash</td><td>power / OS / DBMS process failure</td><td>volatile memory</td></tr>
+<tr><td>Media failure</td><td>disk damage</td><td>persistent data on that media</td></tr>
+<tr><td>Communication failure</td><td>network link failure (critical in distributed DBs)</td><td>messages between sites</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c23-deferred-update-vs-immediate-update-vs-shadow-paging-fav">C23. Deferred update vs Immediate update vs Shadow paging ← <em>favourite 10-marker</em></h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>Deferred update</th><th>Immediate update</th><th>Shadow paging</th></tr></thead><tbody>
+<tr><td>When data pages are written</td><td>only <strong>after</strong> commit</td><td>may be written <strong>before</strong> commit</td><td>always to <strong>new</strong> pages</td></tr>
+<tr><td>What the DB sees on crash</td><td>only committed changes</td><td>both committed &amp; uncommitted changes</td><td>old consistent version</td></tr>
+<tr><td>After crash</td><td>REDO committed if needed (normally <strong>no UNDO</strong>)</td><td><strong>UNDO</strong> uncommitted + <strong>REDO</strong> committed</td><td>use SHADOW mapping</td></tr>
+<tr><td>Extra structure</td><td>log records</td><td>log records</td><td>two page tables</td></tr>
+<tr><td>Weakness</td><td>needs enough log to redo</td><td>needs undo/redo logic</td><td>fragmentation, page-table copy overhead</td></tr>
+<tr><td>Memory</td><td>"delay the data"</td><td>"data may already be on disk"</td><td>"old safe book / new working book"</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c24-recovery-mechanisms">C24. Recovery mechanisms</h2>
+<div class="tscroll"><table><thead><tr><th>Mechanism</th><th>Idea</th></tr></thead><tbody>
+<tr><td>Logging</td><td>sequential record of actions: TID, item, old, new</td></tr>
+<tr><td>WAL</td><td>log record to stable storage <strong>before</strong> the data page is written</td></tr>
+<tr><td>Checkpoint</td><td>recovery starts from a recent point, not the whole log</td></tr>
+<tr><td>Shadow paging</td><td>never overwrite the last consistent version</td></tr>
+<tr><td>Undo/Redo</td><td>undo uncommitted, redo committed</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c25-homogeneous-vs-heterogeneous-vs-federated">C25. Homogeneous vs Heterogeneous vs Federated</h2>
+<div class="tscroll"><table><thead><tr><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Homogeneous</td><td>similar DBMS technology across sites</td></tr>
+<tr><td>Heterogeneous</td><td>different database technologies or schemas</td></tr>
+<tr><td>Federated</td><td>independently managed databases cooperating through integration mechanisms</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c26-fragmentation-types">C26. Fragmentation types</h2>
+<div class="tscroll"><table><thead><tr><th>Type</th><th>Split</th><th>Reconstruction</th></tr></thead><tbody>
+<tr><td>Horizontal</td><td><strong>rows</strong> by predicate</td><td>UNION of fragments</td></tr>
+<tr><td>Vertical</td><td><strong>columns</strong> (PK repeated in each)</td><td>JOIN on the key</td></tr>
+<tr><td>Hybrid</td><td>horizontal then vertical</td><td>combination</td></tr>
+</tbody></table></div>
+<p>Properties: <strong>completeness · reconstruction · disjointness</strong> (where the strategy requires it). <strong>Hook:</strong> Horizontal = Rows, Vertical = Columns.</p>
+<hr>
+<h2 id="c27-replication-benefits-vs-costs">C27. Replication: benefits vs costs</h2>
+<div class="tscroll"><table><thead><tr><th>Benefits</th><th>Costs</th></tr></thead><tbody>
+<tr><td>higher availability</td><td>more storage</td></tr>
+<tr><td>faster local reads</td><td>update coordination</td></tr>
+<tr><td>failure tolerance</td><td>consistency management</td></tr>
+<tr><td>reduced remote access</td><td>network/control overhead</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c28-2pl-vs-2pc-derived-c-do-not-confuse">C28. 2PL vs 2PC ← <em>derived (C) — do not confuse</em></h2>
+<div class="tscroll"><table><thead><tr><th>Feature</th><th>2PL (two-phase <strong>locking</strong>)</th><th>2PC (two-phase <strong>commit</strong>)</th></tr></thead><tbody>
+<tr><td>Unit</td><td>a transaction inside <strong>one</strong> DBMS</td><td>a transaction across <strong>multiple</strong> sites</td></tr>
+<tr><td>Purpose</td><td>concurrency control → serializability</td><td>atomic <strong>commit</strong> decision</td></tr>
+<tr><td>Phases</td><td>growing / shrinking (locks)</td><td>prepare / commit-or-abort (votes)</td></tr>
+<tr><td>Failure issue</td><td>deadlock</td><td>blocking when decision unreachable</td></tr>
+<tr><td>Memory</td><td><em>lock</em> phases</td><td><em>vote</em> phases</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c29-consistency-models">C29. Consistency models</h2>
+<div class="tscroll"><table><thead><tr><th>Model</th><th>Guarantee</th></tr></thead><tbody>
+<tr><td>Strong / linearizable</td><td>operations appear in a single real-time-respecting order</td></tr>
+<tr><td>Eventual</td><td>replicas may temporarily disagree, converge if updates stop</td></tr>
+<tr><td>Causal</td><td>causally related operations keep their causal order</td></tr>
+<tr><td>Session (read-your-writes, monotonic reads)</td><td>per-session sanity guarantees</td></tr>
+</tbody></table></div>
+<p>Trade-off: stronger consistency ⇒ more coordination ⇒ higher latency / lower availability during failures.</p>
+<hr>
+<h2 id="c30-acid-vs-base-very-common-5-mark-question">C30. ACID vs BASE ← <em>very common 5-mark question</em></h2>
+<div class="tscroll"><table><thead><tr><th>ACID</th><th>BASE</th></tr></thead><tbody>
+<tr><td>Atomicity, Consistency, Isolation, Durability</td><td>Basically Available, Soft state, Eventual consistency</td></tr>
+<tr><td>strong transaction-oriented guarantees</td><td>availability + flexible consistency emphasis</td></tr>
+<tr><td>traditional relational transaction systems</td><td>distributed NoSQL architectures/use cases</td></tr>
+<tr><td>commit aims at durable consistent state</td><td>state may change as replicas converge</td></tr>
+</tbody></table></div>
+<p>BASE ≠ permanently wrong data: temporary inconsistency accepted, eventual convergence expected.</p>
+<hr>
+<h2 id="c31-cap-the-exact-framing">C31. CAP — the exact framing</h2>
+<div class="tscroll"><table><thead><tr><th>Letter</th><th>Name</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>C</td><td>Consistency</td><td>a read observes the most recent write <strong>according to the formal guarantee</strong>, or an error</td></tr>
+<tr><td>A</td><td>Availability</td><td>every request to a non-failing node gets a non-error response (need not be the latest value)</td></tr>
+<tr><td>P</td><td>Partition tolerance</td><td>the system continues despite network failures preventing node communication</td></tr>
+</tbody></table></div>
+<p>⚠ <strong>During a network partition</strong>, strong consistency and availability cannot both be guaranteed for every request. <strong>Never write:</strong> "you can pick any two at all times."</p>
+<hr>
+<h2 id="c32-sharding-strategies">C32. Sharding strategies</h2>
+<div class="tscroll"><table><thead><tr><th>Strategy</th><th>Rule</th><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Range</td><td>key ranges → shards</td><td>good range queries</td><td>hotspots at the edge</td></tr>
+<tr><td>Hash</td><td>hash(shard key)</td><td>even distribution</td><td>loses range locality</td></tr>
+<tr><td>Directory</td><td>mapping service per key</td><td>flexible</td><td>extra lookup service</td></tr>
+<tr><td>Geographic</td><td>assign by region</td><td>locality/compliance</td><td>uneven data volumes</td></tr>
+</tbody></table></div>
+<p>Good shard key: even data+traffic, supports common queries, no oversized partitions/hotspots.</p>
+<hr>
+<h2 id="c33-nosql-data-models">C33. NoSQL data models</h2>
+<div class="tscroll"><table><thead><tr><th>Type</th><th>Data representation</th><th>Typical applications</th></tr></thead><tbody>
+<tr><td>Document</td><td>JSON/BSON-like documents</td><td>catalogs, content, profiles</td></tr>
+<tr><td>Key-value</td><td>key → value</td><td>cache, sessions, simple lookups</td></tr>
+<tr><td>Column-family</td><td>partitioned rows + flexible columns</td><td>large-scale distributed workloads</td></tr>
+<tr><td>Graph</td><td>nodes + relationships + properties</td><td>social networks, recommendations, fraud</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c34-relational-vs-mongodb-vocabulary">C34. Relational vs MongoDB vocabulary</h2>
+<div class="tscroll"><table><thead><tr><th>Relational concept</th><th>MongoDB</th></tr></thead><tbody>
+<tr><td>Database</td><td>Database</td></tr>
+<tr><td>Table</td><td>Collection</td></tr>
+<tr><td>Row</td><td>Document</td></tr>
+<tr><td>Column</td><td>Field</td></tr>
+<tr><td>Primary key</td><td><code>_id</code></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c35-hbase-vs-cassandra-unit-5-comparison-table">C35. HBase vs Cassandra ← <em>Unit 5 comparison table</em></h2>
+<div class="tscroll"><table><thead><tr><th>HBase</th><th>Cassandra</th></tr></thead><tbody>
+<tr><td>strong Hadoop ecosystem relationship</td><td>independent distributed wide-column system</td></tr>
+<tr><td>row key + column families</td><td><strong>partition key + clustering columns</strong></td></tr>
+<tr><td>HBase APIs / shell</td><td><strong>CQL</strong> (SQL-like)</td></tr>
+<tr><td>large-scale sparse data, random read/write</td><td>high availability, horizontal scalability, high write throughput</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c36-traditional-index-vs-vector-index">C36. Traditional index vs Vector index</h2>
+<div class="tscroll"><table><thead><tr><th>Traditional database index</th><th>Vector index</th></tr></thead><tbody>
+<tr><td>exact / range-oriented access</td><td>similarity / nearest-neighbour access</td></tr>
+<tr><td>B+ tree or hash</td><td>HNSW, IVF and related ANN structures</td></tr>
+<tr><td><code>age = 22</code>, <code>price BETWEEN 100 AND 200</code></td><td>top-k vectors closest to a query embedding</td></tr>
+<tr><td>ordered keys or buckets</td><td>geometric / graph / cluster structure</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c37-brute-force-vs-ann-search">C37. Brute-force vs ANN search</h2>
+<div class="tscroll"><table><thead><tr><th>Brute force</th><th>ANN</th></tr></thead><tbody>
+<tr><td>compare query with <strong>every</strong> stored vector</td><td>search a smaller, promising region</td></tr>
+<tr><td>exact</td><td>approximate (small recall trade-off)</td></tr>
+<tr><td>cost grows linearly with N</td><td>much lower latency at scale</td></tr>
+<tr><td>—</td><td>HNSW = navigable <strong>graph</strong>; IVF = <strong>clusters</strong></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c38-cosine-vs-euclidean-vs-dot-product">C38. Cosine vs Euclidean vs Dot product</h2>
+<div class="tscroll"><table><thead><tr><th>Measure</th><th>Idea</th><th>Use when</th></tr></thead><tbody>
+<tr><td>Cosine similarity</td><td>angle/direction between vectors</td><td>semantic text retrieval (magnitude irrelevant)</td></tr>
+<tr><td>Euclidean distance</td><td>straight-line distance between points</td><td>magnitude matters, geometric closeness</td></tr>
+<tr><td>Dot product</td><td>alignment <strong>and</strong> magnitude</td><td>retrieval systems weighting vector length</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="c39-relational-design-vs-cassandra-design-philosophy-derived">C39. Relational design vs Cassandra design philosophy <em>(derived)</em></h2>
+<div class="tscroll"><table><thead><tr><th>Relational</th><th>Cassandra</th></tr></thead><tbody>
+<tr><td>normalize to remove redundancy</td><td>deliberately <strong>duplicate</strong> to avoid joins</td></tr>
+<tr><td>design tables around entities</td><td>design tables around <strong>query patterns</strong></td></tr>
+<tr><td>joins at query time</td><td>single-partition reads</td></tr>
+<tr><td>secondary indexes freely</td><td>partition/clustering key design first; indexing secondary</td></tr>
+</tbody></table></div></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

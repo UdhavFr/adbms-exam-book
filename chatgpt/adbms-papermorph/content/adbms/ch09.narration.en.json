@@ -1,0 +1,14 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "When a distributed system experiences a network partition, it cannot simultaneously guarantee both strong consistency and availability for every request under the formal CAP definitions.",
+    "2": "Consistency: a read observes the most recent write according to the model or an error. Availability: every request to a non-failing node gets a non-error response, though not necessarily the latest value. Partition tolerance: the system continues despite network failures separating nodes.",
+    "3": "ACID emphasizes atomicity, consistency, isolation and durability with strong transaction guarantees. BASE = Basically Available, Soft state, Eventual consistency; many distributed NoSQL architectures emphasize availability and flexible consistency, accepting temporary inconsistency while replicas converge.",
+    "4": "Sharding horizontally distributes records across nodes. Range-based uses key ranges; hash-based uses a hash of the shard key; directory-based uses a mapping service; geographic assigns records by region. A good shard key spreads data and traffic and avoids hotspots/oversized partitions.",
+    "5": "MongoDB stores BSON documents in collections. Documents can contain nested documents and arrays. Mapping: relational database → database; table → collection; row → document; column → field; primary key → _id.",
+    "6": "Create: insertOne/insertMany. Read: find/findOne. Update: updateOne/updateMany with operators such as $set and $inc. Delete: deleteOne/deleteMany. Common operators include comparison ($gt, $gte, $lt, $lte, $eq, $ne), membership ($in, $nin), logical ($and, $or, $not, $nor) and update operators ($set, $unset, $inc, $push, $pull).",
+    "7": "The pipeline transforms documents through stages. Typical flow: $match → $group → $project → $sort → $limit. Other stages include $skip, $unwind and $lookup.",
+    "8": "Define CAP precisely → C/A/P → ACID vs BASE → sharding strategies → MongoDB model + mapping → CRUD → aggregation pipeline → use cases/conclusion."
+  }
+}

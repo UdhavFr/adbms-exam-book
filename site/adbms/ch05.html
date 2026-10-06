@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 5 · Storage, B+ trees and hashing — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 2 · Chapter 5</div><h2 class="ptitle">Lesson 5 · Storage, B+ trees and hashing</h2>
+<div class="content">
+<p>· Storage, B+ trees and hashing <strong>Read:</strong> U2-12→U2-14 · <strong>Hooks:</strong></p>
+<details class="ref"><summary>📖 Hooks: 4 <span class="dim">— from memory-hooks.md §4 (tap to expand)</span></summary><div class="content"><h2>4. Normalization hooks ← <em>the money hooks</em></h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>Ladder</td><td><strong>UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF</strong></td></tr>
+<tr><td>What each fixes</td><td><strong>1=Atomic · 2=Partial · 3=Transitive · BC=Determinant · 4=MVD · 5=Join</strong></td></tr>
+<tr><td>Acronym for the six</td><td><strong>A-P-T-D-M-J</strong> = Atomic, Partial, Transitive, Determinant, Multivalued, Join</td></tr>
+<tr><td>3NF vs BCNF</td><td><strong>3NF = OR · BCNF = ONLY</strong></td></tr>
+<tr><td>Attribute closure</td><td><strong>Start → Unlock → Add → Repeat → Complete</strong></td></tr>
+<tr><td>Minimal cover</td><td><strong>S-E-R</strong> = Split RHS → Extraneous LHS → Remove redundant FDs</td></tr>
+<tr><td>Lossless vs preservation</td><td><strong>Puzzle picture</strong> (exact rebuild) vs <strong>rules checked in each drawer</strong></td></tr>
+<tr><td>Canonical examples</td><td>2NF = ENROLL · 3NF = EMPLOYEE/DEPARTMENT · 4NF = HOBBIES+LANGUAGES</td></tr>
+<tr><td>Solving NF questions</td><td>FDs → Key → Prime/Non-prime → test in ladder order → decompose → verify</td></tr>
+</tbody></table></div>
+<hr></div></details>
+<p>· <a href="docs/diagrams.html"><code>diagrams-and-mental-models.md</code></a> B+ tree <strong>You must be able to produce:</strong> a B+ tree insert/search drawing + B+ vs hash comparison table.</p>
+<p><em>B for Between.</em> Order: log_F(N) levels; fanout F = pointer count.</p>
+<ul><li><strong>B+ tree:</strong> sorted, all data in <strong>leaf</strong> nodes, leaves <strong>linked</strong> → range queries fly.</li><li><strong>Hash:</strong> compute bucket from key → O(1) exact lookup. <em>H for Has-exactly.</em> Collisions → chaining / overflow.</li><li><strong>Choose:</strong> range/pattern → B+ tree; equality-only hot lookup → hash.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>B for Between (ranges), H for Has-exactly (equality) · index = faster reads + storage &amp; write cost. <strong>Trap:</strong> hash is bad at ranges; indexes slow <strong>writes</strong>.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong><a href="written.html#Q35">Q35</a>–<a href="written.html#Q40">Q40</a><strong> + MCQ </strong><a href="quiz.html">Q109</a>, <a href="quiz.html">Q110</a>, <a href="quiz.html">Q129</a>, <a href="quiz.html">Q130</a><strong> </strong>Wrap (3 steps):** 1) B+ tree = sorted + linked leaves → ranges fast (B for Between). 2) Hash = bucket from key → equality fast (H for Has-exactly). 3) Indexes = faster reads, slower writes, extra storage.</div>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b><b>B for Between</b> (ranges, linked sorted leaves) · <b>H for Has-exactly</b> (equality buckets). Indexes = faster reads + storage &amp; write cost. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q129"]); renderChoice(_qc, window.MCQ_BY_ID["Q130"]); renderChoice(_qc, window.MCQ_BY_ID["Q110"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="ch04.html">← Ch 4</a><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch06.html">Ch 6 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(5)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+{
+ "ch01": {
+  "beats": [
+   {
+    "title": "DATABASE SYSTEM = DATA + DBMS",
+    "body": "A database is an organized collection of logically related data. A DBMS defines, stores, retrieves, updates, protects and recovers that data. The database together with the DBMS forms a database system.",
+    "purpose": "Lock this definition first: it is the opening sentence for many 20-mark answers.",
+    "memory": "DBMS = define + store + retrieve + update + protect + recover",
+    "trap": "Do not jump straight to features. Start with a clean definition and why the system is needed."
+   },
+   {
+    "title": "WHY FILE SYSTEMS HURT",
+    "body": "Repeated copies create redundancy; changing one copy but not another creates inconsistency. File systems also make sharing, security, concurrent access and failure recovery difficult.",
+    "purpose": "Examiners love “problem → DBMS solution” because it proves why DBMS exists.",
+    "memory": "Redundancy → inconsistency → DBMS controls the mess.",
+    "trap": null
+   },
+   {
+    "title": "THE THREE-LEVEL MAP",
+    "body": "External level gives user-specific views. Conceptual level describes the complete logical database. Internal level describes files, pages, record placement, indexes and access paths.",
+    "purpose": "Draw this almost automatically in the exam.",
+    "memory": "External = what user sees; Conceptual = logical blueprint; Internal = storage details.",
+    "trap": "Do not swap conceptual and internal."
+   },
+   {
+    "title": "DATA INDEPENDENCE",
+    "body": "Physical data independence: change storage structures without changing the conceptual schema. Logical data independence: change the conceptual schema without forcing every external view/application to change when the required information can still be provided.",
+    "purpose": "A two-row comparison is enough for a strong sub-answer.",
+    "memory": "Physical = storage changes. Logical = schema changes.",
+    "trap": null
+   },
+   {
+    "title": "SCHEMA vs INSTANCE",
+    "body": "Schema is the database design/structure: relations, attributes, keys, constraints, indexes, views and other objects. Instance is the actual data at a particular moment.",
+    "purpose": "Use the blueprint analogy when stuck.",
+    "memory": "Schema = structure. Instance = state.",
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: Q1",
+    "body": "If asked “Explain database systems”, build: definition → file-system problems → DBMS functions → three-level architecture → data independence → example → advantages → conclusion.",
+    "purpose": "This is the source notebook’s answer-writing template turned into a recall route.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [
+   "Do not jump straight to features. Start with a clean definition and why the system is needed.",
+   "Do not swap conceptual and internal."
+  ],
+  "memories": [
+   "DBMS = define + store + retrieve + update + protect + recover",
+   "Redundancy → inconsistency → DBMS controls the mess.",
+   "External = what user sees; Conceptual = logical blueprint; Internal = storage details.",
+   "Physical = storage changes. Logical = schema changes.",
+   "Schema = structure. Instance = state."
+  ]
+ },
+ "ch02": {
+  "beats": [
+   {
+    "title": "ENTITY, ATTRIBUTE, RELATIONSHIP",
+    "body": "An entity is a distinguishable real-world object. Attributes describe entities. A relationship represents an association between entities.",
+    "purpose": "Start conceptual modeling here.",
+    "memory": "Thing = entity. Detail = attribute. Association = relationship.",
+    "trap": null
+   },
+   {
+    "title": "ATTRIBUTES: SPOT THE TYPE",
+    "body": "Simple: cannot be meaningfully divided. Composite: has components. Single-valued: one value. Multivalued: several values. Derived: calculated from other data. Key attribute: uniquely identifies an entity.",
+    "purpose": "These make easy 2–4 mark pickups inside a larger answer.",
+    "memory": "Age from DOB = derived. Address split into city/street = composite.",
+    "trap": null
+   },
+   {
+    "title": "KEYS: BUILD THE LADDER",
+    "body": "Super key uniquely identifies. Candidate key is a minimal super key. Primary key is the chosen candidate key. Alternate key is an unchosen candidate key. Foreign key references a key in another relation.",
+    "purpose": "Memorize the nesting: super ⊃ candidate → one candidate becomes primary.",
+    "memory": "Primary is chosen; alternate is candidate-but-not-chosen.",
+    "trap": null
+   },
+   {
+    "title": "CARDINALITY + PARTICIPATION",
+    "body": "Cardinality can be 1:1, 1:N or M:N. Total participation is mandatory; partial participation is optional.",
+    "purpose": "A diagram + one sentence per constraint is high-value exam writing.",
+    "memory": null,
+    "trap": "Do not confuse cardinality (how many) with participation (mandatory or optional)."
+   },
+   {
+    "title": "M:N MAPPING",
+    "body": "For an M:N relationship, create a separate relation containing the primary keys of both entities, usually as a composite primary key. Relationship attributes such as EnrollmentDate live there too.",
+    "purpose": "This is a classic mapping question.",
+    "memory": "M:N → junction table.",
+    "trap": null
+   },
+   {
+    "title": "RELATIONAL CORE",
+    "body": "Relation = table, tuple = row, attribute = column, domain = permitted values, degree = number of attributes, cardinality = number of tuples.",
+    "purpose": "Fast vocabulary = fast marks.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: ER → TABLES",
+    "body": "Strong entity → relation. Composite attribute → store components. Multivalued attribute → separate relation. 1:1 → FK on one side, preferably total participation side. 1:N → 1-side key goes into N-side. M:N → separate relation. Weak entity → owner key + partial key.",
+    "purpose": "Use this as a mechanical checklist.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [
+   "Do not confuse cardinality (how many) with participation (mandatory or optional)."
+  ],
+  "memories": [
+   "Thing = entity. Detail = attribute. Association = relationship.",
+   "Age from DOB = derived. Address split into city/street = composite.",
+   "Primary is chosen; alternate is candidate-but-not-chosen.",
+   "M:N → junction table."
+  ]
+ },
+ "ch03": {
+  "beats": [
+   {
+    "title": "RELATIONAL ALGEBRA = OPERATORS",
+    "body": "Selection σ filters rows. Projection π chooses columns. Union combines compatible relations. Difference finds tuples in one but not the other. Cartesian product pairs every tuple. Join combines related tuples using a condition.",
+    "purpose": "Know the symbol + purpose pair.",
+    "memory": "σ = select rows. π = project columns.",
+    "trap": null
+   },
+   {
+    "title": "SQL CATEGORIES",
+    "body": "DDL defines/changes structure: CREATE, ALTER, DROP, TRUNCATE. DML retrieves/changes data: SELECT, INSERT, UPDATE, DELETE. DCL manages privileges: GRANT, REVOKE. TCL controls transactions: COMMIT, ROLLBACK, SAVEPOINT.",
+    "purpose": "A table in the exam scores quickly and cleanly.",
+    "memory": "DDL = structure, DML = data, DCL = permissions, TCL = transactions.",
+    "trap": null
+   },
+   {
+    "title": "SQL CLAUSE ORDER",
+    "body": "Typical logical idea: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT, although the optimizer may transform the physical plan.",
+    "purpose": "Use this when explaining query processing or writing SQL.",
+    "memory": "WHERE filters rows; HAVING filters groups.",
+    "trap": null
+   },
+   {
+    "title": "INTEGRITY CONSTRAINTS",
+    "body": "Domain integrity: valid data type/domain. Entity integrity: primary key is unique and not NULL. Referential integrity: foreign key refers to an existing referenced key or may be NULL where allowed. UNIQUE prevents duplicates. CHECK enforces a Boolean condition. NOT NULL makes a value mandatory.",
+    "purpose": "These are database-enforced correctness rules.",
+    "memory": "PK = identity. FK = valid reference.",
+    "trap": null
+   },
+   {
+    "title": "ANOMALIES = DESIGN WARNING",
+    "body": "Insertion anomaly: cannot add a fact without unrelated data. Update anomaly: same fact repeated, so one logical change needs many updates. Deletion anomaly: deleting one fact accidentally removes another.",
+    "purpose": "This leads directly into normalization.",
+    "memory": "I-U-D: insert, update, delete anomalies.",
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: SQL + INTEGRITY",
+    "body": "Define SQL as declarative; classify commands; give one DDL + one DML + one TCL example; explain WHERE/GROUP BY/HAVING; finish with integrity constraints and why they matter.",
+    "purpose": "This converts scattered facts into one 20-mark answer.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "σ = select rows. π = project columns.",
+   "DDL = structure, DML = data, DCL = permissions, TCL = transactions.",
+   "WHERE filters rows; HAVING filters groups.",
+   "PK = identity. FK = valid reference.",
+   "I-U-D: insert, update, delete anomalies."
+  ]
+ },
+ "ch04": {
+  "beats": [
+   {
+    "title": "FUNCTIONAL DEPENDENCY",
+    "body": "X → Y means: if two tuples agree on X, they must agree on Y. X is the determinant and Y is functionally dependent on X. Example: StudentID → StudentName.",
+    "purpose": "FDs are the grammar behind normalization.",
+    "memory": "Arrow means: same X forces same Y.",
+    "trap": null
+   },
+   {
+    "title": "ATTRIBUTE CLOSURE",
+    "body": "X+ is the set of attributes functionally determined by X. Start with X and repeatedly add attributes from applicable FDs. If X+ contains every attribute of the relation, X is a super key.",
+    "purpose": "Very likely numerical/problem area.",
+    "memory": "Closure = “what can X reach?”",
+    "trap": null
+   },
+   {
+    "title": "THE NORMALIZATION LADDER",
+    "body": "1NF removes repeating/non-atomic values. 2NF removes partial dependencies. 3NF removes undesirable transitive dependencies. BCNF requires every determinant to be a super key. 4NF handles non-trivial multivalued dependencies. 5NF handles problematic join dependencies.",
+    "purpose": "Memorize the reason, not only the names.",
+    "memory": "Atomic → full key → no transitives → determinant=superkey → no bad MVD → no bad JD.",
+    "trap": null
+   },
+   {
+    "title": "1NF",
+    "body": "Every attribute contains atomic values; no repeating groups or nested sets in a field. Example: Phones stored as “9876,8765” violates the idea; split to STUDENT_PHONE(StudentID, Phone).",
+    "purpose": "The “one cell, one atomic value” test.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "2NF",
+    "body": "Relation must be in 1NF and every non-prime attribute must depend on the entire candidate key. Main enemy: partial dependency on part of a composite key. Example ENROLL(StudentID, CourseID, StudentName, CourseName, Grade).",
+    "purpose": "Look for a composite key first.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "3NF",
+    "body": "Relation must be in 2NF and avoid undesirable transitive dependency of non-prime attributes on a key. Example: EmpID → DeptID and DeptID → DeptName, so DeptName moves to DEPARTMENT.",
+    "purpose": "Classic “employee → department → department name” pattern.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "BCNF, 4NF, 5NF",
+    "body": "BCNF: every determinant is a super key. 4NF: every non-trivial MVD has a super-key determinant. 5NF: every non-trivial join dependency is implied by candidate keys.",
+    "purpose": "These distinctions are easy marks when stated precisely.",
+    "memory": "BCNF = determinant. 4NF = MVD. 5NF = JD.",
+    "trap": "Do not reduce CAP or normal forms to vague slogans; define the exact dependency being controlled."
+   },
+   {
+    "title": "LOSSLESS + DEPENDENCY PRESERVATION",
+    "body": "Lossless decomposition recreates exactly the original relation and avoids spurious tuples. Dependency preservation means original important FDs can be enforced on decomposed relations without joins. They are different properties.",
+    "purpose": "Say the question each property answers.",
+    "memory": "Lossless = reconstruct. Preservation = enforce.",
+    "trap": null
+   },
+   {
+    "title": "MINIMAL COVER",
+    "body": "Split RHS so each FD has one attribute. Remove extraneous attributes from LHS when unnecessary. Remove redundant FDs. Result = minimal/canonical cover.",
+    "purpose": "A clean 3-step procedure earns method marks.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [
+   "Do not reduce CAP or normal forms to vague slogans; define the exact dependency being controlled."
+  ],
+  "memories": [
+   "Arrow means: same X forces same Y.",
+   "Closure = “what can X reach?”",
+   "Atomic → full key → no transitives → determinant=superkey → no bad MVD → no bad JD.",
+   "BCNF = determinant. 4NF = MVD. 5NF = JD.",
+   "Lossless = reconstruct. Preservation = enforce."
+  ]
+ },
+ "ch05": {
+  "beats": [
+   {
+    "title": "WHY PAGES EXIST",
+    "body": "Database I/O is expensive, so data moves between secondary storage and memory in pages/blocks rather than one record at a time. The buffer manager brings pages into memory and writes modified pages back.",
+    "purpose": "The optimization target is often fewer page I/Os.",
+    "memory": "Disk → pages → buffer pool → CPU.",
+    "trap": null
+   },
+   {
+    "title": "FILE ORGANIZATIONS",
+    "body": "Heap: unordered, simple insertion, good for frequent inserts/scans. Sequential/sorted: key order, good for ordered/range access. Hash: bucket by hash function, good for equality. Clustered: related records placed close together.",
+    "purpose": "Use “best suited for” wording in the exam.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "B+ TREE: WHAT LIVES WHERE?",
+    "body": "Internal nodes hold separator keys and child pointers. Leaf nodes hold search keys and record/data-page references. Leaves are linked, making range scans efficient.",
+    "purpose": "The leaf linkage is a key differentiator.",
+    "memory": "B+ tree: balanced + high fan-out + linked leaves.",
+    "trap": null
+   },
+   {
+    "title": "B+ TREE SEARCH",
+    "body": "Start at root → compare with separator keys → follow child pointer → repeat → reach leaf → follow record/data pointer.",
+    "purpose": "Describe the journey, not only the definition.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "HASH INDEX",
+    "body": "Hash function maps a key to a bucket. Best for equality lookups such as StudentID = 101. Collisions require overflow buckets, chaining or dynamic hashing techniques.",
+    "purpose": "The exam comparison is equality vs range.",
+    "memory": "Hash = equality. B+ tree = equality + range.",
+    "trap": null
+   },
+   {
+    "title": "B+ TREE vs HASH",
+    "body": "B+ tree is ordered, balanced and strong for equality + range + sorted traversal. Hash is bucket-based, unordered and strong for equality but poor for range traversal.",
+    "purpose": "A 2-column comparison is a mark magnet.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: INDEXING",
+    "body": "Define index → explain pages/I/O → B+ tree structure + search + range → hash + collision → comparison → conclusion about query-driven indexing.",
+    "purpose": "That is the full 20-mark route.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "Disk → pages → buffer pool → CPU.",
+   "B+ tree: balanced + high fan-out + linked leaves.",
+   "Hash = equality. B+ tree = equality + range."
+  ]
+ },
+ "ch06": {
+  "beats": [
+   {
+    "title": "TRANSACTION = ONE LOGICAL UNIT",
+    "body": "A transaction is a sequence of database operations forming one logical unit of work. Bank transfer is the classic example: debit A and credit B must behave together.",
+    "purpose": "Lead with this when asked about transactions.",
+    "memory": "Transaction = all operations needed for one logical job.",
+    "trap": null
+   },
+   {
+    "title": "TRANSACTION STATES",
+    "body": "Active → Partially committed → Committed. Failure path: Failed → Aborted → restart/terminate.",
+    "purpose": "Draw this flow for transaction-state questions.",
+    "memory": null,
+    "trap": "Partially committed means the final statement ran, but durability is not necessarily completed yet."
+   },
+   {
+    "title": "ACID: THE BIG FOUR",
+    "body": "Atomicity = all-or-nothing. Consistency = integrity rules remain valid. Isolation = concurrent transactions behave under the chosen isolation guarantee. Durability = committed effects survive later failure subject to the DBMS guarantee.",
+    "purpose": "Explain every property with the bank transfer.",
+    "memory": "A = all, C = correct, I = isolated, D = durable.",
+    "trap": null
+   },
+   {
+    "title": "SQL TRANSACTIONS",
+    "body": "BEGIN/START TRANSACTION groups statements. COMMIT makes them durable. ROLLBACK undoes uncommitted work. SAVEPOINT creates an intermediate rollback point.",
+    "purpose": "Know the command flow, not isolated commands.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "ISOLATION LEVELS",
+    "body": "Read Uncommitted may permit dirty reads. Read Committed prevents ordinary dirty reads. Repeatable Read gives stronger repeated-read guarantees; phantom behavior varies by DBMS. Serializable is the strongest standard level and aims for serial-equivalent behavior.",
+    "purpose": "Use careful wording: exact behavior can vary by DBMS.",
+    "memory": "Strength rises → concurrency freedom generally falls.",
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [
+   "Partially committed means the final statement ran, but durability is not necessarily completed yet."
+  ],
+  "memories": [
+   "Transaction = all operations needed for one logical job.",
+   "A = all, C = correct, I = isolated, D = durable.",
+   "Strength rises → concurrency freedom generally falls."
+  ]
+ },
+ "ch07": {
+  "beats": [
+   {
+    "title": "WHY CONCURRENCY CONTROL?",
+    "body": "Interleaving can produce incorrect results even when each transaction is correct by itself. Common anomalies: lost update, dirty read, non-repeatable read, phantom read.",
+    "purpose": "Memorize anomaly → meaning pairs.",
+    "memory": "Lost = overwrite. Dirty = uncommitted. Non-repeatable = same row, different value. Phantom = different set of rows.",
+    "trap": null
+   },
+   {
+    "title": "SERIALIZABILITY",
+    "body": "A serial schedule runs transactions one after another. A serializable schedule may interleave but has an effect equivalent to some serial schedule.",
+    "purpose": "Serializability = correctness with concurrency.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "PRECEDENCE GRAPH",
+    "body": "Create one node per transaction. For conflicting operations on the same item where at least one is a write, add Ti → Tj if Ti occurs first. Acyclic graph = conflict-serializable; cycle = not conflict-serializable.",
+    "purpose": "This is a procedure—write the steps.",
+    "memory": "Cycle = trouble.",
+    "trap": null
+   },
+   {
+    "title": "LOCKS: S vs X",
+    "body": "Shared (S) lock is for reading and can coexist with other S locks. Exclusive (X) lock is for writing and conflicts with S and X.",
+    "purpose": "The 2×2 compatibility table is easy marks.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "TWO-PHASE LOCKING",
+    "body": "Growing phase: acquire locks, no releases. Shrinking phase: release locks, no new acquisitions. Basic 2PL guarantees conflict serializability. Strict 2PL keeps exclusive locks until commit/abort, reducing cascading rollback problems.",
+    "purpose": "Draw the phases + lock point.",
+    "memory": "Grow = grab. Shrink = surrender.",
+    "trap": null
+   },
+   {
+    "title": "DEADLOCK",
+    "body": "Deadlock occurs when transactions wait in a cycle. Example: T1 holds A and waits for B; T2 holds B and waits for A. Handling: prevention, avoidance, detection with wait-for graph, timeout.",
+    "purpose": "The word “cycle” should immediately trigger deadlock.",
+    "memory": "Deadlock = circular waiting.",
+    "trap": null
+   },
+   {
+    "title": "TIMESTAMP ORDERING",
+    "body": "Each transaction gets a unique timestamp. Read_TS(X) records the largest timestamp that successfully read X; Write_TS(X) records the largest timestamp that successfully wrote X. Violations may abort/restart the transaction. Advantage: no lock-waiting deadlock; disadvantage: repeated aborts can waste work.",
+    "purpose": "Good comparison against 2PL.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "RECOVERY: FAILURE TYPES",
+    "body": "Transaction failure: logical error, constraint violation, deadlock victim, explicit abort. System crash: volatile memory lost. Media failure: persistent storage damaged. Communication failure matters especially in distributed DBs.",
+    "purpose": "Always enumerate the failure types before explaining recovery methods.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "RECOVERY METHODS",
+    "body": "Deferred update: database changes delayed until commit; committed work may need REDO. Immediate update: data may be written before commit; recovery may need UNDO + REDO. Shadow paging keeps stable shadow mapping until root switches at commit. Log-based recovery uses sequential logs. WAL requires the log record to reach stable storage before the changed data page. Checkpoints reduce recovery work.",
+    "purpose": "This sequence itself is an exam answer plan.",
+    "memory": "Deferred → mostly REDO. Immediate → UNDO + REDO. Shadow → switch root at commit.",
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: RECOVERY ANSWER",
+    "body": "Define recovery → failure types → deferred update → immediate update → shadow paging → log + WAL → checkpoint → UNDO/REDO → conclusion.",
+    "purpose": "Memorize this order.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "Lost = overwrite. Dirty = uncommitted. Non-repeatable = same row, different value. Phantom = different set of rows.",
+   "Cycle = trouble.",
+   "Grow = grab. Shrink = surrender.",
+   "Deadlock = circular waiting.",
+   "Deferred → mostly REDO. Immediate → UNDO + REDO. Shadow → switch root at commit."
+  ]
+ },
+ "ch08": {
+  "beats": [
+   {
+    "title": "DISTRIBUTED DATABASE",
+    "body": "A distributed database is logically integrated but physically distributed across network-connected sites. DDBMS coordinates the sites and offers a unified way to access data.",
+    "purpose": "Think “one logical database, many physical sites.”",
+    "memory": "Logical unity, physical distribution.",
+    "trap": null
+   },
+   {
+    "title": "TYPES + TRADE-OFFS",
+    "body": "Homogeneous systems use similar DBMS technology. Heterogeneous systems may combine technologies/schemas. Federated systems let independently managed databases cooperate.",
+    "purpose": "Keep type definitions short and exact.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "FRAGMENTATION",
+    "body": "Horizontal fragmentation divides rows by predicates. Vertical fragmentation divides columns, usually repeating the key so the original relation can be reconstructed by join. Hybrid combines both. Correct fragmentation considers completeness, reconstruction and disjointness where required.",
+    "purpose": "Draw row split vs column split.",
+    "memory": "Horizontal = rows. Vertical = columns.",
+    "trap": null
+   },
+   {
+    "title": "REPLICATION + ALLOCATION",
+    "body": "Replication keeps multiple copies at sites. Full replication copies broadly; partial replication copies selectively. Benefits: availability, local reads, failure tolerance, less remote access. Costs: storage, update coordination, consistency management. Allocation decides where fragments/replicas live based on query frequency, locality, communication cost, capacity and reliability.",
+    "purpose": "A benefits-vs-costs table is exam-friendly.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "2PC: THE ATOMIC COMMIT PROTOCOL",
+    "body": "Coordinator sends PREPARE. Participants check and vote YES/NO. If all required votes are YES, coordinator sends COMMIT; otherwise ABORT. Participants record and execute the decision. 2PC can block in some failures, especially after participants are prepared but before learning the coordinator’s final decision.",
+    "purpose": "Draw the coordinator above participants.",
+    "memory": "2PC = ask → vote → decide → record.",
+    "trap": null
+   },
+   {
+    "title": "CONSISTENCY MODELS",
+    "body": "Strong/linearizable-style consistency gives a single real-time-respecting order under the model. Eventual consistency allows temporary disagreement but convergence if updates stop. Causal consistency preserves causal ordering. Session guarantees can include read-your-writes and monotonic reads.",
+    "purpose": "Stronger consistency can require more coordination and affect latency/availability.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: DISTRIBUTED DB",
+    "body": "Definition → architecture → characteristics/types → fragmentation → replication/allocation → distributed transactions → 2PC diagram → consistency models → conclusion.",
+    "purpose": "Do not skip the diagram.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "Logical unity, physical distribution.",
+   "Horizontal = rows. Vertical = columns.",
+   "2PC = ask → vote → decide → record."
+  ]
+ },
+ "ch09": {
+  "beats": [
+   {
+    "title": "CAP: THE PRECISE CLAIM",
+    "body": "When a distributed system experiences a network partition, it cannot simultaneously guarantee both strong consistency and availability for every request under the formal CAP definitions.",
+    "purpose": "The partition condition matters.",
+    "memory": "CAP is about behavior DURING a partition.",
+    "trap": "Do not write “pick any two of three at all times.”"
+   },
+   {
+    "title": "C, A, P",
+    "body": "Consistency: a read observes the most recent write according to the model or an error. Availability: every request to a non-failing node gets a non-error response, though not necessarily the latest value. Partition tolerance: the system continues despite network failures separating nodes.",
+    "purpose": "Write one clean definition for each letter.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "ACID vs BASE",
+    "body": "ACID emphasizes atomicity, consistency, isolation and durability with strong transaction guarantees. BASE = Basically Available, Soft state, Eventual consistency; many distributed NoSQL architectures emphasize availability and flexible consistency, accepting temporary inconsistency while replicas converge.",
+    "purpose": "A direct comparison scores quickly.",
+    "memory": "ACID = correctness guarantees. BASE = availability + convergence trade-off.",
+    "trap": null
+   },
+   {
+    "title": "SHARDING",
+    "body": "Sharding horizontally distributes records across nodes. Range-based uses key ranges; hash-based uses a hash of the shard key; directory-based uses a mapping service; geographic assigns records by region. A good shard key spreads data and traffic and avoids hotspots/oversized partitions.",
+    "purpose": "“Good shard key” is a common conceptual question.",
+    "memory": "Range = locality, Hash = balance, Directory = lookup map, Geographic = region.",
+    "trap": null
+   },
+   {
+    "title": "MONGODB DATA MODEL",
+    "body": "MongoDB stores BSON documents in collections. Documents can contain nested documents and arrays. Mapping: relational database → database; table → collection; row → document; column → field; primary key → _id.",
+    "purpose": "Think “document close to application object”.",
+    "memory": "Table → collection. Row → document. Column → field.",
+    "trap": null
+   },
+   {
+    "title": "MONGODB CRUD",
+    "body": "Create: insertOne/insertMany. Read: find/findOne. Update: updateOne/updateMany with operators such as $set and $inc. Delete: deleteOne/deleteMany. Common operators include comparison ($gt, $gte, $lt, $lte, $eq, $ne), membership ($in, $nin), logical ($and, $or, $not, $nor) and update operators ($set, $unset, $inc, $push, $pull).",
+    "purpose": "Know the verb → method pairing.",
+    "memory": "CRUD = insert, find, update, delete.",
+    "trap": null
+   },
+   {
+    "title": "MONGODB AGGREGATION PIPELINE",
+    "body": "The pipeline transforms documents through stages. Typical flow: $match → $group → $project → $sort → $limit. Other stages include $skip, $unwind and $lookup.",
+    "purpose": "Explain what each stage does.",
+    "memory": "$match filters; $group aggregates; $project shapes; $sort orders; $limit restricts.",
+    "trap": null
+   },
+   {
+    "title": "EXAM ATTACK: CAP + MONGO",
+    "body": "Define CAP precisely → C/A/P → ACID vs BASE → sharding strategies → MongoDB model + mapping → CRUD → aggregation pipeline → use cases/conclusion.",
+    "purpose": "This combines two high-yield clusters.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [
+   "Do not write “pick any two of three at all times.”"
+  ],
+  "memories": [
+   "CAP is about behavior DURING a partition.",
+   "ACID = correctness guarantees. BASE = availability + convergence trade-off.",
+   "Range = locality, Hash = balance, Directory = lookup map, Geographic = region.",
+   "Table → collection. Row → document. Column → field.",
+   "CRUD = insert, find, update, delete.",
+   "$match filters; $group aggregates; $project shapes; $sort orders; $limit restricts."
+  ]
+ },
+ "ch10": {
+  "beats": [
+   {
+    "title": "COLUMN-FAMILY / WIDE-COLUMN",
+    "body": "HBase and Cassandra are designed for huge datasets, horizontal scaling and high-throughput distributed workloads. HBase is associated with Hadoop and uses row keys + column families. Cassandra uses partition keys + clustering columns.",
+    "purpose": "Know the structural distinction.",
+    "memory": "Cassandra: partition key = where; clustering = order within partition.",
+    "trap": null
+   },
+   {
+    "title": "CASSANDRA QUERY-DRIVEN DESIGN",
+    "body": "CQL resembles SQL syntactically, but the data model and query restrictions differ. Cassandra tables are commonly modeled around query patterns; deliberately duplicated data can avoid expensive joins.",
+    "purpose": "The mental model is “design for the query”.",
+    "memory": "Cassandra ≠ normalized relational modeling; duplicate when it serves the query.",
+    "trap": null
+   },
+   {
+    "title": "REDIS = FAST KEY-VALUE",
+    "body": "Redis is an in-memory data store used for caching, sessions, counters, queues, leaderboards and fast temporary state. Key commands: SET, GET, DEL, EXISTS, HSET, HGET, EXPIRE, INCR.",
+    "purpose": "The use-case list is more important than memorizing prose.",
+    "memory": "Redis = fast temporary state.",
+    "trap": null
+   },
+   {
+    "title": "GRAPH DATA MODEL",
+    "body": "Nodes are entities, relationships are connections, properties are attributes. Graph databases are suited to relationship-heavy queries such as social networks, recommendations, fraud detection, knowledge graphs, dependency analysis.",
+    "purpose": "The graph picture itself is the explanation.",
+    "memory": "Node = thing. Edge = relationship. Property = detail.",
+    "trap": null
+   },
+   {
+    "title": "NEO4J + CYPHER",
+    "body": "Neo4j uses nodes, relationships, labels and properties. Cypher represents graph patterns with ASCII-like syntax. Core operations in the notes: CREATE node, MATCH + CREATE relationship, MATCH + RETURN, WHERE filter, SET update, DETACH DELETE.",
+    "purpose": "Pattern syntax is more memorable than definitions alone.",
+    "memory": "MATCH finds patterns. CREATE adds. SET changes. DELETE removes.",
+    "trap": null
+   },
+   {
+    "title": "VECTOR EMBEDDINGS",
+    "body": "An embedding maps text/image/audio/product information into a numerical vector. Semantically similar items are intended to be near each other in vector space. Similarity measures: cosine similarity, Euclidean distance, dot product.",
+    "purpose": "Understand the pipeline, not the buzzword.",
+    "memory": "Data → embedding → vector → nearest-neighbor search.",
+    "trap": null
+   },
+   {
+    "title": "SIMILARITY SEARCH + ANN",
+    "body": "Similarity search embeds the query, searches an index, returns nearest neighbors/top-k plus metadata/original documents. Brute force compares against every vector; ANN searches a promising subset for lower latency. HNSW is graph-based ANN. IVF-style methods partition vectors into groups and search relevant groups.",
+    "purpose": "HNSW and IVF are the two named ideas in the notes.",
+    "memory": "ANN trades exact exhaustiveness for speed.",
+    "trap": null
+   },
+   {
+    "title": "NOSQL INDEXING",
+    "body": "Indexes reduce scans and latency, support selective filtering and may support sorting/range or nearest-neighbor retrieval. Costs: storage, write maintenance, memory/cache pressure, possible ineffectiveness and distributed-design complexity. MongoDB supports single-field, compound, multikey, text, geospatial and unique indexes.",
+    "purpose": "Index the query pattern, not everything.",
+    "memory": "Index = faster reads + maintenance cost.",
+    "trap": null
+   },
+   {
+    "title": "CASSANDRA / NEO4J / VECTOR INDEXING",
+    "body": "Cassandra: partition key determines where data lives; clustering columns determine row order within the partition. Neo4j: property indexes help locate starting nodes before traversal; Cypher ORDER BY expresses ordering. Vector indexes such as HNSW/IVF target similarity/nearest-neighbor search rather than scalar equality/range.",
+    "purpose": "This is the final cross-model comparison.",
+    "memory": "Scalar access ≠ similarity access.",
+    "trap": null
+   },
+   {
+    "title": "FINAL EXAM ATTACK",
+    "body": "For a NoSQL indexing 20-marker: define index → explain why → relational/B+ vs hash → MongoDB → CouchDB → Cassandra primary-key design → Neo4j property indexes → vector indexes → benefits/costs → query-driven conclusion.",
+    "purpose": "This is explicitly the notebook’s exam-ready route.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "Cassandra: partition key = where; clustering = order within partition.",
+   "Cassandra ≠ normalized relational modeling; duplicate when it serves the query.",
+   "Redis = fast temporary state.",
+   "Node = thing. Edge = relationship. Property = detail.",
+   "MATCH finds patterns. CREATE adds. SET changes. DELETE removes.",
+   "Data → embedding → vector → nearest-neighbor search.",
+   "ANN trades exact exhaustiveness for speed.",
+   "Index = faster reads + maintenance cost.",
+   "Scalar access ≠ similarity access."
+  ]
+ },
+ "ch11": {
+  "beats": [
+   {
+    "title": "THE 20-MARK FORMULA",
+    "body": "The notebook’s universal answer shape: 5–7 line introduction → labelled diagram/flow → separate component headings → one practical example → advantages/limitations/applications/comparison → 3–4 line conclusion connecting to correctness, performance, scalability or reliability.",
+    "purpose": "This is your “never leave the page blank” template.",
+    "memory": "D-D-E-E-C-C: Define, Diagram, Explain, Example, Compare, Conclude.",
+    "trap": null
+   },
+   {
+    "title": "NORMALIZATION BOSS",
+    "body": "Prompt: “Explain normalization and all normal forms.” Your skeleton: definition + why redundancy hurts → FDs + candidate keys → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF → lossless + dependency preservation → minimal cover/closure → conclusion.",
+    "purpose": "Do not start writing prose until this skeleton exists.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "TRANSACTION / RECOVERY BOSS",
+    "body": "Prompt: “Explain transaction processing, concurrency control and recovery.” Skeleton: transaction + bank transfer → states → ACID → SQL transactions/isolation → anomalies → serializability/precedence graph → locks/2PL → deadlocks → timestamps → failures → deferred/immediate/shadow → log/WAL/checkpoint → UNDO/REDO → conclusion.",
+    "purpose": "This is a full-mark road map.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "DISTRIBUTED / CAP BOSS",
+    "body": "Prompt: “Explain distributed databases and CAP.” Skeleton: DDB definition → architecture → fragmentation → replication/allocation → distributed transactions → 2PC → consistency models → CAP + C/A/P → ACID vs BASE → sharding → design trade-offs.",
+    "purpose": "Write the diagram before the paragraphs.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "NOSQL / MONGO BOSS",
+    "body": "Prompt: “Explain NoSQL systems and MongoDB.” Skeleton: NoSQL motivation → four models → compare them → CAP/BASE → sharding → MongoDB model → relational mapping → CRUD → operators → aggregation pipeline → applications → conclusion.",
+    "purpose": "This can be answered almost as a checklist.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "INDEXING BOSS",
+    "body": "Prompt: “Explain indexing in relational and NoSQL databases.” Skeleton: index purpose → pages/I/O → B+ tree + range → hash → compare → MongoDB indexes → CouchDB → Cassandra partition/clustering → Neo4j property index → vector embedding/ANN → benefits/costs → query-driven conclusion.",
+    "purpose": "This is the notebook’s explicit 20-mark route.",
+    "memory": null,
+    "trap": null
+   },
+   {
+    "title": "EXAM MORNING: WHAT TO MEMORIZE",
+    "body": "Memorize definitions exactly where possible: DBMS, schema/instance, 3 levels, FD, 1NF/2NF/3NF/BCNF/4NF/5NF, ACID, serializable, 2PL, deadlock, recovery, distributed database, 2PC, CAP, BASE, sharding, MongoDB mapping, graph model, vector/ANN, B+ vs hash.",
+    "purpose": "Everything else can be explained in your own words around the exact anchor terms.",
+    "memory": "Exact anchors + flexible explanation = safest exam strategy.",
+    "trap": null
+   },
+   {
+    "title": "LAST 15-MINUTE LOOP",
+    "body": "Close the notes. For each unit, say the 20-mark skeleton out loud. Draw: three-level architecture, ER M:N, normalization ladder, B+ tree, ACID, 2PL, recovery, distributed architecture, CAP, Mongo pipeline. Then answer one mixed question without looking.",
+    "purpose": "This is active recall: force your brain to retrieve, not reread.",
+    "memory": null,
+    "trap": null
+   }
+  ],
+  "mcq_count": 0,
+  "traps": [],
+  "memories": [
+   "D-D-E-E-C-C: Define, Diagram, Explain, Example, Compare, Conclude.",
+   "Exact anchors + flexible explanation = safest exam strategy."
+  ]
+ }
+}

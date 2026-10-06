@@ -1,0 +1,16 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "Interleaving can produce incorrect results even when each transaction is correct by itself. Common anomalies: lost update, dirty read, non-repeatable read, phantom read.",
+    "2": "A serial schedule runs transactions one after another. A serializable schedule may interleave but has an effect equivalent to some serial schedule.",
+    "3": "Create one node per transaction. For conflicting operations on the same item where at least one is a write, add Ti → Tj if Ti occurs first. Acyclic graph = conflict-serializable; cycle = not conflict-serializable.",
+    "4": "Shared (S) lock is for reading and can coexist with other S locks. Exclusive (X) lock is for writing and conflicts with S and X.",
+    "5": "Growing phase: acquire locks, no releases. Shrinking phase: release locks, no new acquisitions. Basic 2PL guarantees conflict serializability. Strict 2PL keeps exclusive locks until commit/abort, reducing cascading rollback problems.",
+    "6": "Deadlock occurs when transactions wait in a cycle. Example: T1 holds A and waits for B; T2 holds B and waits for A. Handling: prevention, avoidance, detection with wait-for graph, timeout.",
+    "7": "Each transaction gets a unique timestamp. Read_TS(X) records the largest timestamp that successfully read X; Write_TS(X) records the largest timestamp that successfully wrote X. Violations may abort/restart the transaction. Advantage: no lock-waiting deadlock; disadvantage: repeated aborts can waste work.",
+    "8": "Transaction failure: logical error, constraint violation, deadlock victim, explicit abort. System crash: volatile memory lost. Media failure: persistent storage damaged. Communication failure matters especially in distributed DBs.",
+    "9": "Deferred update: database changes delayed until commit; committed work may need REDO. Immediate update: data may be written before commit; recovery may need UNDO + REDO. Shadow paging keeps stable shadow mapping until root switches at commit. Log-based recovery uses sequential logs. WAL requires the log record to reach stable storage before the changed data page. Checkpoints reduce recovery work.",
+    "10": "Define recovery → failure types → deferred update → immediate update → shadow paging → log + WAL → checkpoint → UNDO/REDO → conclusion."
+  }
+}

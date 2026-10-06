@@ -1,0 +1,12 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "Selection σ filters rows. Projection π chooses columns. Union combines compatible relations. Difference finds tuples in one but not the other. Cartesian product pairs every tuple. Join combines related tuples using a condition.",
+    "2": "DDL defines/changes structure: CREATE, ALTER, DROP, TRUNCATE. DML retrieves/changes data: SELECT, INSERT, UPDATE, DELETE. DCL manages privileges: GRANT, REVOKE. TCL controls transactions: COMMIT, ROLLBACK, SAVEPOINT.",
+    "3": "Typical logical idea: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT, although the optimizer may transform the physical plan.",
+    "4": "Domain integrity: valid data type/domain. Entity integrity: primary key is unique and not NULL. Referential integrity: foreign key refers to an existing referenced key or may be NULL where allowed. UNIQUE prevents duplicates. CHECK enforces a Boolean condition. NOT NULL makes a value mandatory.",
+    "5": "Insertion anomaly: cannot add a fact without unrelated data. Update anomaly: same fact repeated, so one logical change needs many updates. Deletion anomaly: deleting one fact accidentally removes another.",
+    "6": "Define SQL as declarative; classify commands; give one DDL + one DML + one TCL example; explain WHERE/GROUP BY/HAVING; finish with integrity constraints and why they matter."
+  }
+}

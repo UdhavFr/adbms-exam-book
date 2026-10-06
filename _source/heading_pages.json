@@ -1,0 +1,692 @@
+﻿[
+    {
+        "style":  "Title",
+        "page":  1,
+        "text":  "ADVANCED DATABASE SYSTEMS"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  1,
+        "text":  "How to write a 20-mark answer"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  2,
+        "text":  "UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  2,
+        "text":  "1. Introduction to Database Systems"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  2,
+        "text":  "Why DBMS is needed"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  2,
+        "text":  "Main functions of a DBMS"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  3,
+        "text":  "2. Data Models, Schemas and Instances"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  3,
+        "text":  "Types of data models"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  3,
+        "text":  "Schema"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  3,
+        "text":  "Instance"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  4,
+        "text":  "3. Levels of Data Abstraction"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  4,
+        "text":  "External level"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  4,
+        "text":  "Conceptual level"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  4,
+        "text":  "Internal level"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  4,
+        "text":  "Data independence"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  5,
+        "text":  "4. Conceptual Modeling Using ER Approach"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  5,
+        "text":  "Entities"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  5,
+        "text":  "Attributes"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  5,
+        "text":  "Keys"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  5,
+        "text":  "Relationships and cardinality"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  5,
+        "text":  "Participation constraints"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  6,
+        "text":  "5. Mapping ER Diagrams to Relational Schemas"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  6,
+        "text":  "6. Overview of Relational Model"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  6,
+        "text":  "Important terms"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  7,
+        "text":  "Relational algebra operations"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  7,
+        "text":  "7. SQL — DDL, DML, DCL and TCL"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  7,
+        "text":  "Important SQL clauses"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  7,
+        "text":  "8. Integrity and Referential Constraints"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  8,
+        "text":  "Why constraints matter"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  8,
+        "text":  "9. Guidelines for Relational Schema Design"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  8,
+        "text":  "Modification anomalies"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  9,
+        "text":  "UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  9,
+        "text":  "1. Functional Dependencies"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  9,
+        "text":  "Why FDs matter"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  9,
+        "text":  "Important types"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  9,
+        "text":  "Attribute closure"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  9,
+        "text":  "2. Normalization — Need and Goals"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  10,
+        "text":  "3. First Normal Form (1NF)"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  10,
+        "text":  "Benefits of 1NF"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  10,
+        "text":  "4. Second Normal Form (2NF)"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  10,
+        "text":  "5. Third Normal Form (3NF)"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  11,
+        "text":  "6. Boyce-Codd Normal Form (BCNF)"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  11,
+        "text":  "7. Multivalued Dependencies and 4NF"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  11,
+        "text":  "8. Join Dependencies and 5NF"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  11,
+        "text":  "9. Lossless Join Decomposition"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  12,
+        "text":  "10. Dependency Preservation"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  12,
+        "text":  "11. Minimal Cover and Equivalence of FDs"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  12,
+        "text":  "Steps"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  12,
+        "text":  "12. Data Storage, Disk Structure and Blocks"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  13,
+        "text":  "File organizations"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  13,
+        "text":  "13. B+ Tree Indexing"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  13,
+        "text":  "Search process"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  13,
+        "text":  "Why B+ trees are efficient"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  14,
+        "text":  "14. Hash-Based Indexing"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  15,
+        "text":  "UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  15,
+        "text":  "1. Concept of a Transaction"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  15,
+        "text":  "2. Transaction States and System Concepts"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  15,
+        "text":  "3. ACID Properties"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  16,
+        "text":  "4. Transaction Support in SQL"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  16,
+        "text":  "Isolation levels"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  17,
+        "text":  "5. Concurrency Control and Serializability"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  17,
+        "text":  "Common anomalies"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  17,
+        "text":  "Serial vs serializable"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  17,
+        "text":  "Conflict serializability"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  17,
+        "text":  "6. Lock-Based Concurrency Control and 2PL"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  18,
+        "text":  "Two-Phase Locking"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  18,
+        "text":  "Deadlock"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  18,
+        "text":  "7. Timestamp-Based Concurrency Control"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  18,
+        "text":  "8. Recovery and Types of Failures"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  19,
+        "text":  "9. Deferred Update"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  19,
+        "text":  "10. Immediate Update"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  19,
+        "text":  "11. Shadow Paging"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  20,
+        "text":  "12. Log-Based Recovery"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  20,
+        "text":  "Write-Ahead Logging"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  20,
+        "text":  "Checkpointing"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  21,
+        "text":  "UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  21,
+        "text":  "1. Introduction to Distributed Databases"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  21,
+        "text":  "Characteristics"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  21,
+        "text":  "Types"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  21,
+        "text":  "2. Data Fragmentation"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  21,
+        "text":  "Horizontal fragmentation"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  21,
+        "text":  "Vertical fragmentation"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  21,
+        "text":  "Hybrid fragmentation"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  22,
+        "text":  "3. Replication and Allocation"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  22,
+        "text":  "4. Distributed Transaction Management"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  22,
+        "text":  "Two-Phase Commit (2PC)"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  22,
+        "text":  "5. Distributed Consistency Models"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  23,
+        "text":  "6. NoSQL Systems — Types"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  23,
+        "text":  "7. CAP Theorem"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  23,
+        "text":  "Consistency"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  23,
+        "text":  "Availability"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  23,
+        "text":  "Partition tolerance"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  24,
+        "text":  "8. BASE vs ACID"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  24,
+        "text":  "9. Sharding and Partitioning"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  24,
+        "text":  "Strategies"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  24,
+        "text":  "10. MongoDB Data Model"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  25,
+        "text":  "11. MongoDB CRUD"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  25,
+        "text":  "Create"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  25,
+        "text":  "Read"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  25,
+        "text":  "Update"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  25,
+        "text":  "Delete"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  25,
+        "text":  "Common operators"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  25,
+        "text":  "12. MongoDB Aggregation"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  27,
+        "text":  "UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  27,
+        "text":  "1. Column-Oriented Databases: HBase and Cassandra"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  27,
+        "text":  "HBase"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  27,
+        "text":  "Cassandra"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  27,
+        "text":  "2. Cassandra Basic Operations"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  28,
+        "text":  "Schema evolution"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  28,
+        "text":  "3. Redis — Key-Value Store"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  28,
+        "text":  "Common commands"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  28,
+        "text":  "4. Graph Databases and Graph Data Model"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  29,
+        "text":  "5. Neo4j and Cypher"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  29,
+        "text":  "Cypher pattern"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  29,
+        "text":  "6. Vector Databases and Embeddings"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  29,
+        "text":  "Similarity measures"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  30,
+        "text":  "7. Similarity Search"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  30,
+        "text":  "HNSW"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  30,
+        "text":  "IVF-style indexing"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  30,
+        "text":  "8. Indexing and Ordering Data Sets"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  30,
+        "text":  "Ordering"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  30,
+        "text":  "9. MongoDB Indexing and Ordering"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  31,
+        "text":  "10. CouchDB Indexing and Ordering"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  31,
+        "text":  "11. Cassandra Indexing and Ordering"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  31,
+        "text":  "12. Neo4j Indexing and Ordering"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  31,
+        "text":  "13. Vector Store Indexing"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  32,
+        "text":  "14. Importance of Indexes for NoSQL Query Performance"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  32,
+        "text":  "Benefits"
+    },
+    {
+        "style":  "Heading 3",
+        "page":  32,
+        "text":  "Costs and limitations"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  33,
+        "text":  "MASTER 20-MARK ANSWER BANK"
+    },
+    {
+        "style":  "Heading 2",
+        "page":  33,
+        "text":  "Question 1: Explain normalization and all normal forms."
+    },
+    {
+        "style":  "Heading 2",
+        "page":  33,
+        "text":  "Question 2: Explain transaction processing, concurrency control and recovery."
+    },
+    {
+        "style":  "Heading 2",
+        "page":  33,
+        "text":  "Question 3: Explain distributed databases and CAP."
+    },
+    {
+        "style":  "Heading 2",
+        "page":  34,
+        "text":  "Question 4: Explain NoSQL systems and MongoDB."
+    },
+    {
+        "style":  "Heading 2",
+        "page":  34,
+        "text":  "Question 5: Explain indexing in relational and NoSQL databases."
+    },
+    {
+        "style":  "Heading 1",
+        "page":  34,
+        "text":  "DIAGRAM PRACTICE SHEET"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  35,
+        "text":  "FINAL REVISION: WHAT TO MEMORISE WORD-FOR-WORD"
+    },
+    {
+        "style":  "Heading 1",
+        "page":  36,
+        "text":  "FINAL EXAM CHECKLIST"
+    }
+]

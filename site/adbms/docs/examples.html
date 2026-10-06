@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examples — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Examples</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#examples-md-the-canonical-examples-bring-these-to-the-exam">examples.md — The Canonical Examples (Bring These to the Exam)</a></li><li class="l2"><a href="#e-1-why-dbms-u1-1">E-1. Why DBMS (U1 §1)</a></li><li class="l2"><a href="#e-2-schema-vs-instance-u1-2">E-2. Schema vs instance (U1 §2)</a></li><li class="l2"><a href="#e-3-three-level-views-u1-3">E-3. Three-level views (U1 §3)</a></li><li class="l2"><a href="#e-4-er-example-u1-4">E-4. ER example (U1 §4)</a></li><li class="l2"><a href="#e-5-er-relational-u1-5">E-5. ER → relational (U1 §5)</a></li><li class="l2"><a href="#e-6-sql-by-category-u1-7">E-6. SQL by category (U1 §7)</a></li><li class="l2"><a href="#e-7-integrity-u1-8">E-7. Integrity (U1 §8)</a></li><li class="l2"><a href="#e-8-functional-dependency-u2-1">E-8. Functional dependency (U2 §1)</a></li><li class="l2"><a href="#e-9-attribute-closure-u2-1">E-9. Attribute closure (U2 §1)</a></li><li class="l2"><a href="#e-10-1nf-violation-u2-3">E-10. 1NF violation (U2 §3)</a></li><li class="l2"><a href="#e-11-2nf-violation-u2-4-the-standard-answer-example">E-11. 2NF violation (U2 §4) ← the standard answer example</a></li><li class="l2"><a href="#e-12-3nf-violation-u2-5-the-standard-answer-example">E-12. 3NF violation (U2 §5) ← the standard answer example</a></li><li class="l2"><a href="#e-13-bcnf-trigger-u2-6">E-13. BCNF trigger (U2 §6)</a></li><li class="l2"><a href="#e-14-4nf-violation-u2-7">E-14. 4NF violation (U2 §7)</a></li><li class="l2"><a href="#e-15-lossless-join-u2-9">E-15. Lossless join (U2 §9)</a></li><li class="l2"><a href="#e-16-buffer-pages-u2-12">E-16. Buffer/pages (U2 §12)</a></li><li class="l2"><a href="#e-17-b-tree-u2-13">E-17. B+ tree (U2 §13)</a></li><li class="l2"><a href="#e-18-hash-index-u2-14">E-18. Hash index (U2 §14)</a></li><li class="l2"><a href="#e-19-bank-transfer-u3-1-acid-anchor">E-19. Bank transfer (U3 §1, ACID anchor)</a></li><li class="l2"><a href="#e-20-sql-transactions-u3-4">E-20. SQL transactions (U3 §4)</a></li><li class="l2"><a href="#e-21-conflict-serializability-u3-5">E-21. Conflict serializability (U3 §5)</a></li><li class="l2"><a href="#e-22-deadlock-u3-6">E-22. Deadlock (U3 §6)</a></li><li class="l2"><a href="#e-23-log-records-u3-12">E-23. Log records (U3 §12)</a></li><li class="l2"><a href="#e-24-fragmentation-u4-2">E-24. Fragmentation (U4 §2)</a></li><li class="l2"><a href="#e-25-2pc-u4-4">E-25. 2PC (U4 §4)</a></li><li class="l2"><a href="#e-26-sharding-u4-9">E-26. Sharding (U4 §9)</a></li><li class="l2"><a href="#e-27-mongodb-model-u4-10">E-27. MongoDB model (U4 §10)</a></li><li class="l2"><a href="#e-28-mongodb-crud-u4-11">E-28. MongoDB CRUD (U4 §11)</a></li><li class="l2"><a href="#e-29-mongodb-aggregation-u4-12">E-29. MongoDB aggregation (U4 §12)</a></li><li class="l2"><a href="#e-30-cassandra-cql-u5-2">E-30. Cassandra CQL (U5 §2)</a></li><li class="l2"><a href="#e-31-cassandra-ordering-u5-11-favourite-small-question">E-31. Cassandra ordering (U5 §11) ← favourite small question</a></li><li class="l2"><a href="#e-32-redis-u5-3">E-32. Redis (U5 §3)</a></li><li class="l2"><a href="#e-33-cypher-neo4j-u5-5">E-33. Cypher / Neo4j (U5 §5)</a></li><li class="l2"><a href="#e-34-vector-embeddings-u5-6">E-34. Vector embeddings (U5 §6)</a></li><li class="l2"><a href="#e-35-similarity-search-u5-7">E-35. Similarity search (U5 §7)</a></li><li class="l2"><a href="#e-36-index-creation-across-systems-u5-9-13">E-36. Index creation across systems (U5 §9–13)</a></li></ol></nav><div class="content"><h1 id="examples-md-the-canonical-examples-bring-these-to-the-exam">examples.md — The Canonical Examples (Bring These to the Exam)</h1>
+<p>One worked example per concept. Examiners give marks for <strong>applying</strong> a rule, not restating it. All examples below are the source's own (or faithful restatements of them).</p>
+<hr>
+<h2 id="e-1-why-dbms-u1-1">E-1. Why DBMS (U1 §1)</h2>
+<p>Banking, railway/airline reservation, e-commerce, hospitals, universities, libraries, social networks, financial systems. Relational examples: PostgreSQL, MySQL. NoSQL examples: MongoDB, Cassandra, Redis, Neo4j.</p>
+<h2 id="e-2-schema-vs-instance-u1-2">E-2. Schema vs instance (U1 §2)</h2>
+<ul><li>Schema: <code>STUDENT(RollNo, Name, Course)</code></li><li>Instance: <code>(101, Ravi, MCA)</code> — inserts/updates change the instance, not the schema.</li></ul>
+<h2 id="e-3-three-level-views-u1-3">E-3. Three-level views (U1 §3)</h2>
+<p>A student sees courses and marks; an accounts employee sees fees and payments — same database, different <strong>external views</strong>. Changing an index = <strong>physical</strong> change with no conceptual edit. Splitting a table while keeping a compatible view = <strong>logical</strong> change.</p>
+<h2 id="e-4-er-example-u1-4">E-4. ER example (U1 §4)</h2>
+<ul><li>Entities: STUDENT, COURSE, EMPLOYEE, DEPARTMENT.</li><li>Composite: <code>Address = Street, City, PIN</code>. Derived: <code>Age</code> from <code>DateOfBirth</code>. Multivalued: multiple phone numbers.</li><li>Cardinalities: Person–Passport (1:1), Department–Employee (1:N), Student–Course (M:N).</li><li>Relationship attribute: <code>EnrollmentDate</code> on ENROLLS (describes the event).</li></ul>
+<h2 id="e-5-er-relational-u1-5">E-5. ER → relational (U1 §5)</h2>
+<p>``<code> STUDENT(StudentID, Name) COURSE(CourseID, Title) ENROLLS(StudentID, CourseID, EnrollDate)   ← M:N junction, composite key </code>`<code> </code>StudentID<code> and </code>CourseID` are foreign keys referencing their parent relations.</p>
+<h2 id="e-6-sql-by-category-u1-7">E-6. SQL by category (U1 §7)</h2>
+<p>``<code>sql -- DDL CREATE TABLE Student(StudentID INT PRIMARY KEY, Name VARCHAR(50), CourseID INT, FOREIGN KEY(CourseID) REFERENCES Course(CourseID)). -- DML (query + aggregate) SELECT CourseID, COUNT(*) FROM Student GROUP BY CourseID. -- DML (modification) UPDATE Student SET Name='Rahul' WHERE StudentID=101. -- TCL BEGIN. UPDATE Account SET Balance=Balance-500 WHERE AccountID=1. COMMIT. -- DCL GRANT SELECT ON Student TO user1; </code>``</p>
+<h2 id="e-7-integrity-u1-8">E-7. Integrity (U1 §8)</h2>
+<p>``<code>sql FOREIGN KEY(CourseID) REFERENCES Course(CourseID)  -- cannot reference a missing course CHECK (Salary &gt. 0)   UNIQUE(email)  NOT NULL(Name) Referential actions: CASCADE | SET NULL | SET DEFAULT | RESTRICT / NO ACTION </code>``</p>
+<h2 id="e-8-functional-dependency-u2-1">E-8. Functional dependency (U2 §1)</h2>
+<p><code>StudentID → StudentName</code>: if StudentID 101 is Ravi, every occurrence of 101 must be Ravi.</p>
+<h2 id="e-9-attribute-closure-u2-1">E-9. Attribute closure (U2 §1)</h2>
+<p>F = {A→B, B→C, C→D}: A⁺ = {A} → {A,B} → {A,B,C} → <strong>{A,B,C,D}</strong> ⇒ A is a key.</p>
+<h2 id="e-10-1nf-violation-u2-3">E-10. 1NF violation (U2 §3)</h2>
+<p>``<code> STUDENT(StudentID, Name, Phones) with Phones = '9876,8765'  ✗ non-atomic → STUDENT(StudentID, Name) + STUDENT_PHONE(StudentID, Phone) ✓ 1NF </code>``</p>
+<h2 id="e-11-2nf-violation-u2-4-the-standard-answer-example">E-11. 2NF violation (U2 §4) ← <em>the standard answer example</em></h2>
+<p>``<code> ENROLL(StudentID, CourseID, StudentName, CourseName, Grade) key = (StudentID, CourseID) StudentID → StudentName  (partial: only part of the key) CourseID  → CourseName  (partial: only part of the key) ↓ decompose STUDENT(StudentID, StudentName) COURSE(CourseID, CourseName) ENROLL(StudentID, CourseID, Grade)   ← Grade fully depends on the whole key </code>``</p>
+<h2 id="e-12-3nf-violation-u2-5-the-standard-answer-example">E-12. 3NF violation (U2 §5) ← <em>the standard answer example</em></h2>
+<p>``<code> EMPLOYEE(EmpID, DeptID, DeptName) EmpID → DeptID. DeptID → DeptName ⇒ EmpID → DeptName is TRANSITIVE ↓ EMPLOYEE(EmpID, DeptID)  DEPARTMENT(DeptID, DeptName) </code>``</p>
+<h2 id="e-13-bcnf-trigger-u2-6">E-13. BCNF trigger (U2 §6)</h2>
+<p>Write the rule, not a new example: <em>X→Y is allowed only if X is a super key.</em> If a determinant such as <code>DeptName</code> (not a super key) determines something, 3NF may still accept it (DeptName prime?) but <strong>BCNF rejects it</strong>. (BCNF's own canonical case: a relation where a non-key attribute participates in determining the key.)</p>
+<h2 id="e-14-4nf-violation-u2-7">E-14. 4NF violation (U2 §7)</h2>
+<p>``<code> STUDENT(Student, Hobby, Language)  hobbies independent of languages → STUDENT_HOBBY(Student, Hobby) + STUDENT_LANGUAGE(Student, Language) </code>`` Storing all combinations creates repeated, meaningless combinations.</p>
+<h2 id="e-15-lossless-join-u2-9">E-15. Lossless join (U2 §9)</h2>
+<p>R(A,B,C) → R1(A,B), R2(A,C): intersection = {A}; if <strong>A→B</strong> or <strong>A→C</strong> holds ⇒ lossless.</p>
+<h2 id="e-16-buffer-pages-u2-12">E-16. Buffer/pages (U2 §12)</h2>
+<p>File → pages → buffer pool [P1, P7, P4, P9] → CPU. Page I/O, not record I/O, dominates cost.</p>
+<h2 id="e-17-b-tree-u2-13">E-17. B+ tree (U2 §13)</h2>
+<p>``<code> root: [30 | 60]  → children [10|20], [40|50], [70|80|90] leaves: [10,20] ↔ [40,50] ↔ [70,80,90]  (linked) search 50: root → middle child → leaf [40,50] → record pointer range 40..80: leaf [40,50] → follow link → leaf [70,80,90] → stop </code>``</p>
+<h2 id="e-18-hash-index-u2-14">E-18. Hash index (U2 §14)</h2>
+<p>key 101 → hash(101) → bucket 5 → records/pointers. Two keys in one bucket = collision → overflow bucket/chaining/dynamic hashing.</p>
+<h2 id="e-19-bank-transfer-u3-1-acid-anchor">E-19. Bank transfer (U3 §1, ACID anchor)</h2>
+<p>Debit ₹500 from A, credit ₹500 to B. Crash after the debit ⇒ database incorrect unless the transaction is atomic: either both become permanent or both are undone.</p>
+<h2 id="e-20-sql-transactions-u3-4">E-20. SQL transactions (U3 §4)</h2>
+<p>``<code>sql BEGIN; UPDATE Account SET Balance = Balance - 500 WHERE AccountID = 1; UPDATE Account SET Balance = Balance + 500 WHERE AccountID = 2; COMMIT;           -- or ROLLBACK on error; SAVEPOINT for partial rollback </code>``</p>
+<h2 id="e-21-conflict-serializability-u3-5">E-21. Conflict serializability (U3 §5)</h2>
+<p>``<code> T1: R(X) … W(X) … COMMIT T2:      R(X) … COMMIT conflict on X (one is a write), T1 first ⇒ edge T1 → T2 ⇒ acyclic ⇒ conflict-serializable </code>``</p>
+<h2 id="e-22-deadlock-u3-6">E-22. Deadlock (U3 §6)</h2>
+<p>T1 holds A, waits for B; T2 holds B, waits for A → cycle → deadlock. Handling: prevention, avoidance, detection (wait-for graph), timeout.</p>
+<h2 id="e-23-log-records-u3-12">E-23. Log records (U3 §12)</h2>
+<p>``<code> &lt;T1 START&gt; &lt;T1, A, 100, 50&gt; &lt;T1 COMMIT&gt; crash: T1 committed → REDO if required ; T2 uncommitted → UNDO </code>``</p>
+<h2 id="e-24-fragmentation-u4-2">E-24. Fragmentation (U4 §2)</h2>
+<ul><li>Horizontal: <code>CUSTOMER_NORTH</code> (customers from northern regions) vs <code>CUSTOMER_SOUTH</code>.</li><li>Vertical: split columns; <strong>repeat the primary key</strong> in every fragment so a JOIN reconstructs the relation.</li></ul>
+<h2 id="e-25-2pc-u4-4">E-25. 2PC (U4 §4)</h2>
+<p>Coordinator → PREPARE → P1/P2/P3 vote YES/NO → all YES ⇒ COMMIT, else ABORT.</p>
+<h2 id="e-26-sharding-u4-9">E-26. Sharding (U4 §9)</h2>
+<p>Dataset split as SHARD 1 (IDs 1–100), SHARD 2 (101–200), SHARD 3 (201–300).</p>
+<h2 id="e-27-mongodb-model-u4-10">E-27. MongoDB model (U4 §10)</h2>
+<p>``<code> Database → collection 'students' → documents {_id:1, name:'Ravi', age:22}, ... Table→Collection, Row→Document, Column→Field, PK→_id </code>``</p>
+<h2 id="e-28-mongodb-crud-u4-11">E-28. MongoDB CRUD (U4 §11)</h2>
+<p>``<code>js db.students.insertOne({name:'Ravi', age:22, course:'MCA'}) db.students.insertMany([{name:'Asha',age:23},{name:'John',age:21}]) db.students.find({age:{$gt:21}}) db.students.findOne({name:'Ravi'}) db.students.updateOne({name:'Ravi'}, {$set:{age:23}}) db.students.updateMany({course:'MCA'}, {$inc:{age:1}}) db.students.deleteOne({name:'Ravi'}) db.students.deleteMany({course:'MCA'}) </code>`<code> Operators: </code>$gt $gte $lt $lte $eq $ne<code> · </code>$in $nin<code> · </code>$and $or $not $nor<code> · </code>$set $unset $inc $push $pull`</p>
+<h2 id="e-29-mongodb-aggregation-u4-12">E-29. MongoDB aggregation (U4 §12)</h2>
+<p>``<code>js db.sales.aggregate([ {$match:{status:'paid'}}, {$group:{_id:'$product', total:{$sum:'$amount'}}}, {$sort:{total:-1}} ]) </code>`` = filter paid sales → group by product → sum amount → sort by total descending.</p>
+<h2 id="e-30-cassandra-cql-u5-2">E-30. Cassandra CQL (U5 §2)</h2>
+<p>``<code>sql CREATE KEYSPACE college WITH replication = {'class':'SimpleStrategy','replication_factor':3}. CREATE TABLE student (id int PRIMARY KEY, name text, course text). INSERT INTO student (id,name,course) VALUES (1,'Ravi','MCA'). SELECT * FROM student. UPDATE student SET course='MTech' WHERE id=1. DELETE FROM student WHERE id=1. </code>`<code> Schema evolution via </code>ALTER TABLE`. Metadata is cluster-wide, so plan changes.</p>
+<h2 id="e-31-cassandra-ordering-u5-11-favourite-small-question">E-31. Cassandra ordering (U5 §11) ← <em>favourite small question</em></h2>
+<p>``<code>sql CREATE TABLE results (course text, year int, student_id int, name text, PRIMARY KEY ((course), year, student_id)). </code>`<code> </code>course<code> = <strong>partition key</strong> (where the data lives). </code>year<code>, </code>student_id` = <strong>clustering columns</strong> (order of rows inside a partition).</p>
+<h2 id="e-32-redis-u5-3">E-32. Redis (U5 §3)</h2>
+<p>``<code>redis SET user:101 'Ravi'   GET user:101    DEL key    EXISTS key HSET user:101 name 'Ravi' course 'MCA'    HGET user:101 name EXPIRE user:101 3600   INCR counter </code>``</p>
+<h2 id="e-33-cypher-neo4j-u5-5">E-33. Cypher / Neo4j (U5 §5)</h2>
+<p>``<code>cypher CREATE (p:Person {name:'Alice', age:22}). MATCH (a:Person {name:'Alice'}), (b:Person {name:'Bob'}) CREATE (a)-[:FRIEND_OF]-&gt;(b). MATCH (p:Person)-[:FRIEND_OF]-&gt;(f:Person) RETURN p.name, f.name. MATCH (p:Person) WHERE p.age &gt. 20 RETURN p. MATCH (p:Person {name:'Alice'}) SET p.age=23 RETURN p. MATCH (p:Person {name:'Alice'}) DETACH DELETE p. MATCH (p:Person) RETURN p.name, p.age ORDER BY p.age DESC. </code>`<code> Pattern: </code>MATCH (node)-[:RELATIONSHIP]-&gt;(node) RETURN …`</p>
+<h2 id="e-34-vector-embeddings-u5-6">E-34. Vector embeddings (U5 §6)</h2>
+<p>Text/image/audio → embedding model → <code>[0.12, -0.31, 0.77, …]</code> → vector DB → similarity/nearest-neighbour index. Two semantically related sentences ⇒ high cosine similarity.</p>
+<h2 id="e-35-similarity-search-u5-7">E-35. Similarity search (U5 §7)</h2>
+<p>Query → embed → vector index → top-k → metadata + original documents → results. Brute force compares all vectors; ANN (HNSW graph, IVF clusters) searches a promising region.</p>
+<h2 id="e-36-index-creation-across-systems-u5-9-13">E-36. Index creation across systems (U5 §9–13)</h2>
+<p>``<code>js db.students.createIndex({age:1})               // single-field db.students.createIndex({course:1, age:-1})          // compound. Order matters db.users.createIndex({email:1}, {unique:true})        // unique db.students.find().sort({age:1})               // sort uses the index db.students.find().explain()                 // inspect the query plan </code>``</p>
+<ul><li><strong>CouchDB:</strong> Mango indexes for selector queries; map/reduce views give ordered keys for range access.</li><li><strong>Neo4j:</strong> property index on <code>Person(name)</code> finds the <em>starting node</em> fast; traversal then follows relationships.</li></ul></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty-five. [[sub]]Agreement across the wire: split the data, commit as one.",
+    "ground": "One giant shop table, customers everywhere. [[cut]]Cut it: northern rows live north, salary columns live with payroll. Each piece lives near its users: less chatter, faster local answers. [[w]]Write this: fragments live near users to cut communication cost.",
+    "frag": "Two ways to cut. [[horiz]]Horizontal: split rows by predicate. North rows here, south rows there. Rebuild with union. [[vert]]Vertical: split columns, and repeat the primary key in every piece. Rebuild by joining on that key. [[props]]Good fragments are complete, reconstructible, and disjoint. [[w]]Write this: rows-union, columns-join-on-key, key repeated.",
+    "q1": "Quick check. [[q]]A vertically fragmented table is rebuilt with what?",
+    "twopc": "Now commit across sites as one. [[ask]]The coordinator asks every participant: prepare? Each records a prepared state. [[vote]]Each votes yes or no. [[decide]]All yes means commit; any no means abort. Everyone records and executes the decision. Atomicity holds globally: no lone commits, no lone aborts. [[w]]Write this: ask, vote, decide; no lone outcomes.",
+    "q2": "Quick check. [[q]]In two-phase commit, one participant votes no. Result?",
+    "block": "The price of agreement. [[stuck]]A prepared participant that cannot learn the decision waits. And waits. That waiting is called blocking. [[trap]]And a warning: two-phase commit is a commit protocol, never a locking protocol. [[w]]Write this: prepared plus silence equals blocking; commit, not locking.",
+    "wrap": "To sum up. [[w1]]Rows split by predicate, rebuilt by union; columns split with the key repeated, rebuilt by join. [[w2]]Ask, vote, decide: atomicity across every site. [[w3]]Blocking is the price; and it is a commit protocol, not locking.",
+    "final1": "Chapter practice. [[q]]In two-phase commit, who sends prepare?",
+    "final2": "Chapter practice. [[q]]Main drawback of two-phase commit?",
+    "final3": "Chapter practice. [[q]]Fragments I D-Name and I D-Salary. Rebuild how?",
+    "finish": "Well done. Split wisely, commit as one. The narrated set is complete: seven lessons watched means every Tier-S machine demonstrated. Now prove it in the mocks."
+  }
+}

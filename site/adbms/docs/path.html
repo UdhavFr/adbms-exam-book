@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning path from zero — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Learning path from zero</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#learning-path-from-zero-md-i-know-nothing-12-lesson-path">learning-path-from-zero.md — "I know nothing" 12-lesson path</a></li><li class="l2"><a href="#unit-1-foundations-lessons-1-3-55-min">UNIT 1 — Foundations (Lessons 1–3) — 55 min</a></li><li class="l2"><a href="#unit-2-normalization-amp-storage-lessons-4-6-60-min">UNIT 2 — Normalization &amp;amp; Storage (Lessons 4–6) — 60 min</a></li><li class="l2"><a href="#unit-3-transactions-amp-recovery-lessons-7-9-60-min">UNIT 3 — Transactions &amp;amp; Recovery (Lessons 7–9) — 60 min</a></li><li class="l2"><a href="#unit-4-distributed-amp-nosql-core-lessons-10-11-45-min">UNIT 4 — Distributed &amp;amp; NoSQL core (Lessons 10–11) — 45 min</a></li><li class="l2"><a href="#lesson-12-the-20-mark-answer-builder-mixed-final-drill">Lesson 12 · The 20-mark answer builder + mixed final drill</a></li><li class="l2"><a href="#progress-log">Progress log</a></li></ol></nav><div class="content"><h1 id="learning-path-from-zero-md-i-know-nothing-12-lesson-path">learning-path-from-zero.md — "I know nothing" 12-lesson path</h1>
+<p><em>For a student starting from zero with the ADBMS exam tomorrow. Merges three sources:</em></p>
+<ul><li><em><code>ADBMS_MasterNotes.docx</code> — the authoritative syllabus notes (36 pp., 5 units, 61 sections)</em></li><li><em><code>chatgpt/adbms-papermorph/</code> — its 11-lesson teaching order, 50 memory hooks, traps (verified against source)</em></li><li><em><code>claude/ADBMS Boss Rush.html</code> — its 32-question MCQ drill bank (verified; now Section H of the question bank)</em></li></ul>
+<p><strong>How to use:</strong> work top to bottom. Each lesson = read → say the hooks out loud → answer the checkpoint MCQs in <a href="../written.html"><code>question-bank.md</code></a> (don't peek) → mark ✗ on anything you miss. One lesson ≈ 20–25 minutes. Total ≈ 4–5 hours, then switch to <a href="../plan.html"><code>revision-plan.md</code></a> + mocks.</p>
+<p><strong>Exam output rule (from the source, applies to every 10/20-mark answer):</strong> <em>Define (5–7 lines) → draw the diagram/flow → explain each component under its own heading → give an example → comparison/pros-cons → 3–4 line conclusion.</em> Every answer you practice must follow this shape.</p>
+<hr>
+<h2 id="unit-1-foundations-lessons-1-3-55-min">UNIT 1 — Foundations (Lessons 1–3) — 55 min</h2>
+<h3>Lesson 1 · What databases are, why DBMS exist, and the three-level map</h3>
+<div class="callout read"><b class="tag">Read</b><a href="unit-1.html"><code>chapter-notes/unit-1.md</code></a> U1-1→U1-3 · <strong>Hooks file:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §3 <strong>You must be able to produce:</strong> the three-level architecture diagram with labels + physical vs logical independence examples.</div>
+<div class="tscroll"><table><thead><tr><th>Concept</th><th>Plain meaning</th></tr></thead><tbody>
+<tr><td>Database</td><td>Organized collection of logically related data</td></tr>
+<tr><td>DBMS</td><td>Software that defines, creates, stores, retrieves, updates, protects, recovers the data</td></tr>
+<tr><td>File system pain</td><td>Redundancy → inconsistency; no sharing/security/concurrency/recovery control; program-data dependence</td></tr>
+<tr><td>External level</td><td>What each user group sees (views)</td></tr>
+<tr><td>Conceptual level</td><td>The logical blueprint of everything</td></tr>
+<tr><td>Internal level</td><td>How it's physically stored (files, pages, indexes)</td></tr>
+<tr><td>Physical independence</td><td>Change storage/index without changing the logical schema</td></tr>
+<tr><td>Logical independence</td><td>Change the conceptual schema without breaking user views</td></tr>
+<tr><td>Schema</td><td>The blueprint (stable) · <strong>Instance</strong></td><td>The current data values (changes constantly)</td></tr>
+</tbody></table></div>
+<div class="callout hooks"><b class="tag">Memory hooks</b>DBMS = <em>define, store, retrieve, update, protect, recover</em> · External = what user sees, Conceptual = blueprint, Internal = storage · Physical = storage changes, Logical = schema changes. <strong>Trap:</strong> never swap conceptual ↔ internal; never say "schema = SQL".</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> <a href="../written.html"><code>question-bank.md</code></a> </strong>Q1, Q3, Q4, Q5<strong> + MCQ </strong>Q121, Q122, Q89<strong> </strong>Wrap (3 steps):** 1) DBMS = define, store, retrieve, update, protect, recover. 2) External=user views, Conceptual=blueprint, Internal=storage. 3) Physical independence = storage changes; logical = schema changes; schema=blueprint, instance=data now.</div>
+<h3>Lesson 2 · ER modeling and mapping to tables</h3>
+<div class="callout read"><b class="tag">Read</b>U1-4→U1-5 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §3, <a href="diagrams.html"><code>diagrams-and-mental-models.md</code></a> D2 <strong>You must be able to produce:</strong> an ER diagram from a scenario, then the relational schema with all 7 mapping rules.</div>
+<div class="tscroll"><table><thead><tr><th>Concept</th><th>Plain meaning</th></tr></thead><tbody>
+<tr><td>Entity / attribute / relationship</td><td>The thing / its detail / the association between things</td></tr>
+<tr><td>Derived attribute</td><td>Computable (age from DOB)</td></tr>
+<tr><td>Composite attribute</td><td>Splittable (address = street + city)</td></tr>
+<tr><td>Multivalued attribute</td><td>More than one value (phones) → needs its own table</td></tr>
+<tr><td>Super / candidate / primary / alternate / foreign key</td><td>All possible keys / minimal unique / the chosen one / candidate-not-chosen / points to another table's key</td></tr>
+<tr><td>Cardinality vs participation</td><td>How many (1:1, 1:N, M:N) vs mandatory-or-optional</td></tr>
+<tr><td>1:N mapping</td><td>The 1-side's key becomes a foreign key in the <strong>N-side</strong></td></tr>
+<tr><td>M:N mapping</td><td>Always a <strong>new junction table</strong> holding both keys</td></tr>
+</tbody></table></div>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Thing = entity, detail = attribute, association = relationship · Many gets the key (FK on N side) · M:N needs a middleman table. <strong>Trap:</strong> cardinality ≠ participation; FK goes on the <strong>many</strong> side, always.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q6–Q12<strong> + MCQ </strong>Q117 (M:N), Q123, Q124, Q120 (entity integrity)<strong> </strong>Wrap (3 steps):** 1) Thing=entity, detail=attribute, association=relationship. 2) 1:N → FK on N side; M:N → junction table. 3) Cardinality=how many; participation=mandatory-or-optional — never swap them.</div>
+<h3>Lesson 3 · Relational model, SQL, integrity</h3>
+<div class="callout read"><b class="tag">Read</b>U1-6→U1-9 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §3, <a href="formulas.html"><code>formulas.md</code></a> σ/π <strong>You must be able to produce:</strong> the SQL command-family table + integrity-constraints table + one worked query.</div>
+<p>DCL <em>controls access</em> (GRANT/REVOKE) · TCL <em>tames transactions</em> (COMMIT/ROLLBACK).</p>
+<ul><li><strong>Relational algebra:</strong> σ = select <strong>rows</strong> (a condition), π = <strong>columns</strong> (project), JOIN = combine on a key.</li><li><strong>SQL families:</strong> DDL <em>defines</em> (CREATE/ALTER/DROP) · DML <em>manipulates</em> (SELECT/INSERT/UPDATE/DELETE) ·</li><li><strong>Integrity:</strong> entity = PK unique &amp; NOT NULL · referential = FK must match a real PK · domain = values legal.</li><li><strong>SQL clauses order:</strong> FROM → WHERE (rows) → GROUP BY → HAVING (groups) → SELECT → ORDER BY.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>DDL Defines, DML Manipulates, DCL Controls, TCL Tames · WHERE filters rows, HAVING filters groups. <strong>Trap:</strong> WHERE before GROUP BY, never after; PK can never be NULL.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q13–Q18<strong> + MCQ </strong>Q119 (HAVING), Q118 (PK), Q120<strong> </strong>Wrap (3 steps):** 1) σ=rows, π=columns. 2) DDL Defines, DML Manipulates, DCL Controls, TCL Tames. 3) WHERE filters rows → GROUP BY → HAVING filters groups; PK can never be NULL.</div>
+<hr>
+<h2 id="unit-2-normalization-amp-storage-lessons-4-6-60-min">UNIT 2 — Normalization &amp; Storage (Lessons 4–6) — 60 min</h2>
+<h3>Lesson 4 · Functional dependencies and the normalization ladder 1NF→5NF</h3>
+<div class="callout read"><b class="tag">Read</b><a href="unit-2.html"><code>chapter-notes/unit-2.md</code></a> U2-1→U2-11 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §4 — <em>the money hooks</em> · <a href="comparisons.html"><code>comparisons.md</code></a> C1–C13 · <strong>Practice on paper:</strong> Q21, Q25, Q26, Q87 <strong>You must be able to produce:</strong> given F and a relation, find the key via closure, name the violated NF, decompose.</div>
+<p><em>dependency-preserving</em> = original FDs still checkable without joins.</p>
+<ul><li><strong>FD X→Y:</strong> knowing X fixes Y. <strong>Closure X⁺:</strong> keep applying FDs until nothing new.</li><li><strong>Key:</strong> smallest set whose closure = all attributes.</li><li><strong>The ladder (memorize verbatim):</strong></li><li><strong>1NF</strong> — atomic cells, no repeating groups · <strong>2NF</strong> — 1NF + no <em>partial</em> dependency (non-key depends on the <strong>whole</strong> key)</li><li><strong>3NF</strong> — no <em>transitive</em> dependency (non-key must not determine non-key) — test: <strong>X→A holds if X is a super key OR A is prime</strong></li><li><strong>BCNF</strong> — <strong>every</strong> determinant is a super key — test: <strong>ONLY</strong> X is a super key</li><li><strong>4NF</strong> — no bad multivalued dependency · <strong>5NF</strong> — no join dependency not implied by keys</li><li><strong>Decomposition tests:</strong> <em>lossless</em> = intersection is a super key of at least one piece ·</li><li><strong>Minimal cover:</strong> split RHS → remove extraneous LHS → remove redundant FDs.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b><em>The key (1NF), the WHOLE key (2NF), nothing but the key (3NF), so help me Codd (BCNF)</em> · Lossless = reconstruct, preservation = enforce. <strong>Trap:</strong> 3NF is <strong>OR</strong> (super key <em>or</em> prime attribute); BCNF is <strong>ONLY</strong> (super key, full stop).</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q21–Q34, Q87<strong> + MCQ </strong>Q91–Q95, Q127, Q128, Q141<strong> </strong>Wrap (3 steps):** 1) Closure X⁺ → key = smallest set reaching everything. 2) Ladder: atomic (1NF) → whole-key (2NF) → no transitive (3NF=OR) → determinant-superkey (BCNF=ONLY). 3) Lossless = intersection is a super key of one part; preservation = FDs checkable without joins.</div>
+<h3>Lesson 5 · Storage, B+ trees and hashing</h3>
+<div class="callout read"><b class="tag">Read</b>U2-12→U2-14 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §4 · <a href="diagrams.html"><code>diagrams-and-mental-models.md</code></a> B+ tree <strong>You must be able to produce:</strong> a B+ tree insert/search drawing + B+ vs hash comparison table.</div>
+<p><em>B for Between.</em> Order: log_F(N) levels; fanout F = pointer count.</p>
+<ul><li><strong>B+ tree:</strong> sorted, all data in <strong>leaf</strong> nodes, leaves <strong>linked</strong> → range queries fly.</li><li><strong>Hash:</strong> compute bucket from key → O(1) exact lookup. <em>H for Has-exactly.</em> Collisions → chaining / overflow.</li><li><strong>Choose:</strong> range/pattern → B+ tree; equality-only hot lookup → hash.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>B for Between (ranges), H for Has-exactly (equality) · index = faster reads + storage &amp; write cost. <strong>Trap:</strong> hash is bad at ranges; indexes slow <strong>writes</strong>.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q35–Q40<strong> + MCQ </strong>Q109, Q110, Q129, Q130<strong> </strong>Wrap (3 steps):** 1) B+ tree = sorted + linked leaves → ranges fast (B for Between). 2) Hash = bucket from key → equality fast (H for Has-exactly). 3) Indexes = faster reads, slower writes, extra storage.</div>
+<h3>Lesson 6 · Anomalies and schema-design guidelines</h3>
+<div class="callout read"><b class="tag">Read</b>U1-9 revisit + <a href="mistakes.html"><code>common-mistakes.md</code></a> §B · <strong>Hooks:</strong> <a href="mistakes.html"><code>common-mistakes.md</code></a> <strong>You must be able to produce:</strong> insert/update/delete anomaly examples on one relation + how normalization cures each.</div>
+<p>change one copy → inconsistency · <strong>Delete anomaly</strong> — deleting a row destroys unrelated facts.</p>
+<ul><li><strong>Insert anomaly</strong> — can't add a fact without unrelated data · <strong>Update anomaly</strong> — one fact in many places,</li></ul>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q19, Q20<strong> + MCQ </strong>Q141 (NF matching)<strong> </strong>Wrap (3 steps):** 1) Insert anomaly = can't add a fact without unrelated data. 2) Update anomaly = one fact in many places → inconsistency. 3) Delete anomaly = deleting a row destroys unrelated facts; normalization cures all three.</div>
+<hr>
+<h2 id="unit-3-transactions-amp-recovery-lessons-7-9-60-min">UNIT 3 — Transactions &amp; Recovery (Lessons 7–9) — 60 min</h2>
+<h3>Lesson 7 · Transactions, ACID, isolation levels</h3>
+<div class="callout read"><b class="tag">Read</b><a href="unit-3.html"><code>chapter-notes/unit-3.md</code></a> U3-1→U3-4 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §5 · <strong>Highest-value Unit 3 topic</strong> <strong>You must be able to produce:</strong> ACID with one worked bank-transfer example per property + the isolation-level table.</div>
+<p><strong>D</strong>urable after commit (survives crashes).</p>
+<p>Repeatable Read (no non-repeatable reads; phantoms may remain) → Serializable (full).</p>
+<ul><li><strong>Transaction</strong> = one logical unit (bank transfer: debit A + credit B must succeed or fail together).</li><li><strong>States:</strong> Active → Partially Committed → Committed; failure path → Failed → Aborted → restart.</li><li><strong>ACID:</strong> <strong>A</strong>ll-or-nothing (atomicity) · <strong>C</strong>orrect state kept (consistency) · <strong>I</strong>solated (concurrency control) ·</li><li><strong>Isolation levels</strong> (weakest→strongest): Read Uncommitted (dirty reads) → Read Committed →</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>A = all, C = correct, I = isolated, D = durable · recovery guards A &amp; D, concurrency control guards I. <strong>Trap:</strong> "durability" = survives <strong>failure after commit</strong>, not "data is fast"; Partially Committed ≠ Committed.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q41–Q46<strong> + MCQ </strong>Q97, Q98, Q99, Q131<strong> </strong>Wrap (3 steps):** 1) Transaction = one logical unit; states Active → Partially Committed → Committed. 2) A=all-or-nothing, C=correct state, I=isolated, D=durable after commit. 3) Isolation ladder weakest→strongest: Read Uncommitted → Read Committed → Repeatable Read → Serializable.</div>
+<h3>Lesson 8 · Concurrency: anomalies, serializability, 2PL, deadlock</h3>
+<div class="callout read"><b class="tag">Read</b>U3-5→U3-7 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §5 · <a href="processes.html"><code>processes-and-algorithms.md</code></a> P8–P11 <strong>You must be able to produce:</strong> a precedence graph for a schedule + the 2PL growing/shrinking diagram.</div>
+<p>Phantom (new rows appear).</p>
+<p>Guarantees serializability; may deadlock.</p>
+<p>ordered lock acquisition).</p>
+<ul><li><strong>Anomalies:</strong> Lost update (overwrite) · Dirty read (see uncommitted) · Non-repeatable read (row changes mid-transaction) ·</li><li><strong>Conflict serializability:</strong> build precedence graph on conflicting pairs; <strong>cycle = not serializable</strong>.</li><li><strong>Locks:</strong> <strong>S</strong>hared (read) vs e<strong>X</strong>clusive (write); X conflicts with everything.</li><li><strong>2PL:</strong> <em>Growing</em> — acquire locks, release none · <em>Shrinking</em> — release only, <strong>acquire none</strong>.</li><li><strong>Deadlock:</strong> circular waiting; detect with <strong>wait-for graph</strong> cycle; cure by aborting a victim (or prevent with</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Grow = grab, shrink = surrender, never regrow · cycle in the graph = bad news · Lost = overwrite, Dirty = uncommitted, Non-repeatable = same row diff value, Phantom = new row. <strong>Trap:</strong> <strong>2PL ≠ 2PC</strong> (2PL = locking discipline in one DB; 2PC = distributed agreement protocol).</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q47–Q56<strong> + MCQ </strong>Q100, Q101, Q102, Q132<strong> </strong>Wrap (3 steps):** 1) Anomalies: Lost=overwrite, Dirty=uncommitted, Non-repeatable=same row new value, Phantom=new row. 2) Precedence graph: cycle = NOT serializable. 3) 2PL: grow=grab, shrink=surrender, never regrow; deadlock = circular wait, caught by wait-for graph.</div>
+<h3>Lesson 9 · Recovery: failures, deferred/immediate, shadow paging, WAL, checkpoints</h3>
+<div class="callout read"><b class="tag">Read</b>U3-8→U3-12 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §5 · <a href="processes.html"><code>processes-and-algorithms.md</code></a> P12–P16 <strong>You must be able to produce:</strong> the recovery chain diagram (LOG → CHECKPOINT → CRASH → UNDO/REDO) + a deferred vs immediate comparison row.</div>
+<ul><li><strong>Failures:</strong> transaction (logic/abort) · system (software) · <strong>disk/communication</strong> (torn page, head crash).</li><li><strong>Deferred update:</strong> uncommitted changes never touch the DB → <strong>REDO only</strong> after commit.</li><li><strong>Immediate update:</strong> DB written before commit → <strong>UNDO uncommitted + REDO committed</strong> on recovery.</li><li><strong>Shadow paging:</strong> keep old pages; switch root pointer at commit → old version stays valid (no UNDO).</li><li><strong>WAL:</strong> <strong>log before data</strong> — the log record must reach stable storage <em>before</em> the changed data page.</li><li><strong>Checkpoint:</strong> forces earlier log + dirty pages to disk → recovery starts from the checkpoint, not from time zero.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Deferred = Delay → only REDO · Immediate = I need both → UNDO + REDO · WAL = log first, always. <strong>Trap:</strong> WAL is <strong>log-before-data</strong>, never data-first; deferred update needs <strong>no UNDO</strong>.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q57–Q68<strong> + MCQ </strong>Q103, Q104, Q134<strong> </strong>Wrap (3 steps):** 1) Deferred = Delay → REDO only. 2) Immediate = I need both → UNDO+REDO. 3) WAL = log before data, always; checkpoint bounds where recovery starts; shadow paging = switch root pointer, no UNDO.</div>
+<hr>
+<h2 id="unit-4-distributed-amp-nosql-core-lessons-10-11-45-min">UNIT 4 — Distributed &amp; NoSQL core (Lessons 10–11) — 45 min</h2>
+<h3>Lesson 10 · Fragmentation, replication, 2PC, CAP/BASE, sharding</h3>
+<div class="callout read"><b class="tag">Read</b><a href="unit-4.html"><code>chapter-notes/unit-4.md</code></a> U4-1→U4-9 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §6 · <a href="comparisons.html"><code>comparisons.md</code></a> C23–C31 <strong>You must be able to produce:</strong> fragmentation types + 2PC two-round flow + the CAP paragraph (exact wording!).</div>
+<p>Rebuild: horizontal → UNION, vertical → JOIN on the key.</p>
+<p>Drawback: <strong>blocking</strong> if the coordinator dies mid-protocol.</p>
+<p>Consistency (every read gets the latest write <strong>or an error</strong>), Availability (every non-failing node answers), Partition tolerance (keeps working despite failures). <strong>Never</strong> write "any two at all times."</p>
+<ul><li><strong>Horizontal fragmentation</strong> — split <strong>rows</strong> (selection σ) · <strong>Vertical</strong> — split <strong>columns</strong> (projection π, keep the key) ·</li><li><strong>Replication:</strong> copies for availability/performance; cost = update coordination.</li><li><strong>2PC:</strong> <em>Prepare</em> (coordinator asks, participants <strong>vote</strong>) → <em>Commit/Abort</em> (any <strong>NO</strong> → global abort).</li><li><strong>CAP theorem (exact wording):</strong> <em>During a network partition</em>, a distributed system can guarantee <strong>at most two of three</strong> —</li><li><strong>BASE:</strong> <strong>B</strong>asically <strong>A</strong>vailable, <strong>S</strong>oft state, <strong>E</strong>ventual consistency — trade immediate consistency for availability.</li><li><strong>Sharding:</strong> Range (locality) · Hash (<strong>balance</strong>, ranges get hard) · Directory (lookup map) · Geographic (latency).</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>CAP is about behavior DURING a partition · CP = Careful &amp; Patient, AP = Always Present · Hand out Rows (horizontal), Vertical slices of columns (vertical) · 2PC = Prepare, then Commit. <strong>Trap:</strong> CAP's condition is <strong>the partition itself</strong> — "any two at all times" is the #1 wrong answer in the subject.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q69–Q76<strong> + MCQ </strong>Q105–Q108, Q135, Q136<strong> </strong>Wrap (3 steps):** 1) Horizontal=rows (σ), vertical=columns (π, key kept); rebuild: UNION / JOIN-on-key. 2) 2PC: Prepare→vote→Commit/Abort; any NO = global abort; blocking = its drawback. 3) CAP = at most two of C/A/P <em>during a partition</em> — never 'any two at all times'; BASE = Basically Available, Soft state, Eventual consistency.</div>
+<h3>Lesson 11 · MongoDB + Cassandra + Redis + Neo4j + vector search</h3>
+<div class="callout read"><b class="tag">Read</b>U4-10→U4-12 + <a href="unit-5.html"><code>chapter-notes/unit-5.md</code></a> U5-1→U5-7 · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §7 · <a href="comparisons.html"><code>comparisons.md</code></a> C32–C39 · <a href="processes.html"><code>processes-and-algorithms.md</code></a> P17–P23 <strong>You must be able to produce:</strong> the store-comparison table + real commands + the ANN explanation.</div>
+<div class="tscroll"><table><thead><tr><th>Store</th><th>Model</th><th>Anchor fact</th></tr></thead><tbody>
+<tr><td>MongoDB</td><td>Document (JSON)</td><td>Table→<strong>collection</strong>, row→<strong>document</strong>, column→<strong>field</strong>; <code>db.x.find({age:{$gt:20}})</code>; pipeline <code>$match→$group→$sort</code> (filter first!)</td></tr>
+<tr><td>Cassandra</td><td>Wide-column</td><td><strong>Partition key = where data lives</strong>, <strong>clustering = order within</strong>; query-driven design, duplicate freely</td></tr>
+<tr><td>Redis</td><td>Key-value</td><td>Fast temporary/session state; TTL expiry</td></tr>
+<tr><td>Neo4j</td><td>Graph</td><td>Nodes/edges/properties; <code>MATCH (a)-[:FRIEND]-&gt;(b)</code>; friend-of-friend = its sweet spot</td></tr>
+<tr><td>Vector DB</td><td>Embeddings</td><td>Data→embedding→vector→nearest-neighbour; <strong>cosine = angle</strong> similarity; <strong>HNSW = graph</strong> ANN, <strong>IVF = clusters</strong>; brute force O(N·d)</td></tr>
+</tbody></table></div>
+<div class="callout hooks"><b class="tag">Memory hooks</b>Doctors Keep Calm Gracefully = Document, Key-value, Column, Graph · My Great Shoes = Match, Group, Sort · partition = place, clustering = order · scalar access ≠ similarity access. <strong>Trap:</strong> Cassandra partition ≠ clustering; HNSW ≠ IVF (graph vs clusters); aggregation <code>$match</code> first.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong>Q77–Q86, Q88<strong> + MCQ </strong>Q111–Q116, Q137–Q140<strong> </strong>Wrap (3 steps):** 1) MongoDB: table→collection, row→document; pipeline $match first. 2) Cassandra: partition key=where, clustering=order. 3) Redis=key-value+TTL, Neo4j=graph traversal, vectors: cosine=angle, HNSW=graph, IVF=clusters.</div>
+<hr>
+<h2 id="lesson-12-the-20-mark-answer-builder-mixed-final-drill">Lesson 12 · The 20-mark answer builder + mixed final drill</h2>
+<div class="callout read"><b class="tag">Read</b><a href="answers.html"><code>answer-bank.md</code></a> (all 20-mark skeletons) + <a href="../cram.html"><code>notes/final-cram.md</code></a> · <strong>Hooks:</strong> <a href="../mem.html"><code>memory-hooks.md</code></a> §1–2 <strong>You must be able to produce:</strong> any 20-mark answer in the fixed shape, from memory, in ~25 minutes.</div>
+<p><strong>The formula (both artifacts agree — it's the source's own guidance):</strong> <em>Dogs Draw Elephants, Politely Concluding</em> → <strong>D</strong>efine (5–7 lines) · <strong>D</strong>iagram · <strong>E</strong>laborate each component under its own heading · <strong>E</strong>xample (table/query/schedule) · <strong>P</strong>ros-cons-comparison · <strong>C</strong>onclusion (3–4 lines on correctness/speed/reliability).</p>
+<div class="callout wrap"><b class="tag">Wrap</b>1) Define 5–7 lines → 2) diagram + components under headings → 3) example, pros/cons, 3–4 line conclusion on correctness/speed/reliability.</div>
+<p><strong>Final drill order (closed book):</strong> <a href="../cram.html"><code>final-cram.md</code></a> §1–§6 → 20 flashcards from the ✗ pile → 3 one-page 20-mark answers (ACID, Normalization, CAP) timed at 25 min each → <a href="../mock3.html"><code>mock-exam-3.md</code></a>.</p>
+<hr>
+<h2 id="progress-log">Progress log</h2>
+<div class="tscroll"><table><thead><tr><th>Lesson</th><th>Date/time</th><th>Checkpoint ✗ count</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td></td><td></td><td></td></tr>
+<tr><td>2</td><td></td><td></td><td></td></tr>
+<tr><td>…</td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<p>Log every ✗ in <a href="tracker.html"><code>weakness-tracker.md</code></a> — that file becomes your final-10-minutes reading list.</p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

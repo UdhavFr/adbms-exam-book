@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 3 · Relational model, SQL, integrity — ADBMS Exam Book</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<div class="crumb"><a href="index.html#contents">ADBMS exam book</a> · Unit 1 · Chapter 3</div><h2 class="ptitle">Lesson 3 · Relational model, SQL, integrity</h2>
+<div class="content">
+<p>· Relational model, SQL, integrity <strong>Read:</strong> U1-6→U1-9 · <strong>Hooks:</strong></p>
+<details class="ref"><summary>📖 Hooks: 3 <span class="dim">— from memory-hooks.md §3 (tap to expand)</span></summary><div class="content"><h2>3. Unit 1 processing hooks</h2>
+<div class="tscroll"><table><thead><tr><th>Fact</th><th>Hook</th></tr></thead><tbody>
+<tr><td>ER→relational (7 rules)</td><td><strong>Entity→table · Composite→split · Multi→new table · 1:1→FK · 1:N→FK on N · M:N→new table · Weak→owner key + partial key</strong></td></tr>
+<tr><td>Relational vocabulary</td><td>Relation=table, Tuple=row, Attribute=column, Domain=permitted values, Degree=#columns, Cardinality=#rows</td></tr>
+<tr><td>Relational algebra</td><td><strong>Selection selects RECORDS, Projection selects FIELDS</strong> (S↔rows, P↔columns)</td></tr>
+<tr><td>SQL categories</td><td><strong>DDL=Design · DML=Manipulate · DCL=Control access · TCL=Transaction</strong></td></tr>
+<tr><td>SQL processing order</td><td>rhythm: <strong>FROM – WHERE – GROUP – HAVING – SELECT – ORDER – LIMIT</strong></td></tr>
+<tr><td>Integrity constraints</td><td><strong>D-E-R</strong> (Domain, Entity, Referential) <strong>+ U-C-N</strong> (UNIQUE, CHECK, NOT NULL)</td></tr>
+<tr><td>Anomalies</td><td><strong>I-U-D</strong> = Insertion / Update / Deletion</td></tr>
+<tr><td>Unit-1 exam flow</td><td>Requirements → ER → constraints → relational schema → normalization → SQL implementation</td></tr>
+</tbody></table></div>
+<hr></div></details>
+<p>, <a href="docs/formulas.html"><code>formulas.md</code></a> σ/π <strong>You must be able to produce:</strong> the SQL command-family table + integrity-constraints table + one worked query.</p>
+<p>DCL <em>controls access</em> (GRANT/REVOKE) · TCL <em>tames transactions</em> (COMMIT/ROLLBACK).</p>
+<ul><li><strong>Relational algebra:</strong> σ = select <strong>rows</strong> (a condition), π = <strong>columns</strong> (project), JOIN = combine on a key.</li><li><strong>SQL families:</strong> DDL <em>defines</em> (CREATE/ALTER/DROP) · DML <em>manipulates</em> (SELECT/INSERT/UPDATE/DELETE) ·</li><li><strong>Integrity:</strong> entity = PK unique &amp; NOT NULL · referential = FK must match a real PK · domain = values legal.</li><li><strong>SQL clauses order:</strong> FROM → WHERE (rows) → GROUP BY → HAVING (groups) → SELECT → ORDER BY.</li></ul>
+<div class="callout hooks"><b class="tag">Memory hooks</b>DDL Defines, DML Manipulates, DCL Controls, TCL Tames · WHERE filters rows, HAVING filters groups. <strong>Trap:</strong> WHERE before GROUP BY, never after; PK can never be NULL.</div>
+<div class="callout checkpoint"><b class="tag">Check</b>→<strong> </strong><a href="written.html#Q13">Q13</a>–<a href="written.html#Q18">Q18</a><strong> + MCQ </strong><a href="quiz.html">Q119</a> (HAVING), <a href="quiz.html">Q118</a> (PK), <a href="quiz.html">Q120</a><strong> </strong>Wrap (3 steps):** 1) σ=rows, π=columns. 2) DDL Defines, DML Manipulates, DCL Controls, TCL Tames. 3) WHERE filters rows → GROUP BY → HAVING filters groups; PK can never be NULL.</div>
+<hr>
+<h2 id="unit-2-normalization-amp-storage-lessons-4-6-60-min">UNIT 2 — Normalization &amp; Storage (Lessons 4–6) — 60 min</h2>
+</div><div class="callout hooks"><b class="tag">Memory device — recite, don't reread</b>Families: <b>DDL Defines, DML Manipulates, DCL Controls, TCL Tames.</b> Execution order: <b>Fat Worms Gobble Hot Spaghetti Often</b> (FROM→WHERE→GROUP→HAVING→SELECT→ORDER). WHERE filters rows, HAVING filters groups. <a href="mem.html">All devices</a></div><h2 id="quick-check">Quick check</h2><p class="psub">Answer from memory — first tries count.</p><div id="qc"></div><script src="quizzes.js"></script><script>const _qc = document.getElementById("qc"); renderChoice(_qc, window.MCQ_BY_ID["Q125"]); renderChoice(_qc, window.MCQ_BY_ID["Q126"]); renderChoice(_qc, window.MCQ_BY_ID["Q119"]);</script>
+<div class="chapnav"><a class="btn small quiet" href="ch02.html">← Ch 2</a><a class="btn small quiet" href="index.html#contents">Contents</a><a class="btn small go" href="ch04.html">Ch 4 →</a><button id="donebtn" class="btn small quiet donebtn" onclick="markDone(3)">Mark finished</button></div>
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

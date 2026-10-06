@@ -1,0 +1,17 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty-one. [[sub]]C A P: the most misquoted theorem in the subject.",
+    "ground": "Two branches of one bank. One wire between them. [[cut]]A storm cuts the wire, mid-transfer. [[choice]]The branch must choose. Turn customers away and stay correct? Or keep answering, knowing the numbers may be stale? [[w]]Write this: a partition forces a choice between correct and answering.",
+    "cap": "Three promises, one per letter. [[c]]C: consistency. Every read gets the latest write, or an error. [[a]]A: availability. Every working branch answers every customer. [[p]]P: partition tolerance. The bank keeps working despite the cut wire. [[w]]Write this: latest-or-error, every-node-answers, works-despite-cut.",
+    "q1": "Quick check. [[q]]During a partition, a system keeps answering with possibly stale data. It chose?",
+    "choices": "Here is the whole theorem in one picture. [[pin]]P is not optional. The wire will cut, so every real system takes P, then picks C or A. [[cp]]C P: careful and patient. The bank turns customers away rather than risk wrong balances. [[ap]]A P: always present. The shop keeps answering, and converges later. That convergence has a name: BASE. Basically Available, Soft state, Eventual consistency. [[trap]]Never write: pick any two of three at all times. The trade exists only during a partition. [[w]]Write this: P pinned, C-P bank, A-P shop, condition named.",
+    "q2": "Quick check. [[q]]The CAP trade-off is specifically about what?",
+    "wrap": "To sum up. [[w1]]No partition, no trade-off: the condition is the cut wire. [[w2]]P is pinned; the live choice is C-P bank versus A-P shop. [[w3]]BASE is the A-P lifestyle: available now, consistent later.",
+    "final1": "Chapter practice. [[q]]What does the S in BASE stand for?",
+    "final2": "Chapter practice. [[q]]True or false: a system may pick any two of C, A, P at all times.",
+    "final3": "Chapter practice. [[q]]A bank stops answering to stay correct during a cut. Which choice?",
+    "finish": "Well done. Quote it precisely and the marks are safe. Next stop: two-phase locking."
+  }
+}

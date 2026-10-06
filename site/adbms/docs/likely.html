@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Likely questions — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Likely questions</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#likely-questions-md-prioritised-question-shortlist">likely-questions.md — Prioritised Question Shortlist</a></li><li class="l1"><a href="#high-priority-study-these-first-the-source-literally-builds-">🔴 HIGH PRIORITY (study these first — the source literally builds answers for them)</a></li><li class="l1"><a href="#medium-priority-very-likely-somewhere-in-the-paper">🟡 MEDIUM PRIORITY (very likely somewhere in the paper)</a></li><li class="l1"><a href="#lower-priority-short-answers-fillers-still-worth-10-minutes-">🟢 LOWER PRIORITY (short answers / fillers — still worth 10 minutes each)</a></li><li class="l2"><a href="#how-to-answer-by-mark-count-quick-rule">How to answer by mark count (quick rule)</a></li></ol></nav><div class="content"><h1 id="likely-questions-md-prioritised-question-shortlist">likely-questions.md — Prioritised Question Shortlist</h1>
+<p><strong>Honesty note:</strong> these are <em>derived from the source's own answer bank, structure and emphasis</em> — <strong>not</strong> actual predictions of tomorrow's paper. The source contains five explicitly-built 20-mark answer plans; those anchor the HIGH tier. Everything else is weighted by how centrally the topic sits in the notebook and how often such topics appear in ADBMS-style papers generally.</p>
+<p>Each entry: <strong>question · estimated marks · why it matters · model answer skeleton · keywords · related concepts.</strong></p>
+<hr>
+<h1 id="high-priority-study-these-first-the-source-literally-builds-">🔴 HIGH PRIORITY (study these first — the source literally builds answers for them)</h1>
+<h3>H1. Explain normalization and all normal forms. — <strong>20 marks</strong></h3>
+<ul><li><strong>Why:</strong> it is Question 1 of the source's Master 20-Mark Answer Bank, and Unit 2 is the densest chapter group.</li><li><strong>Skeleton:</strong> define normalization &amp. Redundancy harm → FDs + keys + closure → 1NF (atomic example) → 2NF (partial, ENROLL) → 3NF (transitive, EMPLOYEE) → BCNF (determinant rule) → MVD/4NF (hobbies) → JD/5NF → lossless join + dependency preservation → minimal cover → conclusion (benefits).</li><li><strong>Keywords:</strong> atomic values, fully dependent on the entire candidate key, super key/prime, determinant, multivalued, join dependency, lossless, dependency preserving.</li><li><strong>Related:</strong> attribute closure, anomalies, comparison C9/C10.</li></ul>
+<h3>H2. Explain transaction processing, concurrency control and recovery. — <strong>20 marks</strong></h3>
+<ul><li><strong>Why:</strong> Question 2 of the source's answer bank — the longest single answer plan (15 stages).</li><li><strong>Skeleton:</strong> transaction + bank example → states → ACID → SQL transactions/isolation levels → schedules + anomalies → serializability + precedence graph → S/X locks → 2PL + strict 2PL → deadlock → timestamps → failures → deferred/immediate/shadow → log/WAL/checkpoint → UNDO/REDO → reliability conclusion.</li><li><strong>Keywords:</strong> all-or-nothing, lock point, conflict-serializable, write-ahead logging, checkpoint, undo, redo.</li><li><strong>Related:</strong> diagrams D5, D6, D7.</li></ul>
+<h3>H3. Explain distributed databases and the CAP theorem. — <strong>20 marks</strong></h3>
+<ul><li><strong>Why:</strong> Question 3 of the answer bank; CAP is flagged in the source as the most mis-stated topic.</li><li><strong>Skeleton:</strong> define DDB → architecture diagram → characteristics/types → fragmentation (H/V/Hybrid) → replication + allocation → distributed transactions → 2PC diagram → consistency models → CAP definition + C/A/P → behaviour during a partition → ACID vs BASE → sharding → trade-offs conclusion.</li><li><strong>Keywords:</strong> logically integrated, physically distributed, prepare/vote/commit, during a network partition, eventually consistent, horizontal partitioning.</li><li><strong>Related:</strong> D8, D9, D10, D12.</li></ul>
+<h3>H4. Explain NoSQL systems and MongoDB. — <strong>20 marks</strong></h3>
+<ul><li><strong>Why:</strong> Question 4 of the answer bank; covers Units 4–5 command content examiners can ask for concretely.</li><li><strong>Skeleton:</strong> define NoSQL + motivation → four models → compare models → CAP + BASE → sharding → MongoDB document model → relational→MongoDB mapping → CRUD commands → operators → aggregation pipeline diagram → applications → when document DBs are useful.</li><li><strong>Keywords:</strong> JSON/BSON, collection/document/field/_id, $match/$group/$project/$sort/$limit, eventual consistency.</li><li><strong>Related:</strong> D10, P20.</li></ul>
+<h3>H5. Explain indexing in relational and NoSQL databases. — <strong>20 marks</strong></h3>
+<ul><li><strong>Why:</strong> Question 5 of the answer bank; the source explicitly warns to compare all five systems, not one.</li><li><strong>Skeleton:</strong> define index + why → storage pages/I/O → B+ tree structure + operations + range search → hash + collisions → B+ tree vs hash table → MongoDB compound ordering → CouchDB Mango/views → Cassandra partition/clustering order → Neo4j property indexes → vector embeddings + vector indexes → HNSW/ANN → benefits + maintenance costs → query-driven conclusion.</li><li><strong>Keywords:</strong> auxiliary access path, linked leaves, partition key, clustering columns, HNSW, IVF, maintenance overhead.</li><li><strong>Related:</strong> D4, C13, C14, C36.</li></ul>
+<h3>H6. Define and explain ACID properties with an example. — <strong>5 or 10 marks</strong></h3>
+<ul><li><strong>Why:</strong> the source calls ACID "one of the highest-value topics" with an explicit answer recipe (definition + bank example per property).</li><li><strong>Skeleton:</strong> one line + one bank example for Atomicity, Consistency, Isolation, Durability → why DBMSs need it.</li><li><strong>Keywords:</strong> all-or-nothing, integrity constraints, serial behaviour, survive failure.</li><li><strong>Related:</strong> transaction states, isolation levels.</li></ul>
+<h3>H7. What is an ER diagram? Map an ER diagram to a relational schema. — <strong>10 or 20 marks</strong></h3>
+<ul><li><strong>Why:</strong> Unit 1's core design competency; rules are listed as a numbered procedure (classic 10-mark material).</li><li><strong>Skeleton:</strong> ER definition → diagram with symbols → entities/attributes/keys/cardinality/participation → 7 mapping rules → worked STUDENT/COURSE/ENROLLS example → conclusion.</li><li><strong>Keywords:</strong> entity set, candidate key, M:N, foreign key, composite primary key, partial key.</li><li><strong>Related:</strong> D2, D14, P1.</li></ul>
+<h3>H8. Explain the three-level architecture and data independence. — <strong>10 marks</strong></h3>
+<ul><li><strong>Why:</strong> a stable, high-frequency short/long answer with a mandatory diagram; source devotes a full section + diagram.</li><li><strong>Skeleton:</strong> abstraction intro → diagram → external/conceptual/internal definitions → physical vs logical independence with examples → conclusion on maintainability.</li><li><strong>Keywords:</strong> user views, logical schema, access paths, storage structures, external views.</li><li><strong>Related:</strong> D1, comparisons C3.</li></ul>
+<h3>H9. What is conflict serializability? Test a schedule using a precedence graph. — <strong>10 marks</strong></h3>
+<ul><li><strong>Why:</strong> the only true <em>algorithm</em> in Unit 3 apart from closure; 10-mark problems are built from it.</li><li><strong>Skeleton:</strong> define conflict → serial vs serializable → 4-step algorithm → small worked schedule → conclusion (2PL/timestamps guarantee it).</li><li><strong>Keywords:</strong> same item, at least one write, edge Ti→Tj, acyclic.</li><li><strong>Related:</strong> D13, Q43.</li></ul>
+<h3>H10. Differentiate 3NF and BCNF (with an example). — <strong>5 marks</strong></h3>
+<ul><li><strong>Why:</strong> the "OR vs ONLY" contrast is the classic normalization discriminator and the source devotes a table to it.</li><li><strong>Skeleton:</strong> both definitions → restriction comparison → dependency preservation difference → note that BCNF ⇒ 3NF.</li><li><strong>Keywords:</strong> super key, prime attribute, determinant, dependency preservation.</li><li><strong>Related:</strong> C10, H1.</li></ul>
+<hr>
+<h1 id="medium-priority-very-likely-somewhere-in-the-paper">🟡 MEDIUM PRIORITY (very likely somewhere in the paper)</h1>
+<h3>M1. Explain deferred update, immediate update and shadow paging. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> three sections with flows → crash behaviour table → which needs UNDO/REDO → trade-offs.</li><li><strong>Keywords:</strong> after commit, may be written before commit, stable shadow, root switch.</li></ul>
+<h3>M2. Explain log-based recovery, WAL and checkpoints. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> log record fields + example → WAL statement → checkpoint purpose → UNDO/REDO rule → conclusion.</li><li><strong>Keywords:</strong> stable storage, old/new values, recent recovery point.</li></ul>
+<h3>M3. Explain two-phase commit with a diagram. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> why distributed atomicity → prepare → vote → commit/abort → blocking limitation.</li><li><strong>Keywords:</strong> coordinator, participant, prepared state, blocking.</li></ul>
+<h3>M4. What is sharding? Compare sharding strategies. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> definition + diagram → range/hash/directory/geographic with strength/weakness → good shard key criteria.</li><li><strong>Keywords:</strong> horizontal distribution, hotspots, hash of shard key, mapping service.</li></ul>
+<h3>M5. Compare ACID and BASE. — <strong>5 marks</strong></h3>
+<ul><li><strong>Keywords:</strong> transaction-oriented vs availability, soft state, eventual convergence.</li></ul>
+<h3>M6. Explain two-phase locking and how deadlocks are handled. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> S/X compatibility table → 2PL diagram with lock point → strict/rigorous → deadlock example → PADT.</li><li><strong>Keywords:</strong> growing, shrinking, lock point, wait-for graph, timeout.</li></ul>
+<h3>M7. Explain functional dependency and attribute closure with an example. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> FD definition + types → closure algorithm → worked example → use for candidate keys.</li><li><strong>Keywords:</strong> determinant, trivial, super key, loop until no growth.</li></ul>
+<h3>M8. Explain 1NF, 2NF, 3NF with examples. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> three definitions + three relations + decompositions.</li><li><strong>Keywords:</strong> atomic, partial, transitive.</li></ul>
+<h3>M9. Explain horizontal and vertical fragmentation with an example. — <strong>5 or 10 marks</strong></h3>
+<ul><li><strong>Keywords:</strong> predicates, columns, primary key repeated, reconstruction.</li></ul>
+<h3>M10. Explain MongoDB aggregation pipeline with an example. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> pipeline concept → stage order diagram → worked sales example → stage meanings.</li><li><strong>Keywords:</strong> $match, $group, $sum, $sort, pipeline stages.</li></ul>
+<h3>M11. Explain the Cassandra data model: partition keys and clustering columns. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> wide-column concept → partition/clustering rules → <code>PRIMARY KEY ((course), year, student_id)</code> analysis → query-pattern design principle.</li><li><strong>Keywords:</strong> where data lives, order within partition, duplication to avoid joins.</li></ul>
+<h3>M12. Explain vector databases, embeddings and similarity search. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> embedding definition + pipeline → similarity measures → similarity search flow → brute force vs ANN → HNSW/IVF.</li><li><strong>Keywords:</strong> numerical vector, top-k, cosine, ANN, navigable small world.</li></ul>
+<h3>M13. Explain B+ tree indexing and compare it with hash indexing. — <strong>10 marks</strong></h3>
+<ul><li><strong>Skeleton:</strong> structure → search steps → why efficient (linked leaves) → complexity → hash flow + collisions → comparison table.</li><li><strong>Keywords:</strong> separators, fan-out, range scan, bucket, collision.</li></ul>
+<h3>M14. Explain SQL command categories and clause processing order. — <strong>5 or 10 marks</strong></h3>
+<ul><li><strong>Keywords:</strong> DDL/DML/DCL/TCL, WHERE vs HAVING, FROM→…→LIMIT.</li></ul>
+<h3>M15. Explain integrity constraints with examples. — <strong>5 marks</strong></h3>
+<ul><li><strong>Keywords:</strong> domain, entity, referential, UNIQUE, CHECK, NOT NULL, CASCADE.</li></ul>
+<h3>M16. What are modification anomalies? How does normalization remove them? — <strong>5 or 10 marks</strong></h3>
+<ul><li><strong>Keywords:</strong> insertion, update, deletion, redundancy, decomposition.</li></ul>
+<hr>
+<h1 id="lower-priority-short-answers-fillers-still-worth-10-minutes-">🟢 LOWER PRIORITY (short answers / fillers — still worth 10 minutes each)</h1>
+<ul><li><strong>L1.</strong> Schema vs instance (2–5) · <strong>L2.</strong> Data models list &amp; classification (2–5) ·</li><li><strong>L3.</strong> Relational algebra operations (5) · <strong>L4.</strong> File organizations comparison (5) ·</li><li><strong>L5.</strong> Transaction states diagram (5) · <strong>L6.</strong> Isolation levels comparison (5) ·</li><li><strong>L7.</strong> Concurrency anomaly definitions — lost/dirty/non-repeatable/phantom (5) ·</li><li><strong>L8.</strong> Timestamp ordering advantages/disadvantages (5) · <strong>L9.</strong> Failure types (5) ·</li><li><strong>L10.</strong> Replication benefits vs costs (5) · <strong>L11.</strong> Homogeneous/heterogeneous/federated (2–5) ·</li><li><strong>L12.</strong> Consistency models — strong/eventual/causal/session (5) · <strong>L13.</strong> NoSQL four models (5) ·</li><li><strong>L14.</strong> MongoDB CRUD command families (5) · <strong>L15.</strong> Redis commands and use cases (2–5) ·</li><li><strong>L16.</strong> Graph data model + use cases (2–5) · <strong>L17.</strong> Cypher command patterns (5) ·</li><li><strong>L18.</strong> HBase vs Cassandra (5) · <strong>L19.</strong> CouchDB Mango vs views (5) ·</li><li><strong>L20.</strong> Traditional vs vector index (5) · <strong>L21.</strong> Index benefits vs costs (5) ·</li><li><strong>L22.</strong> DBMS functions list (2–5) · <strong>L23.</strong> Keys — super/candidate/primary/alternate/foreign (5) ·</li><li><strong>L24.</strong> Minimal cover steps (5) · <strong>L25.</strong> Lossless vs dependency preservation (5).</li></ul>
+<hr>
+<h2 id="how-to-answer-by-mark-count-quick-rule">How to answer by mark count (quick rule)</h2>
+<div class="tscroll"><table><thead><tr><th>Marks</th><th>Structure</th><th>Time</th></tr></thead><tbody>
+<tr><td>2</td><td>1 definition sentence (+1 clarifier)</td><td>2 min</td></tr>
+<tr><td>5</td><td>definition → 3–5 points/table → one example/close</td><td>6 min</td></tr>
+<tr><td>10</td><td>definition → diagram → component headings → example → pro/con → conclusion</td><td>12 min</td></tr>
+<tr><td>20</td><td>DEFINE → DRAW → COMPONENTS → EXAMPLE → COMPARE/ADVANTAGES → CONCLUDE (full answer plan)</td><td>25–30 min</td></tr>
+</tbody></table></div></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

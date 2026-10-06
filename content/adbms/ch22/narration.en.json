@@ -1,0 +1,18 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty-two. [[sub]]Two-phase locking, and its shadow: deadlock.",
+    "ground": "A library with one rulebook. [[room]]The reading room fits twenty readers at once. Nobody changes the book, so everybody reads. [[diary]]But the diary has one copy. One rewriter takes it home, and nineteen people wait. [[w]]Write this: many may read together; one writer excludes everyone.",
+    "locks": "Two lock modes, one grid. [[s]]S means shared, for reading. S plus S is fine. [[x]]X means exclusive, for writing. X against anything is a clash. [[w]]Write this: S with S ok; X with everything no.",
+    "twopl": "Two phases, one way through. [[grow]]Growing: grab locks, release none. [[point]]Lock point: the moment you hold everything you will ever hold. [[shrink]]Shrinking: release locks, grab none. Never regrow. [[safe]]This discipline guarantees serializability. It does not prevent deadlock. [[w]]Write this: grow, lock point, shrink; serializable yes, deadlock still possible.",
+    "q1": "Quick check. [[q]]In two-phase locking, what is forbidden after the first unlock?",
+    "deadlock": "Two transactions, two items, one circle. [[hold]]T1 holds A and waits for B. T2 holds B and waits for A. [[cycle]]Each waits for the other, forever. That circle is the deadlock. [[handle]]Handle it four ways: prevention, avoidance, detection with a wait-for graph, or timeout. Detection finds the circle; the cure aborts a victim and breaks it. [[w]]Write this: draw the holds-and-waits circle, name PADT, abort a victim.",
+    "q2": "Quick check. [[q]]Deadlock is detected using what?",
+    "wrap": "To sum up. [[w1]]S with S is fine; X clashes with everything. [[w2]]Grow, lock point, shrink, never regrow: serializable, but deadlock still possible. [[w3]]Deadlock is a holds-and-waits circle; find it with the wait-for graph, fix it by aborting a victim.",
+    "final1": "Chapter practice. [[q]]Which two-phase-locking phase forbids acquiring new locks?",
+    "final2": "Chapter practice. [[q]]A precedence graph contains a cycle. The schedule is?",
+    "final3": "Chapter practice. [[q]]A schedule follows two-phase locking. Can it still deadlock?",
+    "finish": "Well done. Locks obeyed, circles broken. Next stop: recovery, where logs undo death itself."
+  }
+}

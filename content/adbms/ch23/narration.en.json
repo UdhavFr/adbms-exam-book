@@ -1,0 +1,20 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty-three. [[sub]]Recovery: where logs undo death itself.",
+    "ground": "Recall the transfer: subtract from Ravi, add to Meena, power dies between. [[q1]]The half-done half: who undoes it? [[q2]]The committed half that never reached disk: who redoes it? [[w]]Write this: every crash asks undo-what and redo-what.",
+    "deferred": "First scheme: delay the data. [[flow]]Write log records, keep executing, touch no database page. Commit, then redo the updates into the database. [[crash]]Power dies. Committed work may need redo. Uncommitted work needs no undo: it never reached the disk. [[w]]Write this: deferred equals delay; redo only, never undo.",
+    "immediate": "Second scheme: write early. [[flow]]Log old and new values, then the data page may reach disk before commit. [[fork]]Commit yes: redo if needed. Commit no: undo the early writing. [[w]]Write this: early writing forces undo plus redo; the log makes both possible.",
+    "q1": "Quick check. [[q]]Which recovery scheme never needs undo?",
+    "shadow": "Third scheme: keep the old map. [[two]]A stable shadow table, plus a changing current table. New pages go to new places. [[flip]]At commit, the root pointer flips to current. Crash before commit: the shadow mapping still rules. [[trap]]The shadow table never changes during execution; only the current one does. [[w]]Write this: flip the root, not the data.",
+    "wal": "One rule above all schemes. [[rule]]The log record must reach stable storage before its data page. Log before data, always. [[why]]No log first, no undo or redo later: recovery would lack the old and new values. A log record names who, what, was, will-be: T1, A, 100, 50. [[w]]Write this: log before data, with one record example.",
+    "checkpoint": "Logs grow forever, so plant bookmarks. [[mark]]A checkpoint forces recent history to disk and marks the spot. [[start]]Recovery starts at the bookmark, not at page one. Everything before is already safe. [[w]]Write this: checkpoint bounds where recovery starts.",
+    "q2": "Quick check. [[q]]WAL means what, exactly?",
+    "wrap": "To sum up. [[w1]]Deferred delays: redo only. Immediate writes early: undo plus redo. Shadow flips the root. [[w2]]Log before data, checkpoint to bound the work. [[w3]]The single rule: committed gets redo as needed; uncommitted gets undo as needed.",
+    "final1": "Chapter practice. [[q]]WAL requires which order?",
+    "final2": "Chapter practice. [[q]]Crash finds uncommitted changes on disk. Which scheme was running?",
+    "final3": "Chapter practice. [[q]]Shadow paging recovers by doing what?",
+    "finish": "Well done. Death undone, work redone. Next stop: B-plus trees, where sorted leaves fly."
+  }
+}

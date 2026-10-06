@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulas &amp; rules — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Formulas &amp; rules</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#formulas-md-rules-criteria-and-formula-like-content">formulas.md — Rules, Criteria and "Formula-Like" Content</a></li><li class="l2"><a href="#1-attribute-closure-the-one-real-algorithmic-formula">1. Attribute closure (the one real algorithmic "formula")</a></li><li class="l2"><a href="#2-the-normal-form-criteria-write-these-exactly">2. The normal-form criteria (write these exactly)</a></li><li class="l2"><a href="#3-prime-vs-non-prime-needed-before-you-can-apply-3nf-bcnf">3. Prime vs non-prime (needed before you can apply 3NF/BCNF)</a></li><li class="l2"><a href="#4-lossless-join-test-binary-decomposition">4. Lossless join test (binary decomposition)</a></li><li class="l2"><a href="#5-dependency-preservation-test-conceptual">5. Dependency preservation test (conceptual)</a></li><li class="l2"><a href="#6-minimal-cover-steps-ordered-marks-are-for-the-order">6. Minimal cover steps (ordered — marks are for the order)</a></li><li class="l2"><a href="#7-complexity-performance-expressions">7. Complexity / performance expressions</a></li><li class="l2"><a href="#8-relational-algebra-symbols-formula-sheet">8. Relational algebra "symbols formula sheet"</a></li><li class="l2"><a href="#9-sql-evaluation-order-formula">9. SQL evaluation-order formula</a></li><li class="l2"><a href="#10-lock-compatibility-formula">10. Lock compatibility formula</a></li><li class="l2"><a href="#11-2pl-formula">11. 2PL formula</a></li><li class="l2"><a href="#12-recovery-decision-formula">12. Recovery decision formula</a></li><li class="l2"><a href="#13-acid-the-four-line-formula">13. ACID (the four-line formula)</a></li><li class="l2"><a href="#14-2pc-decision-formula">14. 2PC decision formula</a></li><li class="l2"><a href="#15-cap-formula">15. CAP formula</a></li><li class="l2"><a href="#16-similarity-formulas-external-source-names-the-measures-no">16. Similarity formulas [EXTERNAL] — source names the measures, not the expressions</a></li><li class="l2"><a href="#17-cardinality-degree-relation-vocabulary">17. Cardinality / degree (relation vocabulary)</a></li><li class="l2"><a href="#18-mongodb-command-formula">18. MongoDB command "formula"</a></li><li class="l2"><a href="#19-cassandra-placement-formula">19. Cassandra placement "formula"</a></li><li class="l2"><a href="#20-vector-search-pipeline">20. Vector search pipeline</a></li></ol></nav><div class="content"><h1 id="formulas-md-rules-criteria-and-formula-like-content">formulas.md — Rules, Criteria and "Formula-Like" Content</h1>
+<p>ADBMS is a theory subject: there are <strong>no numerical problems to compute</strong>, but there <em>are</em> rigid <strong>rule-formulas</strong> (normal-form criteria, closure, decomposition tests, complexity) that are marked word-for-word. Treat each box below as a formula: trigger → result.</p>
+<p>Anything marked <strong>[EXTERNAL]</strong> is standard knowledge added because the source names the concept without printing the expression. Everything else is verbatim/faithful to the source.</p>
+<hr>
+<h2 id="1-attribute-closure-the-one-real-algorithmic-formula">1. Attribute closure (the one real algorithmic "formula")</h2>
+<p><strong>X⁺ = { all attributes functionally determined by X under F }</strong></p>
+<p>Algorithm (memorise as a loop): ``<code> C := X repeat if some FD (W → Z) in F has W ⊆ C, then C := C ∪ Z until C stops growing </code>``</p>
+<ul><li><strong>When to use:</strong> find candidate keys, test whether an FD follows from F, test implication/equivalence.</li><li><strong>Key result:</strong> if <strong>X⁺ = all attributes of R</strong>, then <strong>X is a super key</strong>. A minimal such X is a candidate key.</li><li><strong>Worked example (source):</strong> F = {A→B, B→C, C→D}; A⁺ starts {A} → {A,B} → {A,B,C} → <strong>{A,B,C,D}</strong> ⇒ A is a key.</li><li><strong>Common mistake:</strong> forgetting to re-check FDs whose left side became part of the closure <em>after</em> an earlier step (you must loop until nothing new appears).</li></ul>
+<h2 id="2-the-normal-form-criteria-write-these-exactly">2. The normal-form criteria (write these exactly)</h2>
+<div class="tscroll"><table><thead><tr><th>NF</th><th>Criterion (exam-ready)</th><th>What it kills</th></tr></thead><tbody>
+<tr><td>1NF</td><td>every attribute holds <strong>atomic</strong> values; no repeating groups / nested sets</td><td>non-atomic values</td></tr>
+<tr><td>2NF</td><td>1NF <strong>and</strong> every non-prime attribute is <strong>fully</strong> dependent on the <strong>entire</strong> candidate key</td><td><strong>partial</strong> dependency</td></tr>
+<tr><td>3NF</td><td>2NF <strong>and</strong> for every non-trivial FD X → A: <strong>X is a super key OR A is prime</strong></td><td><strong>transitive</strong> dependency</td></tr>
+<tr><td>BCNF</td><td>for every non-trivial FD X → Y: <strong>X is a super key</strong> (every determinant is a super key)</td><td>any non-key determinant</td></tr>
+<tr><td>4NF</td><td>every non-trivial <strong>MVD</strong> X ↠ Y has <strong>X as a super key</strong></td><td>independent multivalued facts</td></tr>
+<tr><td>5NF</td><td>every non-trivial <strong>join dependency</strong> is implied by <strong>candidate keys</strong></td><td>complex join redundancy</td></tr>
+</tbody></table></div>
+<ul><li><strong>Memory:</strong> 1 = Atomic · 2 = Partial · 3 = Transitive · BC = Determinant · 4 = MVD · 5 = Join</li><li><strong>Trap:</strong> <strong>3NF = OR</strong> (super key <em>or</em> prime) · <strong>BCNF = ONLY</strong> (super key).</li></ul>
+<h2 id="3-prime-vs-non-prime-needed-before-you-can-apply-3nf-bcnf">3. Prime vs non-prime (needed before you can apply 3NF/BCNF)</h2>
+<ul><li><strong>Prime attribute</strong> = any attribute that belongs to <em>some</em> candidate key.</li><li><strong>Non-prime attribute</strong> = in no candidate key.</li><li><strong>Common mistake:</strong> calling a foreign key "prime" — a FK is prime only if it is part of a candidate key of <em>this</em> relation.</li></ul>
+<h2 id="4-lossless-join-test-binary-decomposition">4. Lossless join test (binary decomposition)</h2>
+<p>R decomposed into R₁, R₂ is <strong>lossless</strong> iff, for the intersection of their attribute sets:</p>
+<p>``<code> (R1 ∩ R2) → R1     OR     (R1 ∩ R2) → R2      (derived using F⁺) </code>``</p>
+<ul><li><strong>Source example:</strong> R(A,B,C) → R₁(A,B), R₂(A,C); intersection = {A}; so if <strong>A → B</strong> or <strong>A → C</strong> holds, the decomposition is lossless.</li><li><strong>Common mistake:</strong> testing with an attribute that is <em>not</em> in the intersection, or using only the FDs as written instead of their closure.</li></ul>
+<h2 id="5-dependency-preservation-test-conceptual">5. Dependency preservation test (conceptual)</h2>
+<p>A decomposition {R₁…Rₙ} is dependency preserving iff every FD in F can be checked using only the projections F₁ ∪ … ∪ Fₙ — i.e. <strong>F is contained in the union of the projections</strong> (each projected FD is checked locally, no join needed).</p>
+<ul><li><strong>Memory:</strong> Lossless = picture rebuilds exactly · Preserving = rules checkable without joining.</li><li><strong>Common mistake:</strong> assuming they come together — a decomposition can be lossless but <em>not</em> preserving.</li></ul>
+<h2 id="6-minimal-cover-steps-ordered-marks-are-for-the-order">6. Minimal cover steps (ordered — marks are for the order)</h2>
+<p>```</p>
+<p>→ canonical cover ```</p>
+<ul><li><strong>Equivalence:</strong> F ≡ G iff <strong>F⁺ = G⁺</strong> (test with attribute closure).</li><li><strong>Memory:</strong> <strong>S-E-R</strong> = Split → Extraneous → Remove.</li></ul>
+<ol><li>Split every FD so the RHS has exactly ONE attribute</li><li>Remove extraneous attributes from left sides (test each)</li><li>Remove redundant FDs (those derivable from the rest)</li></ol>
+<h2 id="7-complexity-performance-expressions">7. Complexity / performance expressions</h2>
+<div class="tscroll"><table><thead><tr><th>Expression</th><th>Meaning</th><th>Source</th></tr></thead><tbody>
+<tr><td><strong>O(log_f N)</strong></td><td>B+ tree node visits for a search, f = fan-out, N = entries</td><td>U2 §13</td></tr>
+<tr><td>Page I/O is the dominant cost</td><td>data moves in <strong>pages/blocks</strong>, not records</td><td>U2 §12</td></tr>
+<tr><td>Brute-force vector search = <strong>O(N·d)</strong> per query (N vectors, d dims)</td><td>why ANN exists</td><td>[EXTERNAL] — source says only "expensive as the number of vectors grows"</td></tr>
+</tbody></table></div>
+<h2 id="8-relational-algebra-symbols-formula-sheet">8. Relational algebra "symbols formula sheet"</h2>
+<div class="tscroll"><table><thead><tr><th>Op</th><th>Symbol</th><th>Result</th></tr></thead><tbody>
+<tr><td>Selection</td><td><strong>σ</strong>_(cond)_</td><td>rows satisfying condition (<strong>records</strong>)</td></tr>
+<tr><td>Projection</td><td><strong>π</strong>_(attrs)_</td><td>required columns (<strong>fields</strong>)</td></tr>
+<tr><td>Union</td><td><strong>∪</strong></td><td>tuples in either (union compatible)</td></tr>
+<tr><td>Difference</td><td><strong>−</strong></td><td>in one, not the other</td></tr>
+<tr><td>Cartesian product</td><td><strong>×</strong></td><td>every tuple × every tuple</td></tr>
+<tr><td>Join</td><td><strong>⋈</strong>_(cond)_</td><td>related tuples combined</td></tr>
+</tbody></table></div>
+<ul><li><strong>Hook:</strong> <strong>S</strong>election = <strong>S</strong>ubset of rows; <strong>P</strong>rojection = <strong>P</strong>ick columns. (Never swap them.)</li></ul>
+<h2 id="9-sql-evaluation-order-formula">9. SQL evaluation-order formula</h2>
+<p>``<code> FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT </code>``</p>
+<ul><li>Written order is <code>SELECT … FROM … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT</code> (errata E2).</li><li><strong>Meaning:</strong> WHERE filters <em>rows before</em> grouping; HAVING filters <em>groups after</em> grouping.</li></ul>
+<h2 id="10-lock-compatibility-formula">10. Lock compatibility formula</h2>
+<div class="tscroll"><table><thead><tr><th>held \ requested</th><th>S</th><th>X</th></tr></thead><tbody>
+<tr><td><strong>S</strong></td><td>✅ compatible</td><td>❌</td></tr>
+<tr><td><strong>X</strong></td><td>❌</td><td>❌</td></tr>
+</tbody></table></div>
+<ul><li><strong>Hook:</strong> S = <strong>S</strong>hares, X = e<strong>X</strong>cludes. Only S+S ever works.</li></ul>
+<h2 id="11-2pl-formula">11. 2PL formula</h2>
+<p>``<code> GROWING (acquire only) → LOCK POINT (last acquisition) → SHRINKING (release only) </code>``</p>
+<ul><li>Basic 2PL ⇒ <strong>conflict serializability</strong>. Strict 2PL ⇒ hold <strong>X</strong> locks till commit/abort (fewer cascading rollbacks). Rigorous ⇒ hold <strong>S and X</strong> till completion.</li></ul>
+<h2 id="12-recovery-decision-formula">12. Recovery decision formula</h2>
+<p>``<code> After crash:  COMMITTED  → REDO as needed UNCOMMITTED → UNDO as needed </code>``</p>
+<ul><li>Deferred update ⇒ uncommitted work never reached the DB ⇒ normally <strong>no UNDO</strong>.</li><li>Immediate update ⇒ both UNDO and REDO may be required.</li><li><strong>WAL formula:</strong> <code>log record → stable storage</code> <strong>BEFORE</strong> <code>data page → disk</code>.</li></ul>
+<h2 id="13-acid-the-four-line-formula">13. ACID (the four-line formula)</h2>
+<p>``<code> A  Atomicity    all-or-nothing            (rollback on failure) C  Consistency  committed state is valid  (constraints hold) I  Isolation    no inappropriate intermediate effects (serial-equivalent) D  Durability   committed effects survive failure </code>``</p>
+<h2 id="14-2pc-decision-formula">14. 2PC decision formula</h2>
+<p>``<code> Coordinator: PREPARE ──► participants vote YES/NO all YES → COMMIT any NO / coordinator decision → ABORT </code>``</p>
+<ul><li><strong>Memory:</strong> ASK → VOTE → DECIDE. <strong>Limitation:</strong> blocking.</li></ul>
+<h2 id="15-cap-formula">15. CAP formula</h2>
+<p>``<code> During a network partition:  strong Consistency  ⊕  Availability   (choose the guarantee) </code>``</p>
+<ul><li><strong>Never write:</strong> "you can pick any two at all times."</li><li><strong>C</strong> = read sees latest write (or error) · <strong>A</strong> = non-failing node answers (maybe stale) · <strong>P</strong> = survives network failure.</li></ul>
+<h2 id="16-similarity-formulas-external-source-names-the-measures-no">16. Similarity formulas <strong>[EXTERNAL]</strong> — source names the measures, not the expressions</h2>
+<p>Let <strong>q</strong> = query vector, <strong>v</strong> = stored vector.</p>
+<div class="tscroll"><table><thead><tr><th>Measure</th><th>Formula</th><th>Memory</th></tr></thead><tbody>
+<tr><td>Cosine similarity</td><td>cos θ = (q·v) / (‖q‖‖v‖)</td><td><strong>angle only</strong> (ignores length)</td></tr>
+<tr><td>Euclidean distance</td><td>‖q − v‖₂ = √Σ(qᵢ−vᵢ)²</td><td><strong>straight-line</strong> distance (smaller = closer)</td></tr>
+<tr><td>Dot product</td><td>q·v = Σ qᵢvᵢ</td><td><strong>alignment + magnitude</strong> (large = close &amp; large vectors)</td></tr>
+</tbody></table></div>
+<ul><li>Higher cosine / dot ⇒ more similar; smaller Euclidean ⇒ more similar.</li></ul>
+<h2 id="17-cardinality-degree-relation-vocabulary">17. Cardinality / degree (relation vocabulary)</h2>
+<ul><li><strong>Degree(R)</strong> = number of attributes (columns).</li><li><strong>Cardinality(R)</strong> = number of tuples (rows).</li><li>⚠ In the ER context <em>cardinality</em> = 1:1 / 1:N / M:N (errata E1). Say which one you mean.</li></ul>
+<h2 id="18-mongodb-command-formula">18. MongoDB command "formula"</h2>
+<p>``<code> CRUD × ONE/MANY:  insertOne|insertMany · find|findOne · updateOne|updateMany · deleteOne|deleteMany Pipeline:          $match → $group → $project → $sort → $limit   (+ $skip, $unwind, $lookup) </code>``</p>
+<h2 id="19-cassandra-placement-formula">19. Cassandra placement "formula"</h2>
+<p>``<code> PRIMARY KEY ( (partition_key), clustering1, clustering2 ) partition key   → WHERE the row lives (which node) clustering cols  → ORDER of rows inside the partition </code>``</p>
+<h2 id="20-vector-search-pipeline">20. Vector search pipeline</h2>
+<p>``<code> QUERY → EMBED → QUERY VECTOR → VECTOR INDEX → TOP-K neighbours → metadata/documents → RESULTS </code>``</p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

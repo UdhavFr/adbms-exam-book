@@ -1,0 +1,15 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "X → Y means: if two tuples agree on X, they must agree on Y. X is the determinant and Y is functionally dependent on X. Example: StudentID → StudentName.",
+    "2": "X+ is the set of attributes functionally determined by X. Start with X and repeatedly add attributes from applicable FDs. If X+ contains every attribute of the relation, X is a super key.",
+    "3": "1NF removes repeating/non-atomic values. 2NF removes partial dependencies. 3NF removes undesirable transitive dependencies. BCNF requires every determinant to be a super key. 4NF handles non-trivial multivalued dependencies. 5NF handles problematic join dependencies.",
+    "4": "Every attribute contains atomic values; no repeating groups or nested sets in a field. Example: Phones stored as “9876,8765” violates the idea; split to STUDENT_PHONE(StudentID, Phone).",
+    "5": "Relation must be in 1NF and every non-prime attribute must depend on the entire candidate key. Main enemy: partial dependency on part of a composite key. Example ENROLL(StudentID, CourseID, StudentName, CourseName, Grade).",
+    "6": "Relation must be in 2NF and avoid undesirable transitive dependency of non-prime attributes on a key. Example: EmpID → DeptID and DeptID → DeptName, so DeptName moves to DEPARTMENT.",
+    "7": "BCNF: every determinant is a super key. 4NF: every non-trivial MVD has a super-key determinant. 5NF: every non-trivial join dependency is implied by candidate keys.",
+    "8": "Lossless decomposition recreates exactly the original relation and avoids spurious tuples. Dependency preservation means original important FDs can be enforced on decomposed relations without joins. They are different properties.",
+    "9": "Split RHS so each FD has one attribute. Remove extraneous attributes from LHS when unnecessary. Remove redundant FDs. Result = minimal/canonical cover."
+  }
+}

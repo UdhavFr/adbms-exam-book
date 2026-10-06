@@ -1,0 +1,12 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "A transaction is a sequence of database operations forming one logical unit of work. Bank transfer is the classic example: debit A and credit B must behave together.",
+    "2": "Active → Partially committed → Committed. Failure path: Failed → Aborted → restart/terminate.",
+    "3": "Atomicity = all-or-nothing. Consistency = integrity rules remain valid. Isolation = concurrent transactions behave under the chosen isolation guarantee. Durability = committed effects survive later failure subject to the DBMS guarantee.",
+    "4": "BEGIN/START TRANSACTION groups statements. COMMIT makes them durable. ROLLBACK undoes uncommitted work. SAVEPOINT creates an intermediate rollback point.",
+    "5": "Read Uncommitted may permit dirty reads. Read Committed prevents ordinary dirty reads. Repeatable Read gives stronger repeated-read guarantees; phantom behavior varies by DBMS. Serializable is the strongest standard level and aims for serial-equivalent behavior.",
+    "6": "Definition → bank transfer → four properties with one line + example each → SQL transaction support → isolation levels → conclude with reliability and correctness."
+  }
+}

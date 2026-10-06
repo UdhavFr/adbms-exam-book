@@ -1,0 +1,13 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "An entity is a distinguishable real-world object. Attributes describe entities. A relationship represents an association between entities.",
+    "2": "Simple: cannot be meaningfully divided. Composite: has components. Single-valued: one value. Multivalued: several values. Derived: calculated from other data. Key attribute: uniquely identifies an entity.",
+    "3": "Super key uniquely identifies. Candidate key is a minimal super key. Primary key is the chosen candidate key. Alternate key is an unchosen candidate key. Foreign key references a key in another relation.",
+    "4": "Cardinality can be 1:1, 1:N or M:N. Total participation is mandatory; partial participation is optional.",
+    "5": "For an M:N relationship, create a separate relation containing the primary keys of both entities, usually as a composite primary key. Relationship attributes such as EnrollmentDate live there too.",
+    "6": "Relation = table, tuple = row, attribute = column, domain = permitted values, degree = number of attributes, cardinality = number of tuples.",
+    "7": "Strong entity → relation. Composite attribute → store components. Multivalued attribute → separate relation. 1:1 → FK on one side, preferably total participation side. 1:N → 1-side key goes into N-side. M:N → separate relation. Weak entity → owner key + partial key."
+  }
+}

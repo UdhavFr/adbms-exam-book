@@ -1,0 +1,464 @@
+Normal | ADVANCED DATABASE SYSTEMS
+Normal | EXAM MEMORIZATION DOCUMENT • ONLY THE HIGH-VALUE MEMORY
+Ultra | GOAL: Memorize this document, not the full notebook. Everything here is either an exact definition, a rule, an ordered process, a command pattern, a diagram, or a high-value comparison.
+Heading 2 | The 7 rules for studying this document
+List Bullet | Exact definitions: memorize nearly word-for-word.
+List Bullet | Rules/formulas: memorize the trigger + the result.
+List Bullet | Processes: memorize as arrows/flows, not paragraphs.
+List Bullet | Comparisons: memorize the contrast pair.
+List Bullet | Commands: memorize the command family/pattern, not every example value.
+List Bullet | Diagrams: draw from memory until automatic.
+List Bullet | Do NOT memorize long explanations, generic introductions, or repeated examples.
+Rule | MASTER 20-MARK ANSWER SHAPE: DEFINE → DRAW → EXPLAIN COMPONENTS → EXAMPLE → COMPARE/ADVANTAGES/LIMITATIONS → CONCLUDE
+Heading 2 | The whole subject in 4 connected chains
+Memory | DESIGN: ER → RELATIONAL → FD → NORMALIZATION → INDEXING → QUERY PERFORMANCE
+Memory | RELIABILITY: TRANSACTION → ACID → CONCURRENCY → SERIALIZABILITY → LOCKS/2PL → RECOVERY
+Memory | DISTRIBUTION: DISTRIBUTED DB → FRAGMENTATION/REPLICATION → 2PC → CAP → NoSQL → SHARDING
+Memory | NoSQL: MongoDB / Cassandra / Redis / Neo4j / VECTOR DB → specialized access patterns
+Heading 1 | UNIT 1 — WHAT THE DATABASE IS
+Heading 2 | 1. DBMS: exact memory
+Memory | DBMS = software that provides facilities for defining, storing, retrieving, updating, securing and recovering data in a database.
+Memory | MEMORY HOOK: D-S-R-U-S-R = Define → Store → Retrieve → Update → Secure → Recover
+Heading 2 | 2. Why DBMS? Problem → cure
+--- TABLE ---
+Problem in file systems | DBMS cure
+Redundancy | Centralized/shared design
+Inconsistency | Constraints + controlled updates
+Difficult sharing | Shared database
+Security | Authentication + authorization
+Concurrent access | Concurrency control
+Failure recovery | Logging + checkpoints + recovery
+Program-data dependence | Abstraction + data independence
+--- END TABLE ---
+Heading 2 | 3. DBMS functions — memorize the 9 nouns
+Memory | Schema • Storage/Retrieval • Query/Optimization • Transactions • Concurrency • Integrity • Security • Backup/Recovery • Metadata
+Memory | LOCI: Door=schema → warehouse=storage → search desk=query → cashier=transaction → traffic police=concurrency → rule checker=integrity → guard=security → emergency room=recovery → catalogue=metadata
+Heading 2 | 4. Data models
+Memory | Hierarchical • Network • Relational • ER • Object-oriented • Document • Key-value • Column-family • Graph
+Memory | CHUNK: Old structural = Hierarchical/Network/Relational | Conceptual/object = ER/Object-oriented | Modern NoSQL = Document/Key-value/Column-family/Graph
+Heading 2 | 5. Schema vs instance
+--- TABLE ---
+Schema | Instance
+Blueprint / logical structure | Actual contents now
+Relatively stable | Changes frequently
+--- END TABLE ---
+Memory | HOOK: BLUEPRINT = schema; CURRENT BUILDING = instance
+Heading 2 | 6. Three-level architecture
+Ultra | EXTERNAL → CONCEPTUAL → INTERNAL → PHYSICAL STORAGE
+--- TABLE ---
+Level | What to remember
+External | User views
+Conceptual | Complete logical database
+Internal | Files/pages/indexes/storage layout
+--- END TABLE ---
+Memory | MEMORY: E-C-I = External → Conceptual → Internal
+Heading 2 | 7. Data independence
+--- TABLE ---
+Type | Memory sentence
+Physical | Change physical storage without changing conceptual schema.
+Logical | Change conceptual schema without changing every external view/application, when required external information can still be provided.
+--- END TABLE ---
+Memory | P = Pages/physical | L = Logic/logical
+Heading 2 | 8. ER essentials
+Memory | ENTITY = thing | ATTRIBUTE = property | RELATIONSHIP = connection
+Memory | Attribute types: Simple • Composite • Single-valued • Multivalued • Derived • Key
+Memory | Cardinality: 1:1 | 1:N | M:N   —   Participation: Total=mandatory | Partial=optional
+Memory | ANCHOR EXAMPLES: Person–Passport=1:1 | Department–Employee=1:N | Student–Course=M:N
+Heading 2 | 9. Keys
+Rule | Super key = any uniquely identifying attribute set | Candidate key = minimal super key | Primary key = chosen candidate | Alternate key = candidate not chosen | Foreign key = references key in another relation
+Memory | NESTED-BOX MEMORY: Super → Candidate → Primary; unchosen Candidate = Alternate; Foreign = points elsewhere
+Heading 1 | UNIT 1 — EXAM RULES & SQL
+Heading 2 | 10. ER → relational mapping rules
+--- TABLE ---
+ER case | Convert to
+Strong entity | Relation/table; entity PK becomes relation PK
+Composite attribute | Store individual components
+Multivalued attribute | Separate relation: owner PK + value
+1:1 | PK of one side as FK in the other; preferably total-participation side
+1:N | 1-side PK becomes FK in N-side
+M:N | New relation with both PKs; usually composite PK
+Weak entity | Attributes + owner PK; owner key + partial key identifies it
+--- END TABLE ---
+Memory | DECISION TREE: Entity→table | Composite→split | Multi-valued→new table | 1:1→FK | 1:N→FK on N | M:N→new table | Weak→owner key + partial key
+Heading 2 | 11. Relational vocabulary
+--- TABLE ---
+Term | Meaning
+Relation | Table
+Tuple | Row
+Attribute | Column
+Domain | Permitted values
+Degree | Number of attributes/columns
+Cardinality | Number of tuples/rows
+Primary key | Unique identifier
+Foreign key | Reference to another relation
+--- END TABLE ---
+Heading 2 | 12. Relational algebra
+Memory | σ Selection = rows | π Projection = columns | ∪ Union | − Difference | × Cartesian product | ⋈ Join
+Memory | HOOK: Selection selects RECORDS; Projection selects FIELDS
+Heading 2 | 13. SQL categories
+--- TABLE ---
+Category | Purpose | Commands to memorize
+DDL | Define/modify structure | CREATE, ALTER, DROP, TRUNCATE
+DML | Retrieve/change data | SELECT, INSERT, UPDATE, DELETE
+DCL | Privileges/security | GRANT, REVOKE
+TCL | Transaction control | COMMIT, ROLLBACK, SAVEPOINT
+--- END TABLE ---
+Memory | HOOK: DDL=Design | DML=Manipulate | DCL=Control access | TCL=Transaction
+Heading 2 | 14. SQL clause order
+Ultra | FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
+Memory | MEMORIZE AS A SINGLE RHYTHM: FROM-WHERE-GROUP-HAVING-SELECT-ORDER-LIMIT
+Heading 2 | 15. Integrity constraints
+Memory | Domain = valid type/domain | Entity = PK unique + not NULL | Referential = FK references existing key (or NULL where permitted)
+Rule | Also know: UNIQUE | CHECK | NOT NULL
+Memory | MEMORY: D-E-R + U-C-N
+Heading 2 | 16. Modification anomalies
+--- TABLE ---
+Anomaly | Core idea
+Insertion | Cannot insert a fact without unrelated fact
+Update | Repeated fact requires multiple updates
+Deletion | Deleting one fact accidentally deletes another
+--- END TABLE ---
+Memory | MEMORY: I-U-D = Insert / Update / Delete
+Rule | UNIT 1 EXAM FLOW: Requirements → ER → constraints → relational schema → normalization/design → SQL implementation
+Heading 1 | UNIT 2 — NORMALIZATION, STORAGE & INDEXING
+Heading 2 | 1. Functional dependency
+Ultra | X → Y means X determines Y. X = determinant; Y = functionally dependent.
+Rule | FD types: Trivial (Y⊆X) | Non-trivial (Y not⊆X) | Full | Partial | Transitive
+Memory | Transitive: X→Y and Y→Z imply X→Z
+Heading 2 | 2. Attribute closure
+Memory | X+ = all attributes functionally determined by X.
+Rule | ALGORITHM: Start with X → repeatedly add RHS of any FD whose LHS is already inside closure → stop when no new attributes → if X+ contains all attributes, X is a superkey.
+Memory | MEMORY: Start → Unlock → Add → Repeat → Complete
+Heading 2 | 3. NORMALIZATION LADDER — memorize this perfectly
+Ultra | UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF
+--- TABLE ---
+NF | What it fixes / defining memory
+1NF | Atomic values; no repeating groups/nested sets
+2NF | 1NF + no partial dependency; non-prime attributes depend on whole candidate key
+3NF | 2NF + no undesirable transitive dependency; X is superkey OR A is prime
+BCNF | Every determinant of a non-trivial FD is a superkey
+4NF | Every non-trivial MVD has a superkey determinant
+5NF | Every non-trivial join dependency is implied by candidate keys
+--- END TABLE ---
+Memory | ONE-LINE MEMORY: 1=Atomic | 2=Partial | 3=Transitive | BCNF=Determinant | 4=MVD | 5=Join
+Warning | 3NF = OR   |   BCNF = ONLY
+Heading 2 | 4. The canonical examples
+Rule | 2NF: ENROLL(StudentID, CourseID, StudentName, CourseName, Grade) with key (StudentID,CourseID); StudentID→StudentName and CourseID→CourseName are partial → decompose STUDENT / COURSE / ENROLL.
+Rule | 3NF: EMPID→DeptID and DeptID→DeptName, therefore EMPID→DeptName transitively → separate DEPARTMENT.
+Rule | 4NF: independent HOBBIES and LANGUAGES for same STUDENT → separate STUDENT_HOBBY and STUDENT_LANGUAGE.
+Heading 2 | 5. Lossless join vs dependency preservation
+--- TABLE ---
+Property | Question it answers
+Lossless join | Can I reconstruct the original relation exactly, with no spurious tuples?
+Dependency preservation | Can I enforce original dependencies without joins?
+--- END TABLE ---
+Memory | PUZZLE MEMORY: Lossless = pieces reconstruct exact picture | Dependency-preserving = rules can be checked locally
+Heading 2 | 6. Minimal cover
+Ultra | S-E-R = Split RHS → remove Extraneous LHS attributes → Remove redundant FDs
+Heading 2 | 7. Storage / pages / buffer
+Rule | SECONDARY STORAGE → PAGES/BLOCKS → BUFFER POOL → CPU/DBMS
+Memory | Core point: DB I/O moves pages/blocks, so reducing page I/O matters.
+Heading 2 | 8. File organizations
+Rule | Heap = frequent inserts/scans | Sequential/sorted = ordered/range | Hash = equality | Clustered = related records together
+Heading 2 | 9. B+ tree
+Rule | Internal nodes = separator keys + child pointers | Leaf nodes = search keys + record/data references | Leaves linked
+Ultra | SEARCH: Root → compare → child → leaf → record/data pointer
+Memory | WHY GOOD: balanced height + high fan-out + linked leaves + dynamic updates + disk-page fit
+Memory | KEY MEMORY: Linked leaves = efficient RANGE queries
+Heading 2 | 10. Hash indexing
+Memory | Search key → hash function → bucket → records/pointers
+Memory | Collision = two keys map to same bucket. Handling: overflow buckets / chaining / dynamic hashing.
+Heading 2 | 11. B+ tree vs Hash
+--- TABLE ---
+B+ tree | Hash
+Ordered | Unordered
+Equality + range | Best for equality
+Good for ORDER BY / range | Poor for range traversal
+Balanced tree | Hash function + buckets
+--- END TABLE ---
+Memory | MEMORY: B+ = broad access (equality + range) | Hash = hit exact key
+Heading 1 | UNIT 3 — TRANSACTIONS, CONCURRENCY & RECOVERY
+Heading 2 | 1. Transaction
+Ultra | A transaction is a logical unit of database work that must preserve correctness.
+Memory | ANCHOR: Bank transfer = debit A + credit B; either both become permanent or both are undone.
+Heading 2 | 2. Transaction states
+Ultra | ACTIVE → PARTIALLY COMMITTED → COMMITTED
+Rule | FAILURE BRANCH: ACTIVE → FAILED → ABORTED → restart/terminate
+Heading 2 | 3. ACID — memorize exact meaning
+--- TABLE ---
+A | Atomicity | All-or-nothing
+C | Consistency | Committed transaction preserves integrity/valid rules
+I | Isolation | Concurrent execution does not expose inappropriate intermediate effects
+D | Durability | Committed effects survive subsequent failure, subject to DBMS guarantees
+--- END TABLE ---
+Memory | BANK STORY: Atomicity=both debit+credit | Consistency=valid account state | Isolation=no half-transfer visible | Durability=still there after restart
+Heading 2 | 4. SQL transaction flow
+Ultra | BEGIN / START TRANSACTION → operations → COMMIT (success) OR ROLLBACK (error)
+Memory | SAVEPOINT = intermediate point for partial rollback
+Heading 2 | 5. Isolation levels
+Ultra | Read Uncommitted → Read Committed → Repeatable Read → Serializable
+Memory | MEMORY: RU → RC → RR → S (generally increasing strength; exact anomaly behavior can vary by DBMS)
+Heading 2 | 6. Concurrency anomalies
+--- TABLE ---
+Anomaly | One-line trigger
+Lost update | Later write overwrites earlier write
+Dirty read | Read uncommitted data
+Non-repeatable read | Same row read twice gives different committed values
+Phantom read | Same predicate query returns a different set of rows
+--- END TABLE ---
+Memory | STORIES: “My write vanished” | “I read dirty data” | “Same row changed” | “New matching rows appeared”
+Heading 2 | 7. Serializability
+Rule | Serial = one transaction after another. Serializable = may interleave, but effect is equivalent to some serial execution.
+Heading 2 | 8. Conflict serializability — algorithm
+Rule | 1 node/transaction → add edge Ti→Tj when conflicting operation of Ti occurs before Tj → graph acyclic = conflict-serializable → cycle = not conflict-serializable
+Ultra | MEMORY: BUILD GRAPH → LOOK FOR CYCLE
+Heading 2 | 9. Locks
+Ultra | S = Shared/read | X = Exclusive/write
+--- TABLE ---
+ | S | X
+S | Compatible | Not compatible
+X | Not compatible | Not compatible
+--- END TABLE ---
+Memory | HOOK: S=Shares | X=eXcludes
+Heading 2 | 10. Two-phase locking
+Ultra | GROWING → LOCK POINT → SHRINKING
+Memory | Growing: acquire, no release | Shrinking: release, no new acquisition
+Rule | Basic 2PL → conflict serializability | Strict 2PL → hold X locks until commit/abort | Rigorous 2PL → hold S and X locks until completion
+Heading 2 | 11. Deadlock
+Memory | T1 holds A and waits B; T2 holds B and waits A → cycle = deadlock
+Ultra | PADT = Prevention | Avoidance | Detection | Timeout
+Heading 2 | 12. Timestamp ordering
+Rule | Each transaction gets a timestamp; older = smaller timestamp. Read_TS(X)=largest successful read timestamp; Write_TS(X)=largest successful write timestamp. Violation may cause abort/restart.
+Memory | Benefit: no lock waiting → avoids lock-based deadlocks | Cost: repeated aborts waste work
+Heading 1 | UNIT 3 — RECOVERY MEMORY
+Heading 2 | 13. Failure types
+Memory | Transaction failure | System crash | Media failure | Communication failure
+Memory | LOCI: transaction room → server/power room → disk room → network room
+Heading 2 | 14. Deferred vs immediate update
+--- TABLE ---
+Deferred | Immediate
+Changes written after commit | Page may be written before commit
+Crash: REDO committed if needed | Crash: UNDO uncommitted + REDO committed if needed
+--- END TABLE ---
+Memory | HOOK: Deferred = delay data | Immediate = data may already be on disk
+Heading 2 | 15. Shadow paging
+Ultra | SHADOW = stable old mapping | CURRENT = new/modified mapping | COMMIT: ROOT switches to CURRENT | CRASH before commit: use SHADOW
+Memory | MEMORY: old safe book / new working book
+Heading 2 | 16. Log-based recovery
+Memory | LOG record typically includes transaction ID, data item, old value, new value.
+Ultra | WAL: LOG MUST REACH STABLE STORAGE BEFORE THE CORRESPONDING DATA PAGE IS WRITTEN.
+Memory | Checkpoint = recent recovery starting point; reduces log scanning.
+Heading 2 | 17. Recovery master answer flow
+Ultra | DEFINE RECOVERY → FAILURES → DEFERRED → IMMEDIATE → SHADOW → LOG → WAL → CHECKPOINT → UNDO/REDO → CONCLUSION
+Heading 2 | 18. The single recovery rule
+Rule | Committed work = preserve/REDO as needed | Uncommitted work = UNDO as needed
+Heading 1 | UNIT 4 — DISTRIBUTED DATABASES & NoSQL
+Heading 2 | 1. Distributed DB
+Ultra | One logically integrated database whose data is physically distributed across multiple network-connected sites.
+Memory | ARCHITECTURE: SITE A ↔ NETWORK ↔ SITE B ↔ NETWORK ↔ SITE C
+Heading 2 | 2. System types
+Memory | Homogeneous = similar DBMS technology | Heterogeneous = different DB technologies/schemas | Federated = independently managed DBs cooperate
+Heading 2 | 3. Fragmentation
+--- TABLE ---
+Type | Remember
+Horizontal | Split ROWS by predicates
+Vertical | Split COLUMNS; normally repeat primary key
+Hybrid | Horizontal + vertical
+--- END TABLE ---
+Ultra | HOOK: Horizontal=Rows | Vertical=Columns
+Memory | Good fragmentation: completeness + reconstruction + disjointness where required
+Heading 2 | 4. Replication vs allocation
+Memory | Replication = multiple copies at multiple sites. Full = many/all sites; Partial = selected sites.
+Memory | Replication BENEFITS: availability, local reads, failure tolerance, less remote access. COSTS: storage, update coordination, consistency, network/control overhead.
+Memory | Allocation = which site stores which fragment/replica; consider query frequency, locality, communication cost, storage capacity, reliability.
+Heading 2 | 5. Two-phase commit (2PC)
+Ultra | PHASE 1: COORDINATOR → PREPARE → participants vote YES/NO
+Ultra | PHASE 2: all required YES → COMMIT; otherwise → ABORT
+Memory | MEMORY: ASK → VOTE → DECIDE
+Memory | Limitation: can block when participants are prepared but cannot learn coordinator’s final decision.
+Heading 2 | 6. Consistency models
+Memory | Strong/linearizable-style | Eventual | Causal | Session-oriented (e.g. read-your-writes / monotonic reads)
+Memory | Trade-off idea: stronger consistency can require more coordination and affect latency/availability during failures.
+Heading 2 | 7. CAP — exact memory
+Ultra | During a network partition, a distributed system cannot simultaneously guarantee BOTH strong consistency AND availability for every request under the formal CAP definitions.
+--- TABLE ---
+C | Consistency | Read observes most recent write according to formal guarantee, or error
+A | Availability | Every request to a non-failing node gets a non-error response; value need not be latest
+P | Partition tolerance | System continues despite network failures preventing node communication
+--- END TABLE ---
+Warning | DO NOT WRITE “pick any two at all times.” CAP is specifically about behavior when a partition occurs.
+Heading 2 | 8. BASE
+Ultra | BASE = Basically Available + Soft state + Eventual consistency
+Memory | ACID = strong transaction-oriented guarantees | BASE = availability/flexible consistency emphasis
+Heading 2 | 9. Sharding
+Ultra | Sharding = horizontal distribution of records across multiple nodes.
+Memory | Range = key ranges | Hash = hash(shard key) | Directory = mapping service | Geographic = by region
+Memory | Good shard key: distributes data/traffic, supports common queries, avoids hotspots/oversized partitions.
+Heading 1 | UNIT 4/5 — NoSQL MEMORY
+Heading 2 | 10. NoSQL
+Ultra | NoSQL = broad family of non-relational database technologies designed for flexible data models and scalable/distributed workloads.
+Heading 2 | 11. Four NoSQL models
+--- TABLE ---
+Model | Data idea | Anchor use
+Document | JSON/BSON-like documents | Catalogs, content, profiles
+Key-value | Key → value | Cache, sessions, simple lookups
+Column-family | Partitioned rows + flexible columns | Large-scale distributed workloads
+Graph | Nodes + relationships + properties | Social/recommendation/fraud relationships
+--- END TABLE ---
+Heading 2 | 12. MongoDB mental map
+--- TABLE ---
+Relational | MongoDB
+Database | Database
+Table | Collection
+Row | Document
+Column | Field
+Primary key | _id
+--- END TABLE ---
+Rule | MongoDB = document-oriented; BSON documents; collections; nested documents/arrays.
+Heading 2 | 13. MongoDB CRUD — memorize command family
+--- TABLE ---
+CRUD | Commands
+Create | insertOne(), insertMany()
+Read | find(), findOne()
+Update | updateOne(), updateMany()
+Delete | deleteOne(), deleteMany()
+--- END TABLE ---
+Memory | PATTERN: every CRUD action has ONE / MANY
+Heading 2 | 14. MongoDB operators
+Memory | Comparison: $gt $gte $lt $lte $eq $ne | Membership: $in $nin | Logical: $and $or $not $nor | Update: $set $unset $inc $push $pull
+Heading 2 | 15. MongoDB aggregation
+Ultra | $match → $group → $project → $sort → $limit
+Memory | match=filter | group=aggregate | project=shape fields | sort=order | limit=restrict
+Rule | Also know: $skip, $unwind, $lookup
+Heading 2 | 16. Cassandra
+Rule | Cassandra = distributed wide-column DB focused on high availability, horizontal scalability and high write throughput.
+Ultra | Partition key = WHERE data lives | Clustering columns = ORDER of rows within partition
+Memory | Cassandra design principle: MODEL TABLES AROUND QUERY PATTERNS; deliberate duplication is common to avoid expensive joins.
+Memory | CQL basics: CREATE KEYSPACE | CREATE TABLE | INSERT | SELECT | UPDATE | DELETE
+Heading 2 | 17. HBase vs Cassandra
+--- TABLE ---
+HBase | Cassandra
+Strong Hadoop ecosystem relationship | Independent distributed wide-column system
+Row key + column families | Partition key + clustering columns
+HBase APIs/shell | CQL
+Large-scale sparse data | Highly available distributed workloads
+--- END TABLE ---
+Heading 2 | 18. Redis
+Memory | Redis = in-memory key-value store; uses: caching, sessions, counters, queues, leaderboards, fast temporary state.
+Memory | SET GET DEL EXISTS | HSET HGET | EXPIRE | INCR
+Memory | MEMORY: basic key → hash → time → counter
+Heading 2 | 19. Graph databases
+Ultra | Nodes = entities | Edges = relationships | Properties = attributes
+Memory | Neo4j/Cypher use case idea: multi-hop traversal such as friends-of-friends, recommendations, shortest paths, dependency chains.
+Heading 1 | UNIT 5 — CYPHER, VECTORS & INDEXING
+Heading 2 | 20. Cypher command patterns
+Ultra | CREATE → MATCH → WHERE → SET → DELETE
+Normal | CREATE (p:Person {name:'Alice', age:22});
+Normal | MATCH (p:Person)-[:FRIEND_OF]->(f:Person) RETURN p.name, f.name;
+Normal | MATCH (p:Person) WHERE p.age > 20 RETURN p;
+Normal | MATCH (p:Person {name:'Alice'}) SET p.age=23 RETURN p;
+Normal | MATCH (p:Person {name:'Alice'}) DETACH DELETE p;
+Memory | MEMORY: Create → Find → Filter → Modify → Destroy
+Heading 2 | 21. Vector embeddings
+Ultra | Embedding = numerical vector representation of an object produced by an embedding model.
+Ultra | PIPELINE: ORIGINAL DATA → EMBEDDING MODEL → VECTOR → VECTOR DB → SIMILARITY / NEAREST-NEIGHBOR SEARCH
+Memory | Semantically similar objects may be placed near each other in vector space.
+Heading 2 | 22. Similarity measures
+--- TABLE ---
+Metric | Memory
+Cosine similarity | Angle / direction
+Euclidean distance | Straight-line distance
+Dot product | Alignment + magnitude
+--- END TABLE ---
+Heading 2 | 23. Similarity search
+Ultra | USER QUERY → EMBED QUERY → QUERY VECTOR → VECTOR INDEX → NEAREST NEIGHBORS / TOP-K → RESULTS
+Memory | Brute force = compare with every stored vector | ANN = search a smaller promising region for lower latency.
+Heading 2 | 24. HNSW and IVF
+Rule | HNSW = Hierarchical Navigable Small World; graph-based ANN; navigate through increasingly close candidates.
+Rule | IVF = partition vectors into groups/clusters and search only relevant groups.
+Memory | MEMORY: HNSW = GRAPH NAVIGATION | IVF = CLUSTERS
+Heading 2 | 25. General indexing
+Ultra | Index = auxiliary access structure that improves lookup performance at the cost of storage and maintenance.
+Memory | Without: Query → scan all records | With: Query → INDEX → keys/pointers → required records
+Memory | INDEX TRADE-OFF: faster reads, but extra storage + write/maintenance overhead + cache pressure. Too many indexes can slow writes.
+Heading 2 | 26. MongoDB indexing
+Memory | Know index types: single-field, compound, multikey, text, geospatial, unique.
+Normal | db.students.createIndex({age:1})
+Normal | db.students.createIndex({course:1, age:-1})
+Normal | db.users.createIndex({email:1}, {unique:true})
+Memory | CRITICAL: compound-index field order matters for supported query/sort patterns.
+Heading 2 | 27. CouchDB indexing
+Memory | Mango indexes → selector queries | map/reduce views → indexed query patterns | ordered keys → range-style access
+Heading 2 | 28. Cassandra indexing
+Memory | Partition key → determines WHERE data lives | Clustering columns → determine ORDER within partition
+Heading 2 | 29. Neo4j indexing
+Memory | Property indexes help locate starting nodes efficiently; graph traversal then follows relationships.
+Heading 2 | 30. Traditional vs vector index
+--- TABLE ---
+Traditional | Vector
+Exact/range access | Similarity/nearest-neighbor access
+B+ tree / hash | HNSW / IVF / related ANN
+Scalar keys | High-dimensional vectors
+age=22 / price range | top-k nearest vectors
+--- END TABLE ---
+Heading 1 | FINAL MEMORY DECK — THE ONLY THINGS TO RECITE
+Heading 2 | 19 exact-definition flashcards
+Normal | DBMS: Software providing facilities for defining, storing, retrieving, updating, securing and recovering data.
+Normal | Functional dependency: X → Y means X determines Y.
+Normal | 1NF: Atomic values; no repeating groups.
+Normal | 2NF: 1NF + every non-prime attribute fully depends on the entire candidate key.
+Normal | 3NF: For every non-trivial X→A, X is a superkey OR A is prime.
+Normal | BCNF: Every determinant of a non-trivial FD is a superkey.
+Normal | 4NF: Every non-trivial multivalued dependency has a superkey determinant.
+Normal | 5NF: Every non-trivial join dependency is implied by candidate keys.
+Normal | Lossless join: Join of decomposed relations reconstructs exactly the original relation.
+Normal | Transaction: Logical unit of database work that must preserve correctness.
+Normal | ACID: Atomicity, Consistency, Isolation, Durability.
+Normal | Serializability: Schedule effect is equivalent to some serial execution.
+Normal | 2PL: Growing phase acquires locks; shrinking phase releases locks.
+Normal | CAP: During a network partition, strong consistency and availability cannot both be guaranteed for every request under formal CAP definitions.
+Normal | Sharding: Horizontal distribution of records across multiple nodes.
+Normal | NoSQL: Non-relational DB family for flexible data models and scalable/distributed workloads.
+Normal | Embedding: Numerical vector representation of an object produced by an embedding model.
+Normal | Vector similarity search: Retrieve stored vectors closest to a query vector using a chosen similarity/distance measure.
+Normal | Index: Auxiliary access structure improving lookup performance at the cost of storage and maintenance.
+Heading 2 | 11 diagrams to draw blind
+List Bullet | External Views → Conceptual Schema → Internal Schema → Storage
+List Bullet | [STUDENT] — ENROLLS — [COURSE], M:N
+List Bullet | UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF
+List Bullet | B+ tree with internal separators + linked leaves
+List Bullet | ACTIVE → PARTIALLY COMMITTED → COMMITTED; failure → FAILED → ABORTED
+List Bullet | GROWING → LOCK POINT → SHRINKING
+List Bullet | LOG → CHECKPOINT → CRASH → UNDO uncommitted + REDO committed
+List Bullet | SITE A ↔ NETWORK ↔ SITE B ↔ NETWORK ↔ SITE C
+List Bullet | CAP triangle: C / A / P
+List Bullet | DATA → SHARD 1 | SHARD 2 | SHARD 3
+List Bullet | QUERY → EMBEDDING → VECTOR INDEX → TOP-K → RESULTS
+Heading 2 | 5 instant-answer skeletons
+--- TABLE ---
+Question | Brain dump order
+Normalization | Definition → FDs/keys → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF → lossless → dependency preservation → minimal cover
+Transactions/concurrency/recovery | Transaction → states → ACID → SQL → isolation → anomalies → serializability → locks → 2PL → deadlock → timestamps → failures → recovery/WAL
+Distributed DB/CAP | Definition → architecture → fragmentation → replication → allocation → 2PC → consistency → CAP → BASE → sharding
+NoSQL/MongoDB | NoSQL motivation → 4 models → CAP/BASE → sharding → Mongo model → mapping → CRUD → operators → aggregation
+Indexing | Index/I-O → B+ tree → range → hash → compare → MongoDB → CouchDB → Cassandra → Neo4j → vectors/ANN → benefits/costs
+--- END TABLE ---
+Heading 2 | Last-minute recall sheet
+Ultra | NORMALIZATION: A-P-T-D-M-J = Atomic, Partial, Transitive, Determinant, Multivalued, Join
+Ultra | TRANSACTIONS: ACID | S=share | X=exclude | G→Lock Point→S | PADT | LOG FIRST, DATA SECOND
+Ultra | DISTRIBUTED: Horizontal=Rows | Vertical=Columns | Prepare→Vote→Commit/Abort | CAP only matters under partition | BASE
+Ultra | NOSQL: Database→Collection→Document→Field | CRUD one/many | $match→$group→$project→$sort→$limit
+Ultra | CASSANDRA: Partition=Place | Clustering=Order
+Ultra | GRAPH: Nodes=Entities | Edges=Relationships | Properties=Attributes
+Ultra | VECTOR: Query→Embedding→Index→Top-K | Cosine=angle | Euclidean=distance | Dot=alignment+magnitude | HNSW=graph | IVF=clusters
+Ultra | INDEX: faster reads ↔ storage + maintenance cost
+Heading 2 | Exam writing checklist
+List Bullet | Definition first.
+List Bullet | Draw a relevant diagram.
+List Bullet | Use headings for every major component.
+List Bullet | For normalization: show FDs, key, violation, decomposition, target NF.
+List Bullet | For transactions: use ACID + schedule/control + recovery.
+List Bullet | For distributed systems: use fragmentation + replication + 2PC + CAP + sharding.
+List Bullet | For MongoDB/Cassandra/Redis/Neo4j: include command patterns.
+List Bullet | For indexing: state performance benefit AND maintenance cost.
+List Bullet | Conclude by connecting to correctness, performance, scalability, or reliability.

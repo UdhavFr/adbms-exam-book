@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master study guide — ADBMS Exam Book</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../app.js"></script>
+</head>
+<body>
+<header class="top">
+<a class="home" href="../index.html"><strong>ADBMS <i>Exam Book</i></strong></a>
+<span class="prog" id="prog"></span>
+</header>
+<main class="wrap-page">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style><p class="callout checkpoint"><b class="tag">JavaScript off</b>Reading works fully. Quick checks, drill grading, the MCQ arena and saved progress need JavaScript.</p></noscript>
+<h2 class="ptitle">Master study guide</h2>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li class="l1"><a href="#master-study-guide-md-adbms-exam-system-index-amp-priority-m">master-study-guide.md — ADBMS Exam System Index &amp;amp; Priority Map</a></li><li class="l2"><a href="#1-what-was-processed">1. What was processed</a></li><li class="l2"><a href="#2-priority-map-every-chapter">2. Priority map — every chapter</a></li><li class="l2"><a href="#3-file-map-what-to-open-when">3. File map — what to open, when</a></li><li class="l2"><a href="#4-the-study-loop-3-rounds">4. The study loop (3 rounds)</a></li><li class="l2"><a href="#5-source-page-quick-index">5. Source page quick index</a></li></ol></nav><div class="content"><h1 id="master-study-guide-md-adbms-exam-system-index-amp-priority-m">master-study-guide.md — ADBMS Exam System Index &amp; Priority Map</h1>
+<p><strong>Source of truth:</strong> <code>ADBMS_MasterNotes.docx</code> (36 pp., 5 units, 61 chapters) — corroborated by <code>ADBMS_MemorizationSheet.docx</code>. Neither file was modified. <strong>Structure:</strong> <code>exam/sections.json</code> (machine-readable map) · <code>exam/structure.md</code> (UNIT→CHAPTER→TOPIC with page refs). <strong>Papermorph role:</strong> cloned to <code>_papermorph/</code>; its <code>outline.py</code>/<code>split_pages.py</code> pipeline was adapted for a DOCX source (heading tree → sections → per-section text with page anchors) because this material is a DOCX, not a PDF with bookmarks (<code>_source/build_sections.py</code>, <code>_source/extract_pages.py</code>).</p>
+<hr>
+<h2 id="1-what-was-processed">1. What was processed</h2>
+<div class="tscroll"><table><thead><tr><th>Item</th><th>Count</th></tr></thead><tbody>
+<tr><td>Units</td><td><strong>5</strong></td></tr>
+<tr><td>Chapters (Heading-2 sections)</td><td><strong>61</strong> (+ 5 back-matter blocks: answer bank, diagram sheet, final revision, checklist, intro)</td></tr>
+<tr><td>Topics/subtopics (Heading-3)</td><td><strong>61</strong></td></tr>
+<tr><td>Tables extracted</td><td><strong>25</strong> (master) + 24 (memorisation sheet)</td></tr>
+<tr><td>Diagrams catalogued</td><td><strong>20</strong> (11 required + 9 supporting)</td></tr>
+<tr><td>Priority P0 chapters</td><td><strong>35</strong> · P1 = 24 · P2 = 2 · P3 = 0</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="2-priority-map-every-chapter">2. Priority map — every chapter</h2>
+<h3>UNIT 1 — Database System Concepts &amp; Conceptual Modeling (pp. 2–8)</h3>
+<div class="tscroll"><table><thead><tr><th>#</th><th>Chapter</th><th>Page</th><th>P</th><th>Why</th></tr></thead><tbody>
+<tr><td>1</td><td>Introduction to Database Systems</td><td>2</td><td>P1</td><td>definitions + problem/cure table = easy 5-marks</td></tr>
+<tr><td>2</td><td>Data Models, Schemas and Instances</td><td>3</td><td>P1</td><td>schema vs instance is a standard 2/5-mark</td></tr>
+<tr><td>3</td><td>Levels of Data Abstraction</td><td>4</td><td><strong>P0</strong></td><td>3-level diagram + two independences = near-certain question</td></tr>
+<tr><td>4</td><td>Conceptual Modeling (ER)</td><td>5</td><td><strong>P0</strong></td><td>ER diagram questions; keys/cardinality/participation</td></tr>
+<tr><td>5</td><td>Mapping ER → Relational</td><td>6</td><td><strong>P0</strong></td><td>7 numbered rules = classic 10-mark</td></tr>
+<tr><td>6</td><td>Overview of Relational Model</td><td>6–7</td><td>P1</td><td>vocabulary + algebra (σ/π trap)</td></tr>
+<tr><td>7</td><td>SQL — DDL/DML/DCL/TCL</td><td>7</td><td><strong>P0</strong></td><td>command categories + clause order, guaranteed marks</td></tr>
+<tr><td>8</td><td>Integrity &amp; Referential Constraints</td><td>7</td><td><strong>P0</strong></td><td>3 named constraints + SQL, common 5-mark</td></tr>
+<tr><td>9</td><td>Schema Design Guidelines &amp; Anomalies</td><td>8</td><td>P1</td><td>anomalies → bridge into normalization</td></tr>
+</tbody></table></div>
+<h3>UNIT 2 — Normalization, Data Storage &amp; Indexing (pp. 9–14)</h3>
+<div class="tscroll"><table><thead><tr><th>#</th><th>Chapter</th><th>Page</th><th>P</th><th>Why</th></tr></thead><tbody>
+<tr><td>1</td><td>Functional Dependencies</td><td>9</td><td><strong>P0</strong></td><td>closure is a computational 10-mark</td></tr>
+<tr><td>2</td><td>Normalization — Need &amp; Goals</td><td>10</td><td><strong>P0</strong></td><td>the ladder diagram</td></tr>
+<tr><td>3</td><td>1NF</td><td>10</td><td><strong>P0</strong></td><td>definition + atomic example</td></tr>
+<tr><td>4</td><td>2NF</td><td>10</td><td><strong>P0</strong></td><td>ENROLL worked example (canonical)</td></tr>
+<tr><td>5</td><td>3NF</td><td>11</td><td><strong>P0</strong></td><td>EMPLOYEE worked example (canonical)</td></tr>
+<tr><td>6</td><td>BCNF</td><td>11</td><td><strong>P0</strong></td><td>"every determinant is a super key"</td></tr>
+<tr><td>7</td><td>MVD &amp; 4NF</td><td>11</td><td>P1</td><td>part of the 20-mark normalization answer</td></tr>
+<tr><td>8</td><td>Join Dependencies &amp; 5NF</td><td>12</td><td>P1</td><td>4NF vs 5NF distinction</td></tr>
+<tr><td>9</td><td>Lossless Join Decomposition</td><td>12</td><td><strong>P0</strong></td><td>testable rule, common 5/10-mark</td></tr>
+<tr><td>10</td><td>Dependency Preservation</td><td>12</td><td>P1</td><td>the "independent properties" trap</td></tr>
+<tr><td>11</td><td>Minimal Cover &amp; FD Equivalence</td><td>12</td><td>P1</td><td>ordered 4-step algorithm</td></tr>
+<tr><td>12</td><td>Data Storage, Disk, Blocks</td><td>12</td><td>P2</td><td>background for indexing answers</td></tr>
+<tr><td>13</td><td>B+ Tree Indexing</td><td>13</td><td><strong>P0</strong></td><td>diagram + complexity + range scans</td></tr>
+<tr><td>14</td><td>Hash-Based Indexing</td><td>14</td><td>P1</td><td>comparison partner of B+ tree</td></tr>
+</tbody></table></div>
+<h3>UNIT 3 — Transactions, Concurrency &amp; Recovery (pp. 15–21)</h3>
+<div class="tscroll"><table><thead><tr><th>#</th><th>Chapter</th><th>Page</th><th>P</th><th>Why</th></tr></thead><tbody>
+<tr><td>1</td><td>Concept of a Transaction</td><td>15</td><td><strong>P0</strong></td><td>opens the biggest 20-mark answer</td></tr>
+<tr><td>2</td><td>Transaction States</td><td>15</td><td>P1</td><td>state diagram component</td></tr>
+<tr><td>3</td><td>ACID</td><td>16</td><td><strong>P0</strong></td><td>source: "one of the highest-value topics"</td></tr>
+<tr><td>4</td><td>SQL Transaction Support &amp; Isolation Levels</td><td>16</td><td>P1</td><td>commands + level table</td></tr>
+<tr><td>5</td><td>Concurrency Control &amp; Serializability</td><td>17–18</td><td><strong>P0</strong></td><td>anomalies + precedence-graph algorithm</td></tr>
+<tr><td>6</td><td>Lock-Based Control &amp; 2PL</td><td>18</td><td><strong>P0</strong></td><td>2PL diagram + deadlock handling</td></tr>
+<tr><td>7</td><td>Timestamp-Based Control</td><td>18</td><td>P1</td><td>pro/con short answer</td></tr>
+<tr><td>8</td><td>Recovery &amp; Failure Types</td><td>19</td><td>P1</td><td>classification for the recovery answer</td></tr>
+<tr><td>9</td><td>Deferred Update</td><td>19</td><td><strong>P0</strong></td><td>UNDO/REDO logic</td></tr>
+<tr><td>10</td><td>Immediate Update</td><td>20</td><td><strong>P0</strong></td><td>contrast with deferred</td></tr>
+<tr><td>11</td><td>Shadow Paging</td><td>20</td><td>P1</td><td>third recovery technique</td></tr>
+<tr><td>12</td><td>Log-Based Recovery, WAL, Checkpoint</td><td>20–21</td><td><strong>P0</strong></td><td>WAL rule is a must-quote</td></tr>
+</tbody></table></div>
+<h3>UNIT 4 — Distributed Databases &amp; NoSQL (pp. 22–27)</h3>
+<div class="tscroll"><table><thead><tr><th>#</th><th>Chapter</th><th>Page</th><th>P</th><th>Why</th></tr></thead><tbody>
+<tr><td>1</td><td>Introduction to Distributed Databases</td><td>22</td><td>P1</td><td>definition + characteristics + types</td></tr>
+<tr><td>2</td><td>Data Fragmentation</td><td>22</td><td><strong>P0</strong></td><td>horizontal/vertical/hybrid + example</td></tr>
+<tr><td>3</td><td>Replication and Allocation</td><td>23</td><td>P1</td><td>benefits/costs table = 5 marks</td></tr>
+<tr><td>4</td><td>Distributed Transactions / 2PC</td><td>23</td><td><strong>P0</strong></td><td>ordered protocol + diagram</td></tr>
+<tr><td>5</td><td>Consistency Models</td><td>24</td><td>P1</td><td>strong/eventual/causal/session</td></tr>
+<tr><td>6</td><td>NoSQL Systems — Types</td><td>24</td><td><strong>P0</strong></td><td>four models table = frequent 5-mark</td></tr>
+<tr><td>7</td><td>CAP Theorem</td><td>25</td><td><strong>P0</strong></td><td>highest-trap topic; exact wording required</td></tr>
+<tr><td>8</td><td>BASE vs ACID</td><td>25</td><td><strong>P0</strong></td><td>classic comparison</td></tr>
+<tr><td>9</td><td>Sharding &amp; Partitioning</td><td>26</td><td><strong>P0</strong></td><td>strategies + shard-key criteria</td></tr>
+<tr><td>10</td><td>MongoDB Data Model</td><td>26</td><td>P1</td><td>mapping table</td></tr>
+<tr><td>11</td><td>MongoDB CRUD</td><td>26–27</td><td><strong>P0</strong></td><td>commands examiners can demand</td></tr>
+<tr><td>12</td><td>MongoDB Aggregation</td><td>27</td><td><strong>P0</strong></td><td>pipeline order + worked example</td></tr>
+</tbody></table></div>
+<h3>UNIT 5 — NoSQL Stores, Indexing &amp; Ordering (pp. 28–33)</h3>
+<div class="tscroll"><table><thead><tr><th>#</th><th>Chapter</th><th>Page</th><th>P</th><th>Why</th></tr></thead><tbody>
+<tr><td>1</td><td>Column-Oriented: HBase &amp; Cassandra</td><td>28</td><td><strong>P0</strong></td><td>comparison table + data model</td></tr>
+<tr><td>2</td><td>Cassandra Basic Operations</td><td>29</td><td>P1</td><td>CQL + query-pattern design principle</td></tr>
+<tr><td>3</td><td>Redis</td><td>29</td><td>P1</td><td>command recall (2/5-mark)</td></tr>
+<tr><td>4</td><td>Graph Databases &amp; Graph Model</td><td>30</td><td>P1</td><td>nodes/edges/properties + use cases</td></tr>
+<tr><td>5</td><td>Neo4j &amp; Cypher</td><td>30</td><td>P1</td><td>command patterns + multi-hop strength</td></tr>
+<tr><td>6</td><td>Vector Databases &amp; Embeddings</td><td>31</td><td><strong>P0</strong></td><td>modern topic, definitional marks</td></tr>
+<tr><td>7</td><td>Similarity Search</td><td>31</td><td><strong>P0</strong></td><td>pipeline + ANN vs brute force</td></tr>
+<tr><td>8</td><td>Indexing &amp; Ordering Data Sets</td><td>32</td><td><strong>P0</strong></td><td>the index trade-off principle</td></tr>
+<tr><td>9</td><td>MongoDB Indexing</td><td>32</td><td><strong>P0</strong></td><td>compound-order rule + explain()</td></tr>
+<tr><td>10</td><td>CouchDB Indexing</td><td>32</td><td>P2</td><td>Mango/views (one comparison row)</td></tr>
+<tr><td>11</td><td>Cassandra Indexing &amp; Ordering</td><td>33</td><td><strong>P0</strong></td><td>partition vs clustering (high-frequency)</td></tr>
+<tr><td>12</td><td>Neo4j Indexing</td><td>33</td><td>P1</td><td>starting-node index idea</td></tr>
+<tr><td>13</td><td>Vector Store Indexing</td><td>33</td><td><strong>P0</strong></td><td>traditional vs vector table</td></tr>
+<tr><td>14</td><td>Importance of Indexes for NoSQL</td><td>33</td><td>P1</td><td>benefits/costs + the "compare all five" rule</td></tr>
+</tbody></table></div>
+<h3>🔴 Tier-S — if you can only study 10 topics</h3>
+<ol><li>ACID (U3-3) · 2. Normalization ladder 1NF→5NF (U2-2…8) · 3. CAP (U4-7) · 4. 2PL (U3-6) ·</li><li>Recovery: deferred/immediate/shadow/log/WAL (U3-9…12) · 6. Conflict serializability (U3-5) ·</li><li>B+ tree (U2-13) · 8. ER→relational mapping (U1-5) · 9. 2PC + fragmentation (U4-2,4) ·</li><li>Indexing across MongoDB/Cassandra/Neo4j/vector (U5-9,11,13).</li></ol>
+<hr>
+<h2 id="3-file-map-what-to-open-when">3. File map — what to open, when</h2>
+<div class="tscroll"><table><thead><tr><th>Need</th><th>Open</th></tr></thead><tbody>
+<tr><td>Last 10 minutes before the exam</td><td><a href="../cram.html"><code>notes/final-cram.md</code></a></td></tr>
+<tr><td>Last 30 minutes (rapid but complete)</td><td><a href="../cram.html"><code>notes/ultra-short-notes.md</code></a></td></tr>
+<tr><td>Exact wording of a definition</td><td><a href="definitions.html"><code>notes/definitions.md</code></a></td></tr>
+<tr><td>A rule, test or criterion</td><td><a href="formulas.html"><code>notes/formulas.md</code></a></td></tr>
+<tr><td>"How do I answer a process question?"</td><td><a href="processes.html"><code>notes/processes-and-algorithms.md</code></a></td></tr>
+<tr><td>Comparison question prep</td><td><a href="comparisons.html"><code>notes/comparisons.md</code></a></td></tr>
+<tr><td>Diagram practice</td><td><a href="diagrams.html"><code>notes/diagrams-and-mental-models.md</code></a></td></tr>
+<tr><td>Worked examples &amp; real commands</td><td><a href="examples.html"><code>notes/examples.md</code></a></td></tr>
+<tr><td>Avoiding lost marks</td><td><a href="mistakes.html"><code>notes/common-mistakes.md</code></a></td></tr>
+<tr><td>Mnemonics &amp; chains</td><td><a href="../mem.html"><code>notes/memory-hooks.md</code></a></td></tr>
+<tr><td>Self-testing (quick)</td><td><a href="cards.html"><code>notes/flashcards.md</code></a></td></tr>
+<tr><td>Self-testing (deep, with metadata)</td><td><a href="../written.html"><code>notes/question-bank.md</code></a></td></tr>
+<tr><td>What to study first</td><td><a href="likely.html"><code>notes/likely-questions.md</code></a></td></tr>
+<tr><td>Model answers by mark count</td><td><a href="answers.html"><code>notes/answer-bank.md</code></a></td></tr>
+<tr><td>Detailed per-unit notes</td><td><code>notes/chapter-notes/unit-1..5.md</code></td></tr>
+<tr><td>Timed practice</td><td><code>mock-exam-1..3.md</code> + <code>-key</code> files</td></tr>
+<tr><td>Study schedules</td><td><a href="../plan.html"><code>revision-plan.md</code></a></td></tr>
+<tr><td>Tracking your errors</td><td><a href="tracker.html"><code>weakness-tracker.md</code></a></td></tr>
+<tr><td>Source caveats</td><td><a href="errata.html"><code>notes/errata.md</code></a></td></tr>
+<tr><td>What was/wasn't processed</td><td><a href="../../../exam/completion-audit.md"><code>completion-audit.md</code></a></td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="4-the-study-loop-3-rounds">4. The study loop (3 rounds)</h2>
+<p>(spaced repetition inside the session), then again before the mock.</p>
+<ol><li><strong>Learn</strong> — read a unit's <code>chapter-notes/unit-N.md</code> with <a href="../cram.html"><code>final-cram.md</code></a> beside it (20–30 min/unit).</li><li><strong>Test</strong> — <a href="cards.html"><code>flashcards.md</code></a> deck for that unit + 5 questions from <a href="../written.html"><code>question-bank.md</code></a>; mark ✓/~/✗.</li><li><strong>Fix</strong> — log every ✗ in <a href="tracker.html"><code>weakness-tracker.md</code></a>; re-read only the linked source lines; re-test after 30 min</li></ol>
+<p>Then: <code>mock-exam-1</code> → mark → fix → <code>mock-exam-2</code> → mark → fix → <code>mock-exam-3</code>. Final pass: <a href="../cram.html"><code>final-cram.md</code></a> + <a href="../plan.html"><code>revision-plan.md</code></a> (final-30 / final-10 plans).</p>
+<hr>
+<h2 id="5-source-page-quick-index">5. Source page quick index</h2>
+<p>U1 pp.2–8 · U2 pp.9–14 · U3 pp.15–21 · U4 pp.22–27 · U5 pp.28–33 · back matter pp.34–36 (answer bank, diagram sheet, memorise-word-for-word table, checklist). Full heading→page table: <code>_source/heading_pages.json</code>.</p></div>
+
+<p class="foot">Source: your MasterNotes (36 pp.) + verified quiz imports. First tries count — retries never overwrite them.</p>
+</main>
+<script>initContents(25);initReveal();</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "Database I/O is expensive, so data moves between secondary storage and memory in pages/blocks rather than one record at a time. The buffer manager brings pages into memory and writes modified pages back.",
+    "2": "Heap: unordered, simple insertion, good for frequent inserts/scans. Sequential/sorted: key order, good for ordered/range access. Hash: bucket by hash function, good for equality. Clustered: related records placed close together.",
+    "3": "Internal nodes hold separator keys and child pointers. Leaf nodes hold search keys and record/data-page references. Leaves are linked, making range scans efficient.",
+    "4": "Start at root → compare with separator keys → follow child pointer → repeat → reach leaf → follow record/data pointer.",
+    "5": "Hash function maps a key to a bucket. Best for equality lookups such as StudentID = 101. Collisions require overflow buckets, chaining or dynamic hashing techniques.",
+    "6": "B+ tree is ordered, balanced and strong for equality + range + sorted traversal. Hash is bucket-based, unordered and strong for equality but poor for range traversal.",
+    "7": "Define index → explain pages/I/O → B+ tree structure + search + range → hash + collision → comparison → conclusion about query-driven indexing."
+  }
+}

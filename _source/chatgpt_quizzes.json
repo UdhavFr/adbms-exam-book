@@ -1,0 +1,288 @@
+[
+ {
+  "ch": 1,
+  "q": "Which level hides physical storage details from end users?",
+  "opts": [
+   "External",
+   "Conceptual",
+   "Internal",
+   "Storage device"
+  ],
+  "a": 0,
+  "why": "External level provides customized user views.",
+  "whyWrong": "Internal level is where physical representation is described."
+ },
+ {
+  "ch": 1,
+  "q": "Schema means…",
+  "opts": [
+   "Current data values",
+   "Database blueprint/structure",
+   "Only indexes",
+   "Only user views"
+  ],
+  "a": 1,
+  "why": "Schema is the relatively stable logical design.",
+  "whyWrong": "Current values are the instance."
+ },
+ {
+  "ch": 2,
+  "q": "For a 1:N relationship, where does the 1-side primary key usually go?",
+  "opts": [
+   "Into the 1-side as a duplicate",
+   "As a foreign key in the N-side relation",
+   "Into a brand-new relation always",
+   "It is discarded"
+  ],
+  "a": 1,
+  "why": "The 1-side key becomes a foreign key in the N-side.",
+  "whyWrong": "A new table is specifically typical for M:N, not ordinary 1:N."
+ },
+ {
+  "ch": 2,
+  "q": "A multivalued attribute is usually mapped by…",
+  "opts": [
+   "Repeating columns",
+   "One big text field",
+   "A separate relation with owner key + value",
+   "Deleting the attribute"
+  ],
+  "a": 2,
+  "why": "That keeps values addressable and relationally structured.",
+  "whyWrong": "Repeating columns destroy the clean relational design."
+ },
+ {
+  "ch": 3,
+  "q": "Which clause filters groups after GROUP BY?",
+  "opts": [
+   "WHERE",
+   "HAVING",
+   "ORDER BY",
+   "LIMIT"
+  ],
+  "a": 1,
+  "why": "HAVING filters groups.",
+  "whyWrong": "WHERE filters rows before grouping."
+ },
+ {
+  "ch": 3,
+  "q": "Entity integrity requires primary-key values to be…",
+  "opts": [
+   "Nullable and duplicated",
+   "Unique and non-NULL",
+   "Sorted",
+   "Encrypted"
+  ],
+  "a": 1,
+  "why": "A primary key identifies tuples and cannot be NULL.",
+  "whyWrong": "Sorting/encryption are unrelated to entity integrity."
+ },
+ {
+  "ch": 4,
+  "q": "What does 2NF mainly remove?",
+  "opts": [
+   "Non-atomic values",
+   "Partial dependencies",
+   "Transitive dependencies",
+   "Join dependencies"
+  ],
+  "a": 1,
+  "why": "2NF attacks partial dependency on part of a composite key.",
+  "whyWrong": "3NF is the transitive-dependency stage."
+ },
+ {
+  "ch": 4,
+  "q": "BCNF requires…",
+  "opts": [
+   "Every determinant is a super key",
+   "Every table has two keys",
+   "All attributes are atomic",
+   "No foreign keys"
+  ],
+  "a": 0,
+  "why": "That is the memorization sentence from the notes.",
+  "whyWrong": "Atomicity is 1NF, not BCNF."
+ },
+ {
+  "ch": 5,
+  "q": "Which index is naturally suited to a range query?",
+  "opts": [
+   "Hash index",
+   "B+ tree",
+   "No index ever",
+   "Only a graph index"
+  ],
+  "a": 1,
+  "why": "B+ trees maintain order and linked leaves.",
+  "whyWrong": "Hash buckets are not naturally ordered."
+ },
+ {
+  "ch": 5,
+  "q": "A hash collision occurs when…",
+  "opts": [
+   "A key is missing",
+   "Two keys map to the same bucket",
+   "The tree becomes unbalanced",
+   "A page is empty"
+  ],
+  "a": 1,
+  "why": "Two different keys can map to the same bucket.",
+  "whyWrong": "Unbalanced trees are not the hash collision concept."
+ },
+ {
+  "ch": 6,
+  "q": "Which ACID property says a transaction is all-or-nothing?",
+  "opts": [
+   "Consistency",
+   "Atomicity",
+   "Isolation",
+   "Durability"
+  ],
+  "a": 1,
+  "why": "Atomicity is the all-or-nothing property.",
+  "whyWrong": "Consistency is about valid state and constraints."
+ },
+ {
+  "ch": 7,
+  "q": "Which 2PL phase forbids acquiring new locks?",
+  "opts": [
+   "Growing",
+   "Shrinking",
+   "Lock point",
+   "Commit"
+  ],
+  "a": 1,
+  "why": "Shrinking phase releases locks and acquires no new locks.",
+  "whyWrong": "Growing phase is the acquisition phase."
+ },
+ {
+  "ch": 7,
+  "q": "WAL requires…",
+  "opts": [
+   "Data page first, log later",
+   "Log record first, then changed data page",
+   "No log",
+   "Only checkpoints"
+  ],
+  "a": 1,
+  "why": "Write-Ahead Logging writes the log to stable storage before the corresponding changed page.",
+  "whyWrong": "That is the core WAL guarantee."
+ },
+ {
+  "ch": 8,
+  "q": "Vertical fragmentation divides…",
+  "opts": [
+   "Rows",
+   "Columns",
+   "Databases",
+   "Transactions"
+  ],
+  "a": 1,
+  "why": "Vertical = columns, usually keeping the key for reconstruction.",
+  "whyWrong": "Horizontal fragmentation divides rows."
+ },
+ {
+  "ch": 8,
+  "q": "In 2PC, who sends PREPARE?",
+  "opts": [
+   "Each participant to coordinator",
+   "Coordinator to participants",
+   "The database user",
+   "The storage manager"
+  ],
+  "a": 1,
+  "why": "Coordinator starts the prepare round.",
+  "whyWrong": "Participants answer the prepare request with votes."
+ },
+ {
+  "ch": 9,
+  "q": "CAP trade-off is specifically about…",
+  "opts": [
+   "Normal operation only",
+   "A network partition",
+   "Primary keys",
+   "SQL joins"
+  ],
+  "a": 1,
+  "why": "CAP concerns the trade-off during network partition.",
+  "whyWrong": "Partition is the condition that triggers the theorem’s trade-off."
+ },
+ {
+  "ch": 9,
+  "q": "In MongoDB, a table maps most closely to…",
+  "opts": [
+   "Document",
+   "Field",
+   "Collection",
+   "_id"
+  ],
+  "a": 2,
+  "why": "Table → collection.",
+  "whyWrong": "Document maps to row."
+ },
+ {
+  "ch": 10,
+  "q": "In Cassandra, the partition key primarily determines…",
+  "opts": [
+   "The graph traversal",
+   "Where the data/partition lives",
+   "The JSON field name",
+   "The vector embedding"
+  ],
+  "a": 1,
+  "why": "Partition key chooses the partition/location.",
+  "whyWrong": "Clustering columns govern order within a partition."
+ },
+ {
+  "ch": 10,
+  "q": "HNSW is best described as…",
+  "opts": [
+   "A graph-based ANN technique",
+   "A SQL isolation level",
+   "A hash collision strategy",
+   "A MongoDB CRUD command"
+  ],
+  "a": 0,
+  "why": "HNSW is a graph-based approximate nearest-neighbor technique.",
+  "whyWrong": "The other options belong to unrelated topics."
+ },
+ {
+  "ch": 11,
+  "q": "Which sentence is the safest opening for a 20-mark answer?",
+  "opts": [
+   "Jump straight to an example",
+   "Define the concept and explain why it matters",
+   "List 20 keywords only",
+   "Start with the conclusion"
+  ],
+  "a": 1,
+  "why": "The notebook explicitly recommends a 5–7 line definition + importance introduction.",
+  "whyWrong": "A list alone does not show WHAT, WHY, HOW and WHERE."
+ },
+ {
+  "ch": 11,
+  "q": "What should a strong 20-mark answer contain besides definitions?",
+  "opts": [
+   "Only code",
+   "Diagram/flow, components, example, trade-offs and conclusion",
+   "Only a comparison table",
+   "Only advantages"
+  ],
+  "a": 1,
+  "why": "That structure is the notebook’s exam-writing guidance.",
+  "whyWrong": "Definitions alone are insufficient."
+ },
+ {
+  "ch": 11,
+  "q": "Which pair is correctly matched?",
+  "opts": [
+   "4NF → join dependency",
+   "5NF → multivalued dependency",
+   "2NF → partial dependency",
+   "BCNF → atomic values"
+  ],
+  "a": 2,
+  "why": "2NF removes partial dependency.",
+  "whyWrong": "4NF is MVD; 5NF is JD; 1NF is atomicity; BCNF is determinant super key."
+ }
+]

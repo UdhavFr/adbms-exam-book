@@ -1,0 +1,1143 @@
+Title | ADVANCED DATABASE SYSTEMS
+ExamText | FULL 20-MARK EXAM STUDY NOTEBOOK
+ExamText | Detailed theory • exam-ready answers • diagrams • flows • examples • SQL/CQL/MongoDB/Cypher
+ExamText | This notebook is intentionally written as a long-form answer bank. Each major topic is structured so that it can be expanded directly into a 15–20 mark answer.
+Heading 1 | How to write a 20-mark answer
+List Number | Start with a 5–7 line introduction defining the concept and explaining its importance.
+List Number | Draw a labelled diagram or flow whenever the topic has an architecture, process, hierarchy, or algorithm.
+List Number | Explain every major component under separate headings. Do not compress all concepts into one paragraph.
+List Number | Give at least one practical example, preferably with a table, relation, transaction, query, or scenario.
+List Number | Add advantages, limitations, applications, or comparison points wherever relevant.
+List Number | Finish with a 3–4 line conclusion connecting the topic to database correctness, performance, scalability, or reliability.
+ExamText | A strong 20-mark answer is not simply a collection of definitions. It should show the examiner that you understand WHAT the concept is, WHY it is required, HOW it works, and WHERE it is useful.
+Heading 1 | UNIT 1 — DATABASE SYSTEM CONCEPTS AND CONCEPTUAL MODELING
+Heading 2 | 1. Introduction to Database Systems
+ExamText | A database is an organized collection of logically related data that represents information about a particular application or organization. A Database Management System (DBMS) is software that allows users and applications to define, create, store, retrieve, update, protect, and recover data in a controlled manner. The database together with the DBMS forms a database system.
+ExamText | Examples of database applications include banking, railway and airline reservation, e-commerce, hospitals, universities, libraries, social networks, and financial systems. Modern systems may use relational DBMSs such as PostgreSQL and MySQL or NoSQL systems such as MongoDB, Cassandra, Redis, and Neo4j.
+Heading 3 | Why DBMS is needed
+ExamText | A traditional file-processing system stores information in separate application files. When the same customer information is stored in many files, duplication occurs. If one copy is changed and another is not, inconsistency appears. File systems also make sharing, security, backup, concurrent access, and recovery difficult.
+--- TABLE ---
+Problem in file systems | How DBMS addresses it
+Data redundancy | Centralized/shared database design reduces unnecessary duplication.
+Data inconsistency | Constraints and controlled updates keep related data consistent.
+Difficult data sharing | Multiple users/applications can access a common database.
+Security problems | Authentication and authorization mechanisms control access.
+Concurrent access | Concurrency-control mechanisms coordinate simultaneous transactions.
+Failure recovery | Logging, checkpoints and recovery mechanisms restore consistency.
+Program-data dependence | Data abstraction and data independence reduce application dependence on physical storage.
+--- END TABLE ---
+Heading 3 | Main functions of a DBMS
+List Bullet | Data definition and schema management
+List Bullet | Data storage and efficient retrieval
+List Bullet | Query processing and optimization
+List Bullet | Transaction processing
+List Bullet | Concurrency control
+List Bullet | Integrity constraint enforcement
+List Bullet | Security and authorization
+List Bullet | Backup and recovery
+List Bullet | Metadata/catalog management
+Normal | DATABASE SYSTEM
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+      USERS / APPS                 DBMS
+                                    │
+       ┌──────────────┬─────────────┼──────────────┐
+       │              │             │              │
+   Query Manager  Transaction   Storage        Recovery
+                  Manager       Manager         Manager
+       │              │             │              │
+       └──────────────┴─────────────┴──────────────┘
+                              │
+                           DATABASE
+ExamText | Conclusion: A DBMS provides a systematic environment in which data can be stored and manipulated while preserving security, integrity, concurrency, and recoverability.
+Normal | EXAM-READY POINT: If asked 'Explain database systems', define database and DBMS, discuss limitations of file systems, functions of DBMS, architecture, advantages, and conclude with the role of DBMS in reliable information management.
+Heading 2 | 2. Data Models, Schemas and Instances
+ExamText | A data model is a collection of concepts used to describe the structure of data, relationships among data items, constraints, and sometimes operations. It provides a vocabulary for designing and communicating a database.
+Heading 3 | Types of data models
+List Bullet | Hierarchical model: organizes records in a tree-like parent-child structure.
+List Bullet | Network model: represents records connected through network-like relationships.
+List Bullet | Relational model: represents data as relations/tables.
+List Bullet | Entity–Relationship model: conceptual model based on entities, attributes and relationships.
+List Bullet | Object-oriented model: represents objects, classes, inheritance and methods.
+List Bullet | Document model: stores semi-structured documents such as JSON/BSON.
+List Bullet | Key-value model: stores data as key-value pairs.
+List Bullet | Column-family model: organizes distributed data into rows and column families.
+List Bullet | Graph model: represents nodes, edges and properties.
+Heading 3 | Schema
+ExamText | A schema is the overall logical description or blueprint of the database. It specifies relations, attributes, data types, keys, relationships, constraints, indexes, views and other database objects. The schema is relatively stable compared with the actual data.
+Heading 3 | Instance
+ExamText | An instance is the collection of actual data stored in the database at a particular point in time. Insertions, updates, and deletions change the instance without necessarily changing the schema.
+--- TABLE ---
+Aspect | Schema | Instance
+Meaning | Database design/structure | Actual database contents
+Change frequency | Relatively infrequent | Changes frequently
+Example | STUDENT(RollNo, Name, Course) | (101, Ravi, MCA)
+Analogy | Blueprint | Current building
+--- END TABLE ---
+Normal | EXAM-READY POINT: Always remember: schema describes the structure; instance describes the state of the data at a particular moment.
+Heading 2 | 3. Levels of Data Abstraction
+ExamText | Database systems hide unnecessary implementation details from users through data abstraction. The classic three-level architecture separates user views, logical organization, and physical storage.
+Normal | EXTERNAL LEVEL / VIEW LEVEL
+       ┌─────────┬─────────┬─────────┐
+       │ Student │ Faculty │Accounts │
+       │  View   │  View   │  View   │
+       └────┬────┴────┬────┴────┬────┘
+            └─────────┼─────────┘
+                      ↓
+              CONCEPTUAL LEVEL
+        Complete logical database schema
+        Entities + relationships + constraints
+                      ↓
+                INTERNAL LEVEL
+       Files + pages + indexes + storage layout
+                      ↓
+                PHYSICAL STORAGE
+Heading 3 | External level
+ExamText | The external level describes customized views for different users. A student may see courses and marks while an accounts employee sees fees and payments. Views improve simplicity and security.
+Heading 3 | Conceptual level
+ExamText | The conceptual level represents the complete logical structure independent of physical storage. It describes entities, attributes, relationships, constraints, and the logical organization of data.
+Heading 3 | Internal level
+ExamText | The internal level explains how data is physically represented, including files, pages, record placement, indexes, access paths, and storage structures.
+Heading 3 | Data independence
+ExamText | Physical data independence is the ability to change physical storage structures without changing the conceptual schema. For example, replacing one index structure with another should not require rewriting application queries.
+ExamText | Logical data independence is the ability to modify the conceptual schema without requiring changes to every external view or application, as long as the required external information can still be provided.
+--- TABLE ---
+Type | Meaning | Example
+Physical data independence | Physical storage can change without changing logical schema. | Add/change an index.
+Logical data independence | Logical schema can evolve while preserving required external views. | Split a table while maintaining a compatible view.
+--- END TABLE ---
+Heading 2 | 4. Conceptual Modeling Using ER Approach
+ExamText | The Entity–Relationship (ER) approach is a high-level conceptual modeling technique used before implementing the database. It describes entities, their attributes, relationships, and constraints in a form that is easy to understand.
+Heading 3 | Entities
+ExamText | An entity is a distinguishable real-world object about which data is stored. Examples include STUDENT, EMPLOYEE, PRODUCT and DEPARTMENT. An entity set is a collection of similar entities.
+Heading 3 | Attributes
+List Bullet | Simple attribute: cannot be meaningfully divided further, such as Age.
+List Bullet | Composite attribute: consists of components, such as Address containing Street, City and PIN.
+List Bullet | Single-valued attribute: has one value for each entity.
+List Bullet | Multivalued attribute: may contain several values, such as multiple phone numbers.
+List Bullet | Derived attribute: calculated from other data, such as Age derived from DateOfBirth.
+List Bullet | Key attribute: uniquely identifies an entity.
+Heading 3 | Keys
+--- TABLE ---
+Key | Meaning
+Super key | Any attribute set that uniquely identifies a tuple/entity.
+Candidate key | Minimal super key.
+Primary key | Candidate key selected as the main identifier.
+Alternate key | Candidate key not selected as primary key.
+Foreign key | Attribute(s) referencing a key in another relation.
+--- END TABLE ---
+Heading 3 | Relationships and cardinality
+ExamText | A relationship represents an association between entities. Examples include STUDENT enrolls in COURSE, EMPLOYEE works for DEPARTMENT, and CUSTOMER places ORDER. Cardinality describes how many instances can participate.
+--- TABLE ---
+Cardinality | Meaning | Example
+1:1 | One entity is related to at most one entity on the other side. | Person–Passport
+1:N | One entity can relate to many entities. | Department–Employee
+M:N | Many entities on both sides can be related. | Student–Course
+--- END TABLE ---
+Heading 3 | Participation constraints
+ExamText | Total participation means every entity must participate in the relationship. Partial participation means participation is optional. Structural constraints therefore communicate both cardinality and whether participation is mandatory.
+Normal | ┌──────────┐        ┌──────────┐
+        │ STUDENT  │        │  COURSE  │
+        └────┬─────┘        └────┬─────┘
+             │                    │
+             │       ENROLLS      │
+             └───────◇───────────┘
+                  M        N
+                 /            
+          EnrollmentDate
+ExamText | In the diagram, STUDENT and COURSE are entities and ENROLLS is an M:N relationship. EnrollmentDate is a relationship attribute because it describes the enrollment event rather than only one entity.
+Normal | EXAM-READY POINT: In the exam, draw at least one ER diagram and explain every symbol. A diagram plus explanation usually makes the answer substantially stronger.
+Heading 2 | 5. Mapping ER Diagrams to Relational Schemas
+ExamText | ER-to-relational mapping transforms the conceptual ER design into tables suitable for a relational DBMS.
+List Number | For each strong entity, create a relation containing its simple attributes. Select the entity's primary key as the relation's primary key.
+List Number | For a composite attribute, store its individual components rather than the composite attribute as one field.
+List Number | For a multivalued attribute, create a separate relation containing the owner's primary key and the multivalued value.
+List Number | For a 1:1 relationship, place the primary key of one entity as a foreign key in the other, preferably where participation is total. Relationship attributes may be included there.
+List Number | For a 1:N relationship, place the primary key of the 1-side as a foreign key in the N-side relation.
+List Number | For an M:N relationship, create a separate relation containing the primary keys of both entities. These normally form a composite primary key.
+List Number | For a weak entity, create a relation containing its attributes and the owner's primary key; the owner key plus the weak entity's partial key identifies the weak entity.
+ExamText | Example: STUDENT(StudentID, Name) and COURSE(CourseID, Title) with ENROLLS(StudentID, CourseID, EnrollDate) represents an M:N relationship. StudentID and CourseID are foreign keys referencing their parent relations.
+Normal | ER MODEL                         RELATIONAL MODEL
+STUDENT ─── ENROLLS ─── COURSE   STUDENT(StudentID, Name)
+   M             N                COURSE(CourseID, Title)
+                                  ENROLLS(StudentID, CourseID,
+                                          EnrollDate)
+Heading 2 | 6. Overview of Relational Model
+ExamText | The relational model represents data as relations. A relation is usually visualized as a table containing tuples (rows) and attributes (columns). Each attribute has a domain defining permissible values.
+Heading 3 | Important terms
+List Bullet | Relation = table
+List Bullet | Tuple = row
+List Bullet | Attribute = column
+List Bullet | Domain = permitted set/type of values
+List Bullet | Degree = number of attributes
+List Bullet | Cardinality = number of tuples
+List Bullet | Primary key = unique identifier
+List Bullet | Foreign key = reference to another relation
+ExamText | A relational database is governed by integrity rules so that invalid data cannot be introduced. The relational model also provides operations such as selection, projection, union, intersection, difference, Cartesian product, and join through relational algebra, while SQL provides a practical declarative language.
+Heading 3 | Relational algebra operations
+--- TABLE ---
+Operation | Purpose
+Selection σ | Selects rows satisfying a condition.
+Projection π | Selects required columns.
+Union ∪ | Combines compatible relations.
+Difference − | Returns tuples in one relation but not the other.
+Cartesian product × | Combines every tuple of one relation with every tuple of another.
+Join ⋈ | Combines related tuples using a condition.
+--- END TABLE ---
+Heading 2 | 7. SQL — DDL, DML, DCL and TCL
+ExamText | SQL is the standard language used to define and manipulate relational databases. It is declarative: the user specifies what result is required while the DBMS determines an execution strategy.
+--- TABLE ---
+Category | Purpose | Commands
+DDL | Define/modify structure | CREATE, ALTER, DROP, TRUNCATE
+DML | Retrieve/change data | SELECT, INSERT, UPDATE, DELETE
+DCL | Privileges/security | GRANT, REVOKE
+TCL | Transaction control | COMMIT, ROLLBACK, SAVEPOINT
+--- END TABLE ---
+ExamText | Example DDL: CREATE TABLE Student(StudentID INT PRIMARY KEY, Name VARCHAR(50), CourseID INT, FOREIGN KEY(CourseID) REFERENCES Course(CourseID));
+ExamText | Example DML: SELECT CourseID, COUNT(*) FROM Student GROUP BY CourseID;
+ExamText | Example DML modification: UPDATE Student SET Name='Rahul' WHERE StudentID=101;
+ExamText | Example TCL: BEGIN; UPDATE Account SET Balance=Balance-500 WHERE AccountID=1; COMMIT;
+ExamText | Example DCL: GRANT SELECT ON Student TO user1;
+Heading 3 | Important SQL clauses
+ExamText | WHERE filters rows before grouping. GROUP BY forms groups. HAVING filters groups. ORDER BY sorts the result. JOIN combines rows from multiple relations. Aggregate functions such as COUNT, SUM, AVG, MIN and MAX summarize data.
+ExamText | Typical execution idea: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT, although the DBMS optimizer may transform the physical execution plan.
+Heading 2 | 8. Integrity and Referential Constraints
+ExamText | Integrity constraints are rules that preserve correctness and consistency of database values.
+List Bullet | Domain integrity: values must satisfy the data type/domain.
+List Bullet | Entity integrity: primary-key values cannot be NULL and must uniquely identify tuples.
+List Bullet | Referential integrity: a foreign key must refer to an existing referenced key or be NULL where permitted.
+List Bullet | UNIQUE: prevents duplicate values in a constrained column/set.
+List Bullet | CHECK: enforces a Boolean condition such as Salary > 0.
+List Bullet | NOT NULL: prevents missing values where a value is mandatory.
+ExamText | Example: FOREIGN KEY(CourseID) REFERENCES Course(CourseID) ensures that a student cannot reference a course that does not exist. Referential actions may include CASCADE, SET NULL, SET DEFAULT, or RESTRICT/NO ACTION depending on the DBMS and design.
+Heading 3 | Why constraints matter
+ExamText | Without constraints, invalid values can enter the database and cause application errors, inconsistent reports, broken relationships, and incorrect business decisions. Constraints move part of the correctness responsibility into the database itself.
+Heading 2 | 9. Guidelines for Relational Schema Design
+List Bullet | Each relation should have a clear and understandable meaning.
+List Bullet | Avoid unnecessary redundancy.
+List Bullet | Minimize NULL values where possible.
+List Bullet | Use appropriate primary and candidate keys.
+List Bullet | Represent relationships using foreign keys.
+List Bullet | Normalize relations to reduce anomalies.
+List Bullet | Choose appropriate data types and domains.
+List Bullet | Enforce business-critical integrity rules at the database level.
+List Bullet | Consider query performance and indexing after establishing a sound logical design.
+List Bullet | Use controlled denormalization only when there is a justified performance or reporting requirement.
+Heading 3 | Modification anomalies
+--- TABLE ---
+Anomaly | Explanation
+Insertion anomaly | A fact cannot be inserted without also inserting an unrelated fact.
+Update anomaly | The same fact is repeated in many rows, so one logical change requires multiple updates.
+Deletion anomaly | Deleting one fact accidentally removes another fact that should have been retained.
+--- END TABLE ---
+Normal | EXAM-READY POINT: End Unit 1 by remembering the flow: requirements → conceptual ER model → constraints → relational schema → normalization/design → SQL implementation.
+Heading 1 | UNIT 2 — NORMALIZATION, DATA STORAGE AND INDEXING
+Heading 2 | 1. Functional Dependencies
+ExamText | A functional dependency (FD) describes a relationship between attributes in a relation. X → Y means that whenever two tuples agree on all attributes of X, they must also agree on all attributes of Y. X is called the determinant and Y is functionally dependent on X.
+ExamText | Example: StudentID → StudentName. If StudentID 101 identifies Ravi, every occurrence of StudentID 101 must have the same StudentName under this dependency.
+Heading 3 | Why FDs matter
+List Bullet | Identify candidate keys.
+List Bullet | Detect redundancy.
+List Bullet | Identify partial and transitive dependencies.
+List Bullet | Guide normalization and decomposition.
+List Bullet | Help prove whether a decomposition preserves important constraints.
+Heading 3 | Important types
+List Bullet | Trivial FD: Y ⊆ X.
+List Bullet | Non-trivial FD: Y is not a subset of X.
+List Bullet | Full dependency: Y depends on the whole determinant X.
+List Bullet | Partial dependency: Y depends on only a proper subset of a composite key.
+List Bullet | Transitive dependency: X → Y and Y → Z imply X → Z.
+Heading 3 | Attribute closure
+ExamText | The closure X+ is the set of all attributes functionally determined by X using a set of FDs. To compute X+, start with X and repeatedly add attributes that can be obtained from FDs whose left side is already contained in the closure. If X+ contains every attribute of the relation, X is a super key.
+ExamText | Example: F = {A→B, B→C, C→D}. A+ starts as {A}; A→B gives B; B→C gives C; C→D gives D. Therefore A+ = {A,B,C,D}, so A is a key for this relation if these are all its attributes.
+Heading 2 | 2. Normalization — Need and Goals
+ExamText | Normalization is the systematic process of organizing relations using dependencies and decomposition so that redundancy and modification anomalies are reduced while important relationships and dependencies are preserved.
+Normal | UNNORMALIZED DATA
+      ↓ remove repeating groups / non-atomic values
+1NF  ───────────────────────────────
+      ↓ remove partial dependencies
+2NF  ───────────────────────────────
+      ↓ remove transitive dependencies
+3NF  ───────────────────────────────
+      ↓ every determinant must be a super key
+BCNF ───────────────────────────────
+      ↓ remove non-key multivalued dependencies
+4NF  ───────────────────────────────
+      ↓ remove problematic join dependencies
+5NF / PJNF
+ExamText | The goal is not to normalize blindly. A good design balances correctness, maintainability, query performance, and application requirements.
+Heading 2 | 3. First Normal Form (1NF)
+ExamText | A relation is in First Normal Form when each attribute contains atomic values and there are no repeating groups or nested sets stored inside a single relational field.
+ExamText | Non-1NF example: STUDENT(StudentID, Name, Phones) where Phones contains '9876,8765'. A relational design stores one phone value per row in a separate relation.
+ExamText | Decomposition: STUDENT(StudentID, Name) and STUDENT_PHONE(StudentID, Phone).
+Heading 3 | Benefits of 1NF
+List Bullet | Makes individual values addressable.
+List Bullet | Simplifies searching and updating.
+List Bullet | Removes repeating groups.
+List Bullet | Provides a foundation for higher normal forms.
+Heading 2 | 4. Second Normal Form (2NF)
+ExamText | A relation is in 2NF if it is already in 1NF and every non-prime attribute is fully functionally dependent on the entire candidate key. Partial dependency is therefore the main problem addressed by 2NF.
+ExamText | Example: ENROLL(StudentID, CourseID, StudentName, CourseName, Grade). Candidate key = (StudentID, CourseID). StudentName depends only on StudentID and CourseName depends only on CourseID. Therefore these are partial dependencies.
+Normal | ENROLL(StudentID, CourseID, StudentName, CourseName, Grade)
+          │             │
+          │             └── CourseID → CourseName
+          └──────────────── StudentID → StudentName
+
+Decompose:
+STUDENT(StudentID, StudentName)
+COURSE(CourseID, CourseName)
+ENROLL(StudentID, CourseID, Grade)
+ExamText | The decomposition removes repeated student and course details and keeps Grade dependent on the complete enrollment key.
+Heading 2 | 5. Third Normal Form (3NF)
+ExamText | A relation is in 3NF if it is in 2NF and does not contain an undesirable transitive dependency of non-prime attributes on a key. Formally, for every non-trivial FD X → A, X is a super key or A is a prime attribute.
+ExamText | Example: EMPLOYEE(EmpID, DeptID, DeptName). EmpID → DeptID and DeptID → DeptName. Therefore EmpID → DeptName transitively. DeptName should be moved to DEPARTMENT.
+Normal | EMPLOYEE(EmpID, DeptID, DeptName)
+      │
+      ├── EmpID → DeptID
+      │
+      └── DeptID → DeptName
+              ↓
+       TRANSITIVE DEPENDENCY
+
+EMPLOYEE(EmpID, DeptID)
+DEPARTMENT(DeptID, DeptName)
+Heading 2 | 6. Boyce-Codd Normal Form (BCNF)
+ExamText | A relation is in BCNF if for every non-trivial functional dependency X → Y, X is a super key. BCNF is stricter than 3NF and removes certain redundancy that 3NF can allow.
+ExamText | The key phrase to memorize is: 'Every determinant must be a super key.'
+--- TABLE ---
+3NF | BCNF
+X→A allowed if X is super key OR A is prime. | X→Y allowed only if X is super key.
+Less restrictive. | More restrictive.
+Usually easier to preserve dependencies. | Dependency preservation may be lost.
+Often practical compromise. | Used when stronger redundancy removal is required.
+--- END TABLE ---
+Heading 2 | 7. Multivalued Dependencies and 4NF
+ExamText | A multivalued dependency X ↠ Y occurs when, for each value of X, the set of Y values is independent of the remaining attributes. It often arises when an entity has two independent multivalued properties.
+ExamText | Example: STUDENT(Student, Hobby, Language). If a student's hobbies are independent of the languages the student knows, storing all combinations creates repeated combinations.
+Normal | STUDENT
+          /           \
+       HOBBIES      LANGUAGES
+         │              │
+         └── independent ┘
+
+Instead of one large relation:
+STUDENT_HOBBY(Student, Hobby)
+STUDENT_LANGUAGE(Student, Language)
+ExamText | 4NF requires that every non-trivial multivalued dependency X ↠ Y has X as a super key.
+Heading 2 | 8. Join Dependencies and 5NF
+ExamText | A join dependency states that a relation can be reconstructed by joining several projections. 5NF, or Project-Join Normal Form, addresses redundancy that remains because of complex join dependencies not captured adequately by functional and multivalued dependencies.
+ExamText | A relation is in 5NF when every non-trivial join dependency is implied by candidate keys. 5NF is relatively uncommon in routine application design but is important for understanding advanced relational decomposition.
+ExamText | Exam distinction: 4NF deals with independent multivalued facts; 5NF deals with complex join dependencies and lossless reconstruction through projections.
+Heading 2 | 9. Lossless Join Decomposition
+ExamText | A decomposition is lossless if joining the decomposed relations produces exactly the original relation. It must neither lose valid information nor create spurious tuples.
+ExamText | For binary decomposition R into R1 and R2, a standard FD-based condition is that the common attributes functionally determine all attributes of at least one side, under the relevant dependency set.
+ExamText | Example: R(A,B,C), decomposed into R1(A,B) and R2(A,C). If A → B or A → C holds, the decomposition satisfies a common lossless-join criterion.
+Normal | Original R(A,B,C)
+       ↓ decomposition
+ ┌────────────┐     ┌────────────┐
+ │  R1(A,B)   │     │  R2(A,C)   │
+ └──────┬─────┘     └──────┬─────┘
+        └──────── JOIN ─────┘
+                 ↓
+          Original R recovered
+Heading 2 | 10. Dependency Preservation
+ExamText | A decomposition is dependency preserving if the important original functional dependencies can be enforced by enforcing dependencies on the decomposed relations individually, without requiring joins.
+ExamText | Losslessness and dependency preservation are different properties. A decomposition may be lossless but not dependency preserving, or dependency preserving but not lossless. Good database design seeks both when possible.
+--- TABLE ---
+Property | Question it answers
+Lossless join | Can I reconstruct the original relation exactly?
+Dependency preservation | Can I enforce the original dependencies without joining decomposed relations?
+--- END TABLE ---
+Heading 2 | 11. Minimal Cover and Equivalence of FDs
+ExamText | A minimal cover is an equivalent, simplified set of functional dependencies with no unnecessary attributes or dependencies.
+Heading 3 | Steps
+List Number | Split every FD so the right side contains a single attribute.
+List Number | Remove extraneous attributes from left sides by testing whether they are unnecessary.
+List Number | Remove redundant FDs if they can be derived from the remaining dependencies.
+List Number | The resulting set is a minimal/canonical cover.
+ExamText | Two sets F and G are equivalent when F+ = G+, meaning they imply exactly the same functional dependencies. Attribute closure is used to test implication.
+Normal | EXAM-READY POINT: For numerical normalization questions, show every dependency, identify the candidate key, state the current normal form, identify the violation, decompose, and state why the new relations satisfy the target normal form.
+Heading 2 | 12. Data Storage, Disk Structure and Blocks
+ExamText | Database storage is organized to minimize expensive input/output operations between secondary storage and main memory. Data is normally transferred in pages or blocks rather than one individual record at a time.
+Normal | SECONDARY STORAGE
+ ┌───────────────────────────────────┐
+ │ File                              │
+ │ ┌────┬────┬────┬────┬────┐       │
+ │ │Page│Page│Page│Page│Page│ ...   │
+ │ └────┴────┴────┴────┴────┘       │
+ └────────────────┬──────────────────┘
+                  │ I/O
+                  ↓
+              BUFFER POOL
+         ┌────┬────┬────┬────┐
+         │ P1 │ P7 │ P4 │ P9 │
+         └────┴────┴────┴────┘
+                  ↓
+              CPU / DBMS
+ExamText | A page contains records. The buffer manager brings pages into memory, keeps frequently needed pages available, and writes modified pages back to storage. Reducing page I/O is a major objective of query and storage optimization.
+Heading 3 | File organizations
+--- TABLE ---
+Organization | Description | Best suited for
+Heap | Unordered records; insertion is simple. | Frequent inserts, scans.
+Sequential/sorted | Records kept in key order. | Ordered processing, range access.
+Hash | Hash function maps key to bucket. | Equality lookups.
+Clustered | Related records placed close together. | Queries accessing related records together.
+--- END TABLE ---
+Heading 2 | 13. B+ Tree Indexing
+ExamText | A B+ tree is a balanced multiway search tree widely used for database indexing. Internal nodes contain separator keys and child pointers. Leaf nodes contain search keys and references to records/data pages. Leaf nodes are linked, which makes range scanning efficient.
+Normal | [ 30 | 60 ]
+                        /     |      \
+                       /      |       \
+              [10|20]      [40|50]    [70|80|90]
+              / |  \        / | \       /  |  \
+             ... ... ...    ... ... ... ... ... ...
+
+Leaf level: [10,20] ↔ [40,50] ↔ [70,80,90]
+                  linked for range traversal
+Heading 3 | Search process
+List Number | Start at root.
+List Number | Compare search key with separator keys.
+List Number | Follow the correct child pointer.
+List Number | Continue until a leaf node is reached.
+List Number | Search the leaf and follow the record/data pointer.
+Heading 3 | Why B+ trees are efficient
+List Bullet | Balanced height keeps search predictable.
+List Bullet | High fan-out reduces tree height.
+List Bullet | Linked leaves support efficient range queries.
+List Bullet | Dynamic insertion/deletion maintains the tree structure.
+List Bullet | Works well with disk pages because nodes can be sized to storage blocks.
+ExamText | Complexity is typically O(log_f N) node visits where f is the fan-out, with the actual cost depending on page size, tree height, caching, and implementation.
+Heading 2 | 14. Hash-Based Indexing
+ExamText | A hash index applies a hash function to a search key and maps the result to a bucket. It is particularly efficient for equality conditions such as StudentID = 101.
+Normal | Search key: 101
+     ↓
+ hash(101)
+     ↓
+ bucket 5
+     ↓
+ records / pointers
+ExamText | If two keys map to the same bucket, a collision occurs. Overflow buckets, chaining, or dynamic hashing techniques can handle collisions.
+--- TABLE ---
+B+ Tree | Hash
+Ordered structure. | Unordered bucket structure.
+Excellent for equality + range queries. | Excellent for equality queries.
+Supports ORDER BY/range traversal. | Poor for range traversal.
+Balanced tree. | Hash function + buckets.
+--- END TABLE ---
+Heading 1 | UNIT 3 — TRANSACTION PROCESSING, CONCURRENCY CONTROL AND RECOVERY
+Heading 2 | 1. Concept of a Transaction
+ExamText | A transaction is a sequence of database operations that forms one logical unit of work. It may contain read, write, insert, update, delete, and control operations. A transaction must preserve database correctness even when several transactions execute concurrently or failures occur.
+ExamText | Classic example: bank transfer. Transfer ₹500 from A to B requires subtracting ₹500 from A and adding ₹500 to B. If the system crashes after subtracting A but before adding B, the database becomes incorrect. Transaction management ensures that either both operations become permanent or both are undone.
+Normal | BEGIN
+  ↓
+READ A → WRITE A
+  ↓
+READ B → WRITE B
+  ↓
+COMMIT ─────────→ changes permanent
+  │
+  └── failure ───→ ROLLBACK / RECOVERY
+Heading 2 | 2. Transaction States and System Concepts
+Normal | ACTIVE
+                   │
+             last statement
+                   ↓
+           PARTIALLY COMMITTED
+              │           │
+       commit success     failure
+              ↓           ↓
+          COMMITTED      FAILED
+                           │
+                         ROLLBACK
+                           ↓
+                        ABORTED
+                           │
+                    restart / terminate
+ExamText | Active means the transaction is executing. Partially committed means the final statement has executed but durability has not necessarily been completed. Committed means the transaction completed successfully. Failed means it cannot continue. Aborted means its effects have been rolled back.
+ExamText | The DBMS transaction manager coordinates execution, while the concurrency-control and recovery components ensure correct behavior under concurrent access and failure.
+Heading 2 | 3. ACID Properties
+--- TABLE ---
+Property | Detailed meaning | Banking example
+Atomicity | Transaction is all-or-nothing. If one essential operation fails, the whole transaction can be rolled back. | Debit and credit must both occur.
+Consistency | Every committed transaction preserves integrity constraints and valid database rules. | No invalid account state after transfer.
+Isolation | Intermediate effects of concurrent transactions are controlled so that execution is equivalent to an acceptable serial behavior under the isolation guarantee. | Another transaction should not see an invalid intermediate transfer state.
+Durability | After commit, effects survive subsequent system failure subject to the DBMS's durability guarantees. | Committed transfer remains after restart.
+--- END TABLE ---
+Normal | EXAM-READY POINT: ACID is one of the highest-value topics. Explain each property with a definition plus the bank-transfer example.
+Heading 2 | 4. Transaction Support in SQL
+ExamText | SQL transaction control allows multiple statements to be grouped into a transaction.
+Normal | BEGIN / START TRANSACTION
+          ↓
+     SQL operations
+          ↓
+     ┌────┴────┐
+     │         │
+  success    error
+     │         │
+   COMMIT   ROLLBACK
+     │         │
+ durable    undo uncommitted work
+ExamText | Example:
+ExamText | BEGIN;
+UPDATE Account SET Balance = Balance - 500 WHERE AccountID = 1;
+UPDATE Account SET Balance = Balance + 500 WHERE AccountID = 2;
+COMMIT;
+ExamText | If an error occurs, ROLLBACK can undo uncommitted changes. SAVEPOINT creates an intermediate point to which a transaction can roll back.
+Heading 3 | Isolation levels
+--- TABLE ---
+Isolation level | General idea
+Read Uncommitted | May permit reading uncommitted changes; weakest common level.
+Read Committed | Prevents ordinary dirty reads; behavior for repeated reads depends on DBMS.
+Repeatable Read | Provides stronger repeat-read guarantees; exact phantom behavior varies by DBMS.
+Serializable | Strongest standard isolation level; aims for serial-equivalent behavior.
+--- END TABLE ---
+Heading 2 | 5. Concurrency Control and Serializability
+ExamText | Concurrency control is the set of techniques used to coordinate simultaneous transactions. It is necessary because interleaving operations can produce incorrect results even when each transaction is correct by itself.
+Heading 3 | Common anomalies
+--- TABLE ---
+Anomaly | Meaning
+Lost update | A later write overwrites an earlier write from another transaction.
+Dirty read | A transaction reads a value written by another transaction that has not committed.
+Non-repeatable read | A row read twice gives different committed values because another transaction updated it between reads.
+Phantom read | A repeated predicate query returns a different set of rows due to another transaction's insert/delete/update affecting the predicate.
+--- END TABLE ---
+Heading 3 | Serial vs serializable
+ExamText | A serial schedule executes transactions one after another. A serializable schedule may interleave operations but produces an effect equivalent to some serial schedule. Serializability provides correctness while allowing concurrency.
+Heading 3 | Conflict serializability
+ExamText | Construct a precedence graph with one node per transaction. If two conflicting operations access the same item, at least one is a write, and Ti's operation occurs before Tj's operation, add Ti → Tj. If the graph is acyclic, the schedule is conflict-serializable. If it contains a cycle, it is not conflict-serializable.
+Normal | T1                 T2
+ |                  |
+R(X)               
+ |                  |
+W(X) ───────────→ R(X)
+ |                  |
+COMMIT             COMMIT
+
+Conflict creates edge T1 → T2.
+Check graph for cycles.
+Heading 2 | 6. Lock-Based Concurrency Control and 2PL
+ExamText | A lock is a concurrency-control mechanism that controls access to a data item. A shared lock S is used for reading and can be compatible with other shared locks. An exclusive lock X is used for writing and conflicts with both S and X locks.
+--- TABLE ---
+Held/requested | S | X
+S | Compatible | Not compatible
+X | Not compatible | Not compatible
+--- END TABLE ---
+Heading 3 | Two-Phase Locking
+ExamText | Two-phase locking divides a transaction into a growing phase and shrinking phase. During the growing phase, the transaction may acquire locks but cannot release them. During the shrinking phase, it may release locks but cannot acquire new locks.
+Normal | TIME →
+┌──────────────────────┬─────────────────────┐
+│ GROWING PHASE        │ SHRINKING PHASE     │
+│ acquire locks        │ release locks       │
+│ no releases          │ no new acquisitions │
+└──────────────────────┴─────────────────────┘
+            LOCK POINT
+       (last lock acquisition)
+ExamText | Basic 2PL guarantees conflict serializability. Strict 2PL holds exclusive locks until commit/abort, reducing cascading rollback problems. Rigorous 2PL can hold both shared and exclusive locks until completion.
+Heading 3 | Deadlock
+ExamText | Deadlock occurs when transactions wait in a cycle. Example: T1 holds A and waits for B, while T2 holds B and waits for A.
+Normal | T1 holds A → waits for B
+      ↑             ↓
+T2 waits for A ← holds B
+            CYCLE = DEADLOCK
+List Bullet | Prevention: impose rules that prevent circular wait.
+List Bullet | Avoidance: grant requests only when safe under the chosen protocol.
+List Bullet | Detection: construct a wait-for graph and detect cycles.
+List Bullet | Timeout: abort a transaction that waits too long.
+Heading 2 | 7. Timestamp-Based Concurrency Control
+ExamText | Timestamp ordering assigns every transaction a unique timestamp. Older transactions have smaller timestamps. The protocol ensures conflicting operations occur in timestamp order.
+ExamText | For each data item X, Read_TS(X) stores the largest timestamp of a transaction that successfully read X, while Write_TS(X) stores the largest timestamp of a transaction that successfully wrote X.
+ExamText | If a requested read or write would violate the timestamp ordering rules, the transaction may be rejected/aborted and restarted. A major advantage is that transactions do not wait for locks, so deadlocks due to lock waiting are avoided. A disadvantage is that repeated aborts can waste work.
+Heading 2 | 8. Recovery and Types of Failures
+ExamText | Recovery is the process of restoring the database to a consistent state after failure.
+List Bullet | Transaction failure: logical error, constraint violation, deadlock victim, or explicit abort.
+List Bullet | System crash: power failure or operating-system/database process failure causing loss of volatile memory.
+List Bullet | Media failure: disk/storage damage causing loss of persistent data.
+List Bullet | Communication failure: especially important in distributed databases.
+ExamText | The recovery manager uses logs, checkpoints, backups, shadow structures, and undo/redo techniques depending on the DBMS.
+Heading 2 | 9. Deferred Update
+ExamText | In deferred update, database changes are not written to the database until the transaction reaches commit. Log records are generated so committed changes can be reconstructed.
+Normal | Transaction
+   ↓
+Write log records
+   ↓
+Continue execution
+   ↓
+COMMIT
+   ↓
+Apply/REDO updates
+   ↓
+Durable database
+ExamText | After a crash, committed transactions may need REDO, while uncommitted transactions normally require no database UNDO because their changes were deferred.
+Heading 2 | 10. Immediate Update
+ExamText | In immediate update, a modified database page may be written before the transaction commits. Therefore, after a crash, the system may need to undo changes of uncommitted transactions and redo changes of committed transactions that may not have reached disk.
+Normal | Transaction → log old/new values → data page may be written
+                         ↓
+                      COMMIT?
+                    /         \
+                  YES         NO
+                   ↓           ↓
+              REDO if needed  UNDO
+Heading 2 | 11. Shadow Paging
+ExamText | Shadow paging maintains two page-table views: a stable shadow page table and a current page table. Modified pages are written to new locations rather than overwriting the old versions. At commit, the system switches the root pointer to the new page table.
+Normal | Before update:
+ROOT → SHADOW PAGE TABLE → old pages
+             │
+             └── stable
+
+During update:
+ROOT → CURRENT PAGE TABLE → new/modified pages
+ROOT still preserves shadow mapping
+
+COMMIT:
+ROOT switches to CURRENT
+
+CRASH BEFORE COMMIT:
+Use SHADOW mapping
+ExamText | Shadow paging can simplify recovery because the old consistent mapping remains available, but it can suffer from fragmentation and copying/page-table management overhead.
+Heading 2 | 12. Log-Based Recovery
+ExamText | A log is a sequential record of transaction actions maintained on stable storage. A typical record may contain transaction ID, data item, old value, and new value.
+ExamText | Examples: <T1 START>, <T1, A, 100, 50>, <T1 COMMIT>.
+Heading 3 | Write-Ahead Logging
+ExamText | The Write-Ahead Logging principle requires the relevant log record to be written to stable storage before the corresponding changed data page is written to persistent storage. This guarantees that recovery has enough information to undo or redo the operation.
+Heading 3 | Checkpointing
+ExamText | A checkpoint records recovery information at intervals. During recovery, the system can begin from a recent checkpoint rather than scanning the entire history of the log, reducing recovery time.
+Normal | LOG:
+<START T1>
+<T1, A, old, new>
+<START T2>
+<T2, B, old, new>
+<COMMIT T1>
+        ↓ CRASH
+Recovery:
+T1 committed → REDO if required
+T2 uncommitted → UNDO
+Normal | EXAM-READY POINT: Recovery answer formula: define recovery → failures → deferred update → immediate update → shadow paging → logging → WAL → checkpoint → UNDO/REDO → conclusion.
+Heading 1 | UNIT 4 — DISTRIBUTED DATABASES AND NoSQL SYSTEMS
+Heading 2 | 1. Introduction to Distributed Databases
+ExamText | A distributed database is a logically integrated database whose data is physically distributed across multiple network-connected sites. A Distributed Database Management System coordinates these sites and provides users with a unified way to access the distributed data.
+Normal | DISTRIBUTED DATABASE
+                        │
+          ┌─────────────┼─────────────┐
+          ↓             ↓             ↓
+       SITE A         SITE B        SITE C
+      Data A1        Data B1       Data C1
+      Replica A2     Replica B2    Replica C2
+          \             │             /
+           └──────── NETWORK ─────────┘
+Heading 3 | Characteristics
+List Bullet | Data physically distributed across sites.
+List Bullet | Sites communicate through a network.
+List Bullet | Fragments and replicas may be transparent to users.
+List Bullet | Supports distributed query and transaction processing.
+List Bullet | Must tolerate communication and node failures.
+List Bullet | Can improve availability and local performance.
+List Bullet | Introduces consistency and coordination challenges.
+Heading 3 | Types
+ExamText | Homogeneous systems use similar DBMS technology across sites. Heterogeneous systems may combine different database technologies or schemas. Federated systems allow independently managed databases to cooperate through integration mechanisms.
+Heading 2 | 2. Data Fragmentation
+ExamText | Fragmentation divides a relation into smaller fragments that can be stored close to the applications that use them. It can reduce communication cost and improve local performance.
+Heading 3 | Horizontal fragmentation
+ExamText | Rows are divided according to predicates. Example: CUSTOMER_NORTH contains customers from northern regions and CUSTOMER_SOUTH contains customers from southern regions.
+Heading 3 | Vertical fragmentation
+ExamText | Columns are divided. The primary key is normally repeated in each fragment so the original relation can be reconstructed through a join.
+Heading 3 | Hybrid fragmentation
+ExamText | Combines horizontal and vertical fragmentation.
+Normal | RELATION R
+   │
+   ├── Horizontal → rows A | rows B
+   │
+   ├── Vertical   → columns A | columns B + key
+   │
+   └── Hybrid      → rows first, then columns
+ExamText | A correct fragmentation should satisfy completeness, reconstruction, and disjointness where required by the strategy.
+Heading 2 | 3. Replication and Allocation
+ExamText | Replication means maintaining multiple copies of data at different sites. Full replication stores copies at many/all sites; partial replication stores copies at selected sites.
+--- TABLE ---
+Benefit | Cost
+Higher availability | More storage
+Faster local reads | Update coordination
+Failure tolerance | Consistency management
+Reduced remote access | Network/control overhead
+--- END TABLE ---
+ExamText | Allocation is the decision about which site stores which fragment or replica. It should consider query frequency, data locality, communication cost, storage capacity, and reliability requirements.
+Heading 2 | 4. Distributed Transaction Management
+ExamText | A distributed transaction can access or update data at multiple sites. The system must maintain atomicity so that a transaction does not commit at one site and abort at another.
+Heading 3 | Two-Phase Commit (2PC)
+Normal | COORDINATOR
+                  │
+             PREPARE?
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+       P1        P2        P3
+        │         │         │
+      YES        YES       YES
+        └─────────┼─────────┘
+                  ↓
+          GLOBAL COMMIT
+                  │
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+       P1        P2        P3
+List Number | Coordinator sends PREPARE to participants.
+List Number | Each participant checks whether it can commit and records a prepared state.
+List Number | Participants vote YES/NO.
+List Number | If all required votes are YES, coordinator sends COMMIT; otherwise it sends ABORT.
+List Number | Participants record and execute the decision.
+ExamText | 2PC ensures atomic commitment but can block in some failure scenarios, especially when participants are prepared and cannot learn the coordinator's final decision.
+Heading 2 | 5. Distributed Consistency Models
+ExamText | A consistency model defines what values and ordering guarantees clients can observe when data is replicated or distributed.
+List Bullet | Strong/linearizable-style consistency: operations appear to take effect in a single real-time-respecting order under the model.
+List Bullet | Eventual consistency: replicas may temporarily disagree but converge if updates stop.
+List Bullet | Causal consistency: causally related operations preserve their causal order.
+List Bullet | Session-oriented guarantees may provide read-your-writes or monotonic-read behavior.
+ExamText | Consistency is a design choice. Stronger consistency can require more coordination and may affect latency and availability during failures.
+Heading 2 | 6. NoSQL Systems — Types
+ExamText | NoSQL databases are non-relational data-management systems designed for use cases such as flexible schemas, massive scale, high throughput, distributed availability, or relationship patterns that differ from traditional tables.
+--- TABLE ---
+Type | Data representation | Typical applications
+Document | JSON/BSON-like documents | Catalogs, content, profiles
+Key-value | Key → value | Cache, sessions, simple lookups
+Column-family | Partitioned rows + flexible columns | Large-scale distributed workloads
+Graph | Nodes + relationships + properties | Social networks, recommendations, fraud relationships
+--- END TABLE ---
+Heading 2 | 7. CAP Theorem
+ExamText | CAP theorem states that when a distributed system experiences a network partition, it cannot simultaneously guarantee both strong consistency and availability for every request under the formal CAP definitions.
+Normal | CONSISTENCY (C)
+                       /\
+                      /  \
+                     /    \
+                    /      \
+                   /        \
+                  /          \
+     AVAILABILITY (A) ------ PARTITION (P)
+
+During a partition, a system must make a design trade-off
+between consistency and availability.
+Heading 3 | Consistency
+ExamText | A read observes the most recent write according to the system's formal consistency guarantee, or an error.
+Heading 3 | Availability
+ExamText | Every request to a non-failing node receives a non-error response, though the response need not contain the latest value.
+Heading 3 | Partition tolerance
+ExamText | The system continues to operate despite network failures that prevent some nodes from communicating.
+Normal | EXAM-READY POINT: Do not write 'you can simply pick any two out of three at all times.' CAP is specifically about behavior when a network partition occurs.
+Heading 2 | 8. BASE vs ACID
+--- TABLE ---
+ACID | BASE
+Atomicity, Consistency, Isolation, Durability. | Basically Available, Soft state, Eventual consistency.
+Strong transaction-oriented guarantees. | Availability and flexible consistency emphasis.
+Common in traditional relational transaction systems. | Common in many distributed NoSQL architectures/use cases.
+Commit aims at durable consistent state. | State may change as replicas converge.
+--- END TABLE ---
+ExamText | BASE does not mean data is permanently wrong. It means the system may accept temporary inconsistency while providing high availability and eventual convergence under suitable conditions.
+Heading 2 | 9. Sharding and Partitioning
+ExamText | Sharding is horizontal distribution of records across multiple nodes. Each shard stores a subset of the dataset.
+Normal | DATASET
+                       │
+              SHARDING / PARTITION
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+       SHARD 1      SHARD 2      SHARD 3
+       IDs 1–100    101–200      201–300
+Heading 3 | Strategies
+List Bullet | Range-based: key ranges are assigned to shards; good for ranges but can create hotspots.
+List Bullet | Hash-based: a hash of the shard key chooses the shard; usually distributes load evenly but weakens range locality.
+List Bullet | Directory-based: a mapping service tells the system where each key is stored.
+List Bullet | Geographic: records are assigned by region, useful for locality and compliance requirements.
+ExamText | A good shard key should distribute data and traffic evenly, support common queries, and avoid oversized partitions or hotspots.
+Heading 2 | 10. MongoDB Data Model
+ExamText | MongoDB is a document-oriented NoSQL database. It stores BSON documents in collections. Documents can contain nested documents and arrays, allowing a representation close to application objects.
+Normal | MONGODB
+Database
+  └── Collection: students
+        ├── Document {_id:1, name:'Ravi', age:22}
+        ├── Document {_id:2, name:'Asha', age:23}
+        └── Document {_id:3, name:'John', age:21}
+--- TABLE ---
+Relational concept | MongoDB concept
+Database | Database
+Table | Collection
+Row | Document
+Column | Field
+Primary key | _id
+--- END TABLE ---
+Heading 2 | 11. MongoDB CRUD
+Heading 3 | Create
+ExamText | db.students.insertOne({name:'Ravi', age:22, course:'MCA'})
+ExamText | db.students.insertMany([{name:'Asha',age:23},{name:'John',age:21}])
+Heading 3 | Read
+ExamText | db.students.find({age:{$gt:21}})
+ExamText | db.students.findOne({name:'Ravi'})
+Heading 3 | Update
+ExamText | db.students.updateOne({name:'Ravi'}, {$set:{age:23}})
+ExamText | db.students.updateMany({course:'MCA'}, {$inc:{age:1}})
+Heading 3 | Delete
+ExamText | db.students.deleteOne({name:'Ravi'})
+ExamText | db.students.deleteMany({course:'MCA'})
+Heading 3 | Common operators
+List Bullet | Comparison: $gt, $gte, $lt, $lte, $eq, $ne
+List Bullet | Membership: $in, $nin
+List Bullet | Logical: $and, $or, $not, $nor
+List Bullet | Update: $set, $unset, $inc, $push, $pull
+Heading 2 | 12. MongoDB Aggregation
+ExamText | The aggregation framework processes documents through a sequence of stages called a pipeline. Each stage transforms, filters, groups, sorts, or joins data.
+Normal | COLLECTION
+   ↓
+$match → filter
+   ↓
+$group → aggregate
+   ↓
+$project → shape fields
+   ↓
+$sort → order
+   ↓
+$limit → restrict
+   ↓
+RESULT
+ExamText | Example: db.sales.aggregate([{$match:{status:'paid'}}, {$group:{_id:'$product', total:{$sum:'$amount'}}}, {$sort:{total:-1}}])
+ExamText | This pipeline filters paid sales, groups them by product, calculates the total sales amount, and sorts the products by total in descending order.
+List Bullet | $match filters documents.
+List Bullet | $group groups documents and calculates aggregates.
+List Bullet | $project includes/excludes/computes fields.
+List Bullet | $sort orders documents.
+List Bullet | $limit restricts result count.
+List Bullet | $skip skips documents.
+List Bullet | $unwind expands array elements.
+List Bullet | $lookup performs a join-like lookup with another collection.
+Heading 1 | UNIT 5 — NoSQL STORES, INDEXING AND ORDERING DATA SETS
+Heading 2 | 1. Column-Oriented Databases: HBase and Cassandra
+ExamText | Column-family or wide-column databases store data in a distributed structure organized around row keys and groups of columns. They are designed for very large datasets, horizontal scaling, and high-throughput distributed workloads.
+Heading 3 | HBase
+ExamText | Apache HBase is a distributed, column-family database associated with the Hadoop ecosystem. A table has row keys and column families. Columns within families can be sparse and flexible. HBase is useful for large datasets requiring random read/write access at scale.
+Heading 3 | Cassandra
+ExamText | Apache Cassandra is a distributed wide-column database designed for high availability, horizontal scalability, and high write throughput. It uses a partition key to distribute rows and clustering columns to order rows within each partition.
+Normal | CASSANDRA TABLE
+Partition key: course
+        │
+        ├── Partition: MCA
+        │      ├── clustering row 1
+        │      ├── clustering row 2
+        │      └── clustering row 3
+        │
+        └── Partition: MBA
+               ├── clustering row 1
+               └── clustering row 2
+--- TABLE ---
+HBase | Cassandra
+Strong Hadoop ecosystem relationship. | Independent distributed wide-column system.
+Row key + column families. | Partition key + clustering columns.
+HBase APIs/shell. | CQL.
+Designed for large-scale sparse data. | Designed for highly available distributed workloads.
+--- END TABLE ---
+Heading 2 | 2. Cassandra Basic Operations
+ExamText | Cassandra uses CQL (Cassandra Query Language), whose syntax resembles SQL but whose data model and query restrictions are different.
+ExamText | CREATE KEYSPACE college WITH replication = {'class':'SimpleStrategy','replication_factor':3};
+ExamText | CREATE TABLE student (id int PRIMARY KEY, name text, course text);
+ExamText | INSERT INTO student (id,name,course) VALUES (1,'Ravi','MCA');
+ExamText | SELECT * FROM student;
+ExamText | UPDATE student SET course='MTech' WHERE id=1;
+ExamText | DELETE FROM student WHERE id=1;
+Heading 3 | Schema evolution
+ExamText | Cassandra has an explicit schema for tables and types even though NoSQL systems are often described as flexible-schema systems. ALTER TABLE can add or modify supported schema elements. Schema changes must be planned because schema metadata is shared across the cluster.
+ExamText | Important design principle: model Cassandra tables according to query patterns. Unlike a normalized relational design, it is common to duplicate data deliberately so required queries can be served efficiently without expensive joins.
+Heading 2 | 3. Redis — Key-Value Store
+ExamText | Redis is an in-memory data store that supports key-value access and richer data structures. It is commonly used for caching, sessions, counters, queues, leaderboards, and fast temporary state.
+Heading 3 | Common commands
+--- TABLE ---
+Command | Purpose
+SET key value | Stores a string value.
+GET key | Retrieves a value.
+DEL key | Deletes a key.
+EXISTS key | Checks whether a key exists.
+HSET key field value | Sets a field in a hash.
+HGET key field | Reads a hash field.
+EXPIRE key seconds | Sets a time-to-live.
+INCR key | Atomically increments a numeric value.
+--- END TABLE ---
+ExamText | Example: SET user:101 'Ravi' → GET user:101 returns Ravi. HSET user:101 name 'Ravi' course 'MCA' stores multiple fields under one key.
+Heading 2 | 4. Graph Databases and Graph Data Model
+ExamText | Graph databases represent data as a network. Nodes represent entities, relationships represent connections, and properties store attributes. Graph databases are especially suitable when queries depend on traversing relationships.
+Normal | (Alice)
+          │
+       FRIEND_OF
+          ↓
+         (Bob)
+          │
+       PURCHASED
+          ↓
+       (Product)
+
+Nodes = entities
+Edges = relationships
+Properties = attributes
+ExamText | Example applications include social networks, recommendation systems, fraud detection, knowledge graphs, network management, and dependency analysis.
+Heading 2 | 5. Neo4j and Cypher
+ExamText | Neo4j is a graph database that uses nodes, relationships, labels, and properties. Cypher is a declarative graph query language that represents graph patterns using ASCII-like syntax.
+ExamText | Create: CREATE (p:Person {name:'Alice', age:22});
+ExamText | Create relationship: MATCH (a:Person {name:'Alice'}), (b:Person {name:'Bob'}) CREATE (a)-[:FRIEND_OF]->(b);
+ExamText | Read: MATCH (p:Person)-[:FRIEND_OF]->(f:Person) RETURN p.name, f.name;
+ExamText | Filter: MATCH (p:Person) WHERE p.age > 20 RETURN p;
+ExamText | Update: MATCH (p:Person {name:'Alice'}) SET p.age=23 RETURN p;
+ExamText | Delete: MATCH (p:Person {name:'Alice'}) DETACH DELETE p;
+Heading 3 | Cypher pattern
+Normal | MATCH (person:Person)-[:FRIEND_OF]->(friend:Person)
+      │                    │
+    node                relationship
+                              │
+                         another node
+             ↓
+          RETURN person, friend
+ExamText | The strength of graph querying is its ability to express multi-hop patterns naturally, such as friends-of-friends, product recommendations, shortest paths, and dependency chains.
+Heading 2 | 6. Vector Databases and Embeddings
+ExamText | A vector embedding converts an object such as text, image, audio, or product information into a numerical vector. An embedding model attempts to place semantically similar objects near each other in vector space.
+Normal | ORIGINAL DATA
+ Text / Image / Audio
+        ↓
+ EMBEDDING MODEL
+        ↓
+ [0.12, -0.31, 0.77, ...]
+        ↓
+ VECTOR DATABASE
+        ↓
+ similarity / nearest-neighbor index
+ExamText | For example, two semantically related sentences may produce vectors with high cosine similarity. The vectors themselves do not automatically contain human-readable meaning; their usefulness depends on the embedding model and application.
+Heading 3 | Similarity measures
+--- TABLE ---
+Measure | Idea
+Cosine similarity | Compares the angle/direction between vectors; widely used for semantic text retrieval.
+Euclidean distance | Measures straight-line distance between points.
+Dot product | Measures vector alignment and magnitude together; frequently used in retrieval systems.
+--- END TABLE ---
+Heading 2 | 7. Similarity Search
+ExamText | Similarity search retrieves the items whose embeddings are closest to a query embedding according to a chosen metric.
+Normal | USER QUERY
+   ↓
+EMBED QUERY
+   ↓
+QUERY VECTOR
+   ↓
+VECTOR INDEX
+   ↓
+Nearest neighbors / Top-k
+   ↓
+Metadata + original documents
+   ↓
+FINAL RESULTS
+ExamText | A brute-force method compares the query vector with every stored vector. This becomes expensive as the number of vectors grows. Approximate nearest-neighbor (ANN) indexes search a smaller, promising region of the vector space to achieve much lower latency.
+Heading 3 | HNSW
+ExamText | Hierarchical Navigable Small World (HNSW) is a graph-based ANN technique. It creates a navigable graph in which search moves through increasingly close candidates. It is widely used because it offers a practical balance between search speed, memory usage, and recall.
+Heading 3 | IVF-style indexing
+ExamText | Inverted-file methods partition vectors into groups or clusters and search only relevant groups. This reduces the number of vectors examined during a query.
+Heading 2 | 8. Indexing and Ordering Data Sets
+ExamText | An index is an auxiliary data structure that creates an efficient access path to data. Instead of scanning every record, the DBMS can use the index to locate likely matching records.
+Normal | Without index:
+Query → scan record 1 → record 2 → ... → record N
+
+With index:
+Query → INDEX → matching key/pointers → required records
+ExamText | Indexes improve reads but introduce costs. They consume storage and must be maintained when indexed data changes. Therefore, the goal is not to create the maximum number of indexes but to create useful indexes that match important query patterns.
+Heading 3 | Ordering
+ExamText | Ordering arranges records or index keys according to a chosen criterion. Ordered structures such as B+ trees are useful for equality, range, prefix, and sorted retrieval. Hash indexes are not naturally ordered and therefore are poor for range queries.
+Heading 2 | 9. MongoDB Indexing and Ordering
+ExamText | MongoDB indexes allow queries to avoid scanning every document. Indexes may be single-field, compound, multikey, text, geospatial, unique, or other specialized types depending on the database version and use case.
+ExamText | Single-field: db.students.createIndex({age:1})
+ExamText | Compound: db.students.createIndex({course:1, age:-1})
+ExamText | Unique: db.users.createIndex({email:1}, {unique:true})
+ExamText | Sort: db.students.find().sort({age:1})
+ExamText | The order of fields in a compound index matters because it determines which query and sort patterns the index can support efficiently. Query plans can be inspected using explain().
+Heading 2 | 10. CouchDB Indexing and Ordering
+ExamText | CouchDB is a document database that exposes an HTTP/REST-oriented interface. It supports Mango indexes for selector queries and map/reduce views for indexed query patterns.
+ExamText | A Mango index can be created on fields such as course or age and then used by a selector query. Views can generate indexed key/value structures, where key ordering can be used for efficient range-style access.
+ExamText | The important exam point is that indexes in CouchDB avoid repeatedly scanning all documents and make predictable query patterns much more efficient.
+Heading 2 | 11. Cassandra Indexing and Ordering
+ExamText | Cassandra relies heavily on primary-key design. The partition key decides the node/partition location, while clustering columns define the order of rows within a partition.
+ExamText | Example: CREATE TABLE results (course text, year int, student_id int, name text, PRIMARY KEY ((course), year, student_id));
+ExamText | Here, course is the partition key. Within a course partition, rows are ordered by year and then student_id according to clustering rules.
+ExamText | Cassandra supports secondary indexing mechanisms, but arbitrary indexing is not a substitute for good partition design. Query-driven data modeling is central.
+Normal | Partition key → determines WHERE data lives
+       ↓
+Clustering columns → determine row ORDER within partition
+       ↓
+Efficient partition-local query
+Heading 2 | 12. Neo4j Indexing and Ordering
+ExamText | Neo4j indexes properties so that starting nodes can be located efficiently. For example, an index on Person(name) helps find the starting node for a query involving a person's name before graph traversal begins.
+ExamText | Ordering can be expressed in Cypher using ORDER BY: MATCH (p:Person) RETURN p.name, p.age ORDER BY p.age DESC.
+ExamText | Graph indexes are especially valuable when the initial lookup is selective. Once a starting node is found, graph traversal follows relationships rather than scanning unrelated records.
+Heading 2 | 13. Vector Store Indexing
+ExamText | Vector indexes are designed for nearest-neighbor search. Unlike a B+ tree that searches ordered scalar keys, a vector index organizes high-dimensional vectors so that similar vectors can be located efficiently.
+--- TABLE ---
+Traditional database index | Vector index
+Exact/range-oriented access. | Similarity/nearest-neighbor access.
+B+ tree or hash. | HNSW, IVF and related ANN structures.
+Query: age = 22, price BETWEEN 100 AND 200. | Query: top-k vectors closest to query embedding.
+Uses ordered keys or buckets. | Uses geometric/graph/cluster structure.
+--- END TABLE ---
+Heading 2 | 14. Importance of Indexes for NoSQL Query Performance
+ExamText | Indexes are important because NoSQL systems can contain millions or billions of records distributed across many machines. Without an appropriate access path, a query may scan large amounts of data, increasing latency and resource consumption.
+Heading 3 | Benefits
+List Bullet | Reduce full collection/table scans.
+List Bullet | Lower query latency.
+List Bullet | Support selective filtering.
+List Bullet | Support sorting/range access where the index is ordered.
+List Bullet | Enable efficient nearest-neighbor retrieval in vector systems.
+List Bullet | Can reduce CPU, memory, disk I/O, and network work.
+Heading 3 | Costs and limitations
+List Bullet | Additional storage.
+List Bullet | Write overhead because index entries must be maintained.
+List Bullet | Memory/cache pressure.
+List Bullet | An index may be ineffective if the query does not match its structure.
+List Bullet | Too many indexes can make write-heavy systems slower.
+List Bullet | Distributed databases may require careful partition-aware design.
+Normal | EXAM-READY POINT: For a NoSQL indexing 20-mark answer, compare MongoDB, CouchDB, Cassandra, Neo4j, and vector indexes rather than explaining only one database.
+Heading 1 | MASTER 20-MARK ANSWER BANK
+ExamText | The following are ready-to-expand answer plans. In the exam, turn each bullet into a paragraph and include the suggested diagram. These plans help you cover the complete marking scheme.
+Heading 2 | Question 1: Explain normalization and all normal forms.
+List Number | Define normalization and explain why redundancy is harmful.
+List Number | Explain functional dependencies and candidate keys.
+List Number | Explain 1NF with an atomic-value example.
+List Number | Explain 2NF and partial dependency using a composite key.
+List Number | Explain 3NF and transitive dependency.
+List Number | Explain BCNF and the super-key determinant rule.
+List Number | Explain multivalued dependency and 4NF.
+List Number | Explain join dependency and 5NF.
+List Number | Explain lossless join and dependency preservation.
+List Number | Explain minimal cover and attribute closure.
+List Number | Conclude with the benefits of a properly normalized design.
+Heading 2 | Question 2: Explain transaction processing, concurrency control and recovery.
+List Number | Define transaction and give bank-transfer example.
+List Number | Explain transaction states.
+List Number | Explain ACID in detail.
+List Number | Explain SQL transaction commands and isolation levels.
+List Number | Explain concurrent schedules and anomalies.
+List Number | Explain serializability and precedence graph.
+List Number | Explain shared/exclusive locks.
+List Number | Explain 2PL and strict 2PL.
+List Number | Explain deadlocks and handling.
+List Number | Explain timestamp ordering.
+List Number | Explain failure types.
+List Number | Explain deferred update, immediate update and shadow paging.
+List Number | Explain log-based recovery, WAL and checkpoints.
+List Number | Explain UNDO and REDO.
+List Number | Conclude with the importance of reliability.
+Heading 2 | Question 3: Explain distributed databases and CAP.
+List Number | Define distributed database and DDBMS.
+List Number | Draw distributed architecture.
+List Number | Explain characteristics and types.
+List Number | Explain horizontal, vertical and hybrid fragmentation.
+List Number | Explain replication and allocation.
+List Number | Explain distributed transactions.
+List Number | Explain 2PC with diagram.
+List Number | Explain consistency models.
+List Number | Define CAP accurately.
+List Number | Explain C, A and P.
+List Number | Explain behavior during network partition.
+List Number | Compare ACID and BASE.
+List Number | Explain sharding strategies.
+List Number | Conclude with design trade-offs.
+Heading 2 | Question 4: Explain NoSQL systems and MongoDB.
+List Number | Define NoSQL and motivation.
+List Number | Explain document, key-value, column-family and graph databases.
+List Number | Compare the four models.
+List Number | Explain CAP and BASE.
+List Number | Explain sharding.
+List Number | Explain MongoDB document model.
+List Number | Map relational terms to MongoDB.
+List Number | Explain CRUD with commands.
+List Number | Explain query operators.
+List Number | Explain aggregation pipeline with diagram.
+List Number | Explain practical applications and benefits.
+List Number | Conclude with when document databases are useful.
+Heading 2 | Question 5: Explain indexing in relational and NoSQL databases.
+List Number | Define index and explain why it is needed.
+List Number | Explain storage pages and I/O.
+List Number | Explain B+ tree structure and operations.
+List Number | Explain B+ tree range search.
+List Number | Explain hash indexing and collisions.
+List Number | Compare B+ tree and hash.
+List Number | Explain MongoDB indexes and compound ordering.
+List Number | Explain CouchDB Mango/view indexing.
+List Number | Explain Cassandra partition and clustering order.
+List Number | Explain Neo4j property indexes.
+List Number | Explain vector embeddings and vector indexes.
+List Number | Explain HNSW/ANN idea.
+List Number | Discuss benefits and index-maintenance costs.
+List Number | Conclude with query-driven indexing.
+Heading 1 | DIAGRAM PRACTICE SHEET
+ExamText | Practise drawing these diagrams from memory. They are deliberately simple enough to reproduce quickly in an exam.
+Normal | 1. THREE LEVEL ARCHITECTURE
+External Views → Conceptual Schema → Internal Schema → Storage
+
+2. ER MODEL
+[STUDENT] ─── ◇ ENROLLS ◇ ─── [COURSE]
+             M              N
+
+3. NORMALIZATION
+UNF → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF
+
+4. B+ TREE
+          [30 | 60]
+         /    |    \
+      [10]  [40]  [70|80]
+       ↔      ↔      ↔
+
+5. TRANSACTION
+ACTIVE → PARTIALLY COMMITTED → COMMITTED
+   │
+   └→ FAILED → ABORTED
+
+6. 2PL
+GROWING (acquire) → LOCK POINT → SHRINKING (release)
+
+7. RECOVERY
+LOG → CHECKPOINT → CRASH → UNDO uncommitted + REDO committed
+
+8. DISTRIBUTED DB
+SITE A ↔ NETWORK ↔ SITE B ↔ NETWORK ↔ SITE C
+
+9. CAP
+             C
+            / \
+           /   \
+          A --- P
+
+10. SHARDING
+DATA → SHARD 1 | SHARD 2 | SHARD 3
+
+11. VECTOR SEARCH
+QUERY → EMBEDDING → VECTOR INDEX → TOP-K → RESULTS
+Heading 1 | FINAL REVISION: WHAT TO MEMORISE WORD-FOR-WORD
+ExamText | Definitions should be memorised accurately, while examples and explanations should be understood so they can be adapted to the question.
+--- TABLE ---
+Topic | Core sentence to remember
+DBMS | A DBMS is software that provides facilities for defining, storing, retrieving, updating, securing and recovering data in a database.
+Functional dependency | X → Y means that the value of X uniquely determines the value of Y.
+1NF | A relation is in 1NF when attributes contain atomic values and repeating groups are removed.
+2NF | A relation in 1NF is in 2NF when every non-prime attribute is fully dependent on the whole candidate key.
+3NF | A relation is in 3NF when for every non-trivial X → A, X is a super key or A is a prime attribute.
+BCNF | A relation is in BCNF when every determinant of a non-trivial functional dependency is a super key.
+4NF | A relation is in 4NF when every non-trivial multivalued dependency has a super key as its determinant.
+5NF | A relation is in 5NF when every non-trivial join dependency is implied by candidate keys.
+Lossless join | A decomposition is lossless when joining its decomposed relations reconstructs exactly the original relation.
+Transaction | A transaction is a logical unit of database work that must preserve correctness.
+ACID | ACID stands for Atomicity, Consistency, Isolation and Durability.
+Serializability | A schedule is serializable when its effect is equivalent to some serial execution of the transactions.
+2PL | Two-phase locking has a growing phase for acquiring locks and a shrinking phase for releasing locks.
+CAP | During a network partition, a distributed system cannot simultaneously guarantee both strong consistency and availability for every request under the CAP definitions.
+Sharding | Sharding horizontally partitions data across multiple nodes.
+NoSQL | NoSQL is a broad family of non-relational database technologies designed for flexible data models and scalable/distributed workloads.
+Embedding | An embedding is a numerical vector representation of an object produced by an embedding model.
+Vector similarity search | Vector similarity search retrieves stored vectors closest to a query vector according to a chosen similarity or distance measure.
+Index | An index is an auxiliary access structure that improves data lookup performance at the cost of storage and maintenance.
+--- END TABLE ---
+Heading 1 | FINAL EXAM CHECKLIST
+List Bullet | Read the question twice and identify exactly what is being asked.
+List Bullet | Write the definition first.
+List Bullet | Use headings for every major concept.
+List Bullet | Draw the relevant diagram before or during the explanation.
+List Bullet | For normalization, show dependencies and decomposition.
+List Bullet | For transactions, use ACID + schedule + control + recovery.
+List Bullet | For distributed systems, use fragmentation + replication + CAP + sharding.
+List Bullet | For MongoDB/Cassandra/Redis/Neo4j, include actual commands.
+List Bullet | For indexing, explain both performance benefit and maintenance cost.
+List Bullet | End with a conclusion.
+List Bullet | Do not stop after 2–3 pages if the question asks for a complete 20-mark explanation; use the full structure.

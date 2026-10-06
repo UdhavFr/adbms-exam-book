@@ -1,0 +1,12 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "A database is an organized collection of logically related data. A DBMS defines, stores, retrieves, updates, protects and recovers that data. The database together with the DBMS forms a database system.",
+    "2": "Repeated copies create redundancy; changing one copy but not another creates inconsistency. File systems also make sharing, security, concurrent access and failure recovery difficult.",
+    "3": "External level gives user-specific views. Conceptual level describes the complete logical database. Internal level describes files, pages, record placement, indexes and access paths.",
+    "4": "Physical data independence: change storage structures without changing the conceptual schema. Logical data independence: change the conceptual schema without forcing every external view/application to change when the required information can still be provided.",
+    "5": "Schema is the database design/structure: relations, attributes, keys, constraints, indexes, views and other objects. Instance is the actual data at a particular moment.",
+    "6": "If asked “Explain database systems”, build: definition → file-system problems → DBMS functions → three-level architecture → data independence → example → advantages → conclusion."
+  }
+}

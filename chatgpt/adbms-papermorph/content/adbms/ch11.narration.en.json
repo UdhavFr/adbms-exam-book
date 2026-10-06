@@ -1,0 +1,14 @@
+{
+  "voice": "browser-speechSynthesis",
+  "rate": "1.02",
+  "beats": {
+    "1": "The notebook’s universal answer shape: 5–7 line introduction → labelled diagram/flow → separate component headings → one practical example → advantages/limitations/applications/comparison → 3–4 line conclusion connecting to correctness, performance, scalability or reliability.",
+    "2": "Prompt: “Explain normalization and all normal forms.” Your skeleton: definition + why redundancy hurts → FDs + candidate keys → 1NF → 2NF → 3NF → BCNF → 4NF → 5NF → lossless + dependency preservation → minimal cover/closure → conclusion.",
+    "3": "Prompt: “Explain transaction processing, concurrency control and recovery.” Skeleton: transaction + bank transfer → states → ACID → SQL transactions/isolation → anomalies → serializability/precedence graph → locks/2PL → deadlocks → timestamps → failures → deferred/immediate/shadow → log/WAL/checkpoint → UNDO/REDO → conclusion.",
+    "4": "Prompt: “Explain distributed databases and CAP.” Skeleton: DDB definition → architecture → fragmentation → replication/allocation → distributed transactions → 2PC → consistency models → CAP + C/A/P → ACID vs BASE → sharding → design trade-offs.",
+    "5": "Prompt: “Explain NoSQL systems and MongoDB.” Skeleton: NoSQL motivation → four models → compare them → CAP/BASE → sharding → MongoDB model → relational mapping → CRUD → operators → aggregation pipeline → applications → conclusion.",
+    "6": "Prompt: “Explain indexing in relational and NoSQL databases.” Skeleton: index purpose → pages/I/O → B+ tree + range → hash → compare → MongoDB indexes → CouchDB → Cassandra partition/clustering → Neo4j property index → vector embedding/ANN → benefits/costs → query-driven conclusion.",
+    "7": "Memorize definitions exactly where possible: DBMS, schema/instance, 3 levels, FD, 1NF/2NF/3NF/BCNF/4NF/5NF, ACID, serializable, 2PL, deadlock, recovery, distributed database, 2PC, CAP, BASE, sharding, MongoDB mapping, graph model, vector/ANN, B+ vs hash.",
+    "8": "Close the notes. For each unit, say the 20-mark skeleton out loud. Draw: three-level architecture, ER M:N, normalization ladder, B+ tree, ACID, 2PL, recovery, distributed architecture, CAP, Mongo pipeline. Then answer one mixed question without looking."
+  }
+}

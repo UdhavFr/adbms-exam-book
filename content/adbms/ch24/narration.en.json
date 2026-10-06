@@ -1,0 +1,18 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "-4%",
+  "beats": {
+    "intro": "Chapter twenty-four. [[sub]]B-plus trees: where sorted leaves fly.",
+    "ground": "Find every Patel in the phone book. [[book]]Sorted pages, tabbed letters: flip to P, walk sideways, collect every Patel. [[pile]]Now find Patel in a pile of sticky notes. No order, no tabs: check each note. Exact name only, one by one. [[w]]Write this: sorted finds ranges; piles find single names.",
+    "bptree": "The phone book, engineered. [[top]]Root holds separators, pointing to children. Compare, follow the child, land on a leaf. [[leaf]]Data lives only in the leaves, and the leaves are linked like a chain. [[walk]]Root, compare, child, leaf, record pointer. Five steps, every search. [[w]]Write this: walk root-compare-child-leaf-pointer; data only in linked leaves.",
+    "range": "Salary between 30 and 50 thousand. [[down]]Walk down to 30 thousand. [[side]]Then walk sideways along the linked leaves to 50 thousand. No full scan. [[why]]Why fast: balanced height, huge fan-out, linked leaves, disk-sized pages. Cost grows like log of N. [[w]]Write this: down then sideways; log-time with fan-out.",
+    "q1": "Quick check. [[q]]Salary between 30000 and 50000. Best index?",
+    "hash": "The sticky-note machine. [[box]]Key goes in, hash function picks a bucket, O(1) exact lookup. Student I D 101, straight to its bucket. [[clash]]Two keys, one bucket: collision. Chain them, or spill to overflow buckets. [[flat]]But buckets keep no order. Ranges die here, and so does order-by. [[w]]Write this: hash is exact-only; collisions chain.",
+    "q2": "Quick check. [[q]]A hash collision occurs when?",
+    "wrap": "To sum up. [[w1]]B is for Between: sorted linked leaves, ranges fly. [[w2]]H is for Has-exactly: buckets, instant equality, no order. [[w3]]Indexes cost storage and slower writes; order-by always means B-plus.",
+    "final1": "Chapter practice. [[q]]Main downside of indexes?",
+    "final2": "Chapter practice. [[q]]Rows needed in salary order. Hash or B-plus?",
+    "final3": "Chapter practice. [[q]]Which index suits a range query naturally?",
+    "finish": "Well done. Ranges fly, exact hits land. Next stop: two-phase commit, agreement across the wire."
+  }
+}
